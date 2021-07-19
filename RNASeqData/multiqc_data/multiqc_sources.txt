@@ -1,0 +1,177 @@
+Module	Section	Sample Name	Source
+Picard	DuplicationMetrics	H1_R2	/tmp/nxf.ESsqeqazfX/picard/markduplicates/H1_R2.markdup.sorted.MarkDuplicates.metrics.txt
+Picard	DuplicationMetrics	GM12878_R2	/tmp/nxf.ESsqeqazfX/picard/markduplicates/GM12878_R2.markdup.sorted.MarkDuplicates.metrics.txt
+Picard	DuplicationMetrics	K562_R1	/tmp/nxf.ESsqeqazfX/picard/markduplicates/K562_R1.markdup.sorted.MarkDuplicates.metrics.txt
+Picard	DuplicationMetrics	GM12878_R1	/tmp/nxf.ESsqeqazfX/picard/markduplicates/GM12878_R1.markdup.sorted.MarkDuplicates.metrics.txt
+Picard	DuplicationMetrics	MCF7_R1	/tmp/nxf.ESsqeqazfX/picard/markduplicates/MCF7_R1.markdup.sorted.MarkDuplicates.metrics.txt
+Picard	DuplicationMetrics	MCF7_R2	/tmp/nxf.ESsqeqazfX/picard/markduplicates/MCF7_R2.markdup.sorted.MarkDuplicates.metrics.txt
+Picard	DuplicationMetrics	K562_R2	/tmp/nxf.ESsqeqazfX/picard/markduplicates/K562_R2.markdup.sorted.MarkDuplicates.metrics.txt
+Picard	DuplicationMetrics	H1_R1	/tmp/nxf.ESsqeqazfX/picard/markduplicates/H1_R1.markdup.sorted.MarkDuplicates.metrics.txt
+Preseq	all_sections	GM12878_R1	/tmp/nxf.ESsqeqazfX/preseq/GM12878_R1.ccurve.txt
+Preseq	all_sections	GM12878_R2	/tmp/nxf.ESsqeqazfX/preseq/GM12878_R2.ccurve.txt
+Preseq	all_sections	K562_R1	/tmp/nxf.ESsqeqazfX/preseq/K562_R1.ccurve.txt
+Preseq	all_sections	K562_R2	/tmp/nxf.ESsqeqazfX/preseq/K562_R2.ccurve.txt
+Preseq	all_sections	MCF7_R2	/tmp/nxf.ESsqeqazfX/preseq/MCF7_R2.ccurve.txt
+Preseq	all_sections	MCF7_R1	/tmp/nxf.ESsqeqazfX/preseq/MCF7_R1.ccurve.txt
+Preseq	all_sections	H1_R2	/tmp/nxf.ESsqeqazfX/preseq/H1_R2.ccurve.txt
+Preseq	all_sections	H1_R1	/tmp/nxf.ESsqeqazfX/preseq/H1_R1.ccurve.txt
+QualiMap	rna_genome_results	K562_R1	/tmp/nxf.ESsqeqazfX/qualimap/K562_R1/rnaseq_qc_results.txt
+QualiMap	rna_genome_results	K562_R2	/tmp/nxf.ESsqeqazfX/qualimap/K562_R2/rnaseq_qc_results.txt
+QualiMap	rna_genome_results	MCF7_R2	/tmp/nxf.ESsqeqazfX/qualimap/MCF7_R2/rnaseq_qc_results.txt
+QualiMap	rna_genome_results	MCF7_R1	/tmp/nxf.ESsqeqazfX/qualimap/MCF7_R1/rnaseq_qc_results.txt
+QualiMap	rna_genome_results	GM12878_R1	/tmp/nxf.ESsqeqazfX/qualimap/GM12878_R1/rnaseq_qc_results.txt
+QualiMap	rna_genome_results	GM12878_R2	/tmp/nxf.ESsqeqazfX/qualimap/GM12878_R2/rnaseq_qc_results.txt
+QualiMap	rna_genome_results	H1_R2	/tmp/nxf.ESsqeqazfX/qualimap/H1_R2/rnaseq_qc_results.txt
+QualiMap	rna_genome_results	H1_R1	/tmp/nxf.ESsqeqazfX/qualimap/H1_R1/rnaseq_qc_results.txt
+QualiMap	rna_coverage_histogram	K562_R1	/tmp/nxf.ESsqeqazfX/qualimap/K562_R1/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+QualiMap	rna_coverage_histogram	K562_R2	/tmp/nxf.ESsqeqazfX/qualimap/K562_R2/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+QualiMap	rna_coverage_histogram	MCF7_R2	/tmp/nxf.ESsqeqazfX/qualimap/MCF7_R2/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+QualiMap	rna_coverage_histogram	MCF7_R1	/tmp/nxf.ESsqeqazfX/qualimap/MCF7_R1/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+QualiMap	rna_coverage_histogram	GM12878_R1	/tmp/nxf.ESsqeqazfX/qualimap/GM12878_R1/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+QualiMap	rna_coverage_histogram	GM12878_R2	/tmp/nxf.ESsqeqazfX/qualimap/GM12878_R2/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+QualiMap	rna_coverage_histogram	H1_R2	/tmp/nxf.ESsqeqazfX/qualimap/H1_R2/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+QualiMap	rna_coverage_histogram	H1_R1	/tmp/nxf.ESsqeqazfX/qualimap/H1_R1/raw_data_qualimapReport/coverage_profile_along_genes_(total).txt
+Rsem	all_sections	GM12878_R1	/tmp/nxf.ESsqeqazfX/rsem/GM12878_R1.stat/GM12878_R1.cnt
+Rsem	all_sections	H1_R2	/tmp/nxf.ESsqeqazfX/rsem/H1_R2.stat/H1_R2.cnt
+Rsem	all_sections	H1_R1	/tmp/nxf.ESsqeqazfX/rsem/H1_R1.stat/H1_R1.cnt
+Rsem	all_sections	K562_R1	/tmp/nxf.ESsqeqazfX/rsem/K562_R1.stat/K562_R1.cnt
+Rsem	all_sections	MCF7_R1	/tmp/nxf.ESsqeqazfX/rsem/MCF7_R1.stat/MCF7_R1.cnt
+Rsem	all_sections	GM12878_R2	/tmp/nxf.ESsqeqazfX/rsem/GM12878_R2.stat/GM12878_R2.cnt
+Rsem	all_sections	K562_R2	/tmp/nxf.ESsqeqazfX/rsem/K562_R2.stat/K562_R2.cnt
+Rsem	all_sections	MCF7_R2	/tmp/nxf.ESsqeqazfX/rsem/MCF7_R2.stat/MCF7_R2.cnt
+RSeQC	read_distribution	K562_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/K562_R2.read_distribution.txt
+RSeQC	read_distribution	H1_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/H1_R2.read_distribution.txt
+RSeQC	read_distribution	GM12878_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/GM12878_R2.read_distribution.txt
+RSeQC	read_distribution	GM12878_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/GM12878_R1.read_distribution.txt
+RSeQC	read_distribution	K562_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/K562_R1.read_distribution.txt
+RSeQC	read_distribution	MCF7_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/MCF7_R1.read_distribution.txt
+RSeQC	read_distribution	H1_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/H1_R1.read_distribution.txt
+RSeQC	read_distribution	MCF7_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_distribution/MCF7_R2.read_distribution.txt
+RSeQC	inner_distance	H1_R2	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/H1_R2.inner_distance_freq.txt
+RSeQC	inner_distance	MCF7_R2	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/MCF7_R2.inner_distance_freq.txt
+RSeQC	inner_distance	K562_R2	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/K562_R2.inner_distance_freq.txt
+RSeQC	inner_distance	MCF7_R1	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/MCF7_R1.inner_distance_freq.txt
+RSeQC	inner_distance	GM12878_R2	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/GM12878_R2.inner_distance_freq.txt
+RSeQC	inner_distance	H1_R1	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/H1_R1.inner_distance_freq.txt
+RSeQC	inner_distance	GM12878_R1	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/GM12878_R1.inner_distance_freq.txt
+RSeQC	inner_distance	K562_R1	/tmp/nxf.ESsqeqazfX/rseqc/inner_distance/K562_R1.inner_distance_freq.txt
+RSeQC	read_duplication	K562_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/K562_R2.pos.DupRate.xls
+RSeQC	read_duplication	GM12878_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/GM12878_R1.pos.DupRate.xls
+RSeQC	read_duplication	GM12878_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/GM12878_R2.pos.DupRate.xls
+RSeQC	read_duplication	H1_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/H1_R2.pos.DupRate.xls
+RSeQC	read_duplication	MCF7_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/MCF7_R1.pos.DupRate.xls
+RSeQC	read_duplication	MCF7_R2	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/MCF7_R2.pos.DupRate.xls
+RSeQC	read_duplication	K562_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/K562_R1.pos.DupRate.xls
+RSeQC	read_duplication	H1_R1	/tmp/nxf.ESsqeqazfX/rseqc/read_duplication/H1_R1.pos.DupRate.xls
+RSeQC	junction_annotation	GM12878_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/GM12878_R2.junction_annotation.log
+RSeQC	junction_annotation	K562_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/K562_R1.junction_annotation.log
+RSeQC	junction_annotation	GM12878_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/GM12878_R1.junction_annotation.log
+RSeQC	junction_annotation	K562_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/K562_R2.junction_annotation.log
+RSeQC	junction_annotation	MCF7_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/MCF7_R1.junction_annotation.log
+RSeQC	junction_annotation	H1_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/H1_R1.junction_annotation.log
+RSeQC	junction_annotation	H1_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/H1_R2.junction_annotation.log
+RSeQC	junction_annotation	MCF7_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_annotation/MCF7_R2.junction_annotation.log
+RSeQC	junction_saturation	MCF7_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/MCF7_R2.junctionSaturation_plot.r
+RSeQC	junction_saturation	K562_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/K562_R1.junctionSaturation_plot.r
+RSeQC	junction_saturation	K562_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/K562_R2.junctionSaturation_plot.r
+RSeQC	junction_saturation	GM12878_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/GM12878_R2.junctionSaturation_plot.r
+RSeQC	junction_saturation	MCF7_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/MCF7_R1.junctionSaturation_plot.r
+RSeQC	junction_saturation	GM12878_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/GM12878_R1.junctionSaturation_plot.r
+RSeQC	junction_saturation	H1_R1	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/H1_R1.junctionSaturation_plot.r
+RSeQC	junction_saturation	H1_R2	/tmp/nxf.ESsqeqazfX/rseqc/junction_saturation/H1_R2.junctionSaturation_plot.r
+RSeQC	infer_experiment	GM12878_R1	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/GM12878_R1.infer_experiment.txt
+RSeQC	infer_experiment	K562_R1	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/K562_R1.infer_experiment.txt
+RSeQC	infer_experiment	GM12878_R2	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/GM12878_R2.infer_experiment.txt
+RSeQC	infer_experiment	MCF7_R2	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/MCF7_R2.infer_experiment.txt
+RSeQC	infer_experiment	H1_R2	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/H1_R2.infer_experiment.txt
+RSeQC	infer_experiment	K562_R2	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/K562_R2.infer_experiment.txt
+RSeQC	infer_experiment	H1_R1	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/H1_R1.infer_experiment.txt
+RSeQC	infer_experiment	MCF7_R1	/tmp/nxf.ESsqeqazfX/rseqc/infer_experiment/MCF7_R1.infer_experiment.txt
+RSeQC	bam_stat	K562_R1	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/K562_R1.bam_stat.txt
+RSeQC	bam_stat	GM12878_R2	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/GM12878_R2.bam_stat.txt
+RSeQC	bam_stat	GM12878_R1	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/GM12878_R1.bam_stat.txt
+RSeQC	bam_stat	H1_R2	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/H1_R2.bam_stat.txt
+RSeQC	bam_stat	MCF7_R2	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/MCF7_R2.bam_stat.txt
+RSeQC	bam_stat	MCF7_R1	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/MCF7_R1.bam_stat.txt
+RSeQC	bam_stat	K562_R2	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/K562_R2.bam_stat.txt
+RSeQC	bam_stat	H1_R1	/tmp/nxf.ESsqeqazfX/rseqc/bam_stat/H1_R1.bam_stat.txt
+Salmon	all_sections	K562_R1	/tmp/nxf.ESsqeqazfX/salmon/K562_R1/libParams/flenDist.txt
+Salmon	all_sections	MCF7_R1	/tmp/nxf.ESsqeqazfX/salmon/MCF7_R1/libParams/flenDist.txt
+Salmon	all_sections	H1_R1	/tmp/nxf.ESsqeqazfX/salmon/H1_R1/libParams/flenDist.txt
+Salmon	all_sections	MCF7_R2	/tmp/nxf.ESsqeqazfX/salmon/MCF7_R2/libParams/flenDist.txt
+Salmon	all_sections	H1_R2	/tmp/nxf.ESsqeqazfX/salmon/H1_R2/libParams/flenDist.txt
+Salmon	all_sections	GM12878_R2	/tmp/nxf.ESsqeqazfX/salmon/GM12878_R2/libParams/flenDist.txt
+Salmon	all_sections	K562_R2	/tmp/nxf.ESsqeqazfX/salmon/K562_R2/libParams/flenDist.txt
+Salmon	all_sections	GM12878_R1	/tmp/nxf.ESsqeqazfX/salmon/GM12878_R1/libParams/flenDist.txt
+Samtools	stats	MCF7_R1	/tmp/nxf.ESsqeqazfX/samtools/stats/MCF7_R1.markdup.sorted.bam.stats
+Samtools	stats	H1_R2	/tmp/nxf.ESsqeqazfX/samtools/stats/H1_R2.markdup.sorted.bam.stats
+Samtools	stats	K562_R1	/tmp/nxf.ESsqeqazfX/samtools/stats/K562_R1.markdup.sorted.bam.stats
+Samtools	stats	H1_R1	/tmp/nxf.ESsqeqazfX/samtools/stats/H1_R1.markdup.sorted.bam.stats
+Samtools	stats	GM12878_R2	/tmp/nxf.ESsqeqazfX/samtools/stats/GM12878_R2.markdup.sorted.bam.stats
+Samtools	stats	GM12878_R1	/tmp/nxf.ESsqeqazfX/samtools/stats/GM12878_R1.markdup.sorted.bam.stats
+Samtools	stats	K562_R2	/tmp/nxf.ESsqeqazfX/samtools/stats/K562_R2.markdup.sorted.bam.stats
+Samtools	stats	MCF7_R2	/tmp/nxf.ESsqeqazfX/samtools/stats/MCF7_R2.markdup.sorted.bam.stats
+Samtools	flagstat	MCF7_R1	/tmp/nxf.ESsqeqazfX/samtools/flagstat/MCF7_R1.markdup.sorted.bam.flagstat
+Samtools	flagstat	GM12878_R1	/tmp/nxf.ESsqeqazfX/samtools/flagstat/GM12878_R1.markdup.sorted.bam.flagstat
+Samtools	flagstat	K562_R2	/tmp/nxf.ESsqeqazfX/samtools/flagstat/K562_R2.markdup.sorted.bam.flagstat
+Samtools	flagstat	MCF7_R2	/tmp/nxf.ESsqeqazfX/samtools/flagstat/MCF7_R2.markdup.sorted.bam.flagstat
+Samtools	flagstat	H1_R2	/tmp/nxf.ESsqeqazfX/samtools/flagstat/H1_R2.markdup.sorted.bam.flagstat
+Samtools	flagstat	H1_R1	/tmp/nxf.ESsqeqazfX/samtools/flagstat/H1_R1.markdup.sorted.bam.flagstat
+Samtools	flagstat	GM12878_R2	/tmp/nxf.ESsqeqazfX/samtools/flagstat/GM12878_R2.markdup.sorted.bam.flagstat
+Samtools	flagstat	K562_R1	/tmp/nxf.ESsqeqazfX/samtools/flagstat/K562_R1.markdup.sorted.bam.flagstat
+Samtools	idxstats	H1_R2	/tmp/nxf.ESsqeqazfX/samtools/idxstats/H1_R2.markdup.sorted.bam.idxstats
+Samtools	idxstats	GM12878_R2	/tmp/nxf.ESsqeqazfX/samtools/idxstats/GM12878_R2.markdup.sorted.bam.idxstats
+Samtools	idxstats	H1_R1	/tmp/nxf.ESsqeqazfX/samtools/idxstats/H1_R1.markdup.sorted.bam.idxstats
+Samtools	idxstats	K562_R1	/tmp/nxf.ESsqeqazfX/samtools/idxstats/K562_R1.markdup.sorted.bam.idxstats
+Samtools	idxstats	GM12878_R1	/tmp/nxf.ESsqeqazfX/samtools/idxstats/GM12878_R1.markdup.sorted.bam.idxstats
+Samtools	idxstats	MCF7_R2	/tmp/nxf.ESsqeqazfX/samtools/idxstats/MCF7_R2.markdup.sorted.bam.idxstats
+Samtools	idxstats	K562_R2	/tmp/nxf.ESsqeqazfX/samtools/idxstats/K562_R2.markdup.sorted.bam.idxstats
+Samtools	idxstats	MCF7_R1	/tmp/nxf.ESsqeqazfX/samtools/idxstats/MCF7_R1.markdup.sorted.bam.idxstats
+FastQC (raw)	all_sections	H1_R2_1	/tmp/nxf.ESsqeqazfX/fastqc/H1_R2_1_fastqc.zip
+FastQC (raw)	all_sections	GM12878_R2_2	/tmp/nxf.ESsqeqazfX/fastqc/GM12878_R2_2_fastqc.zip
+FastQC (raw)	all_sections	H1_R2_2	/tmp/nxf.ESsqeqazfX/fastqc/H1_R2_2_fastqc.zip
+FastQC (raw)	all_sections	GM12878_R1_2	/tmp/nxf.ESsqeqazfX/fastqc/GM12878_R1_2_fastqc.zip
+FastQC (raw)	all_sections	GM12878_R2_1	/tmp/nxf.ESsqeqazfX/fastqc/GM12878_R2_1_fastqc.zip
+FastQC (raw)	all_sections	K562_R1_2	/tmp/nxf.ESsqeqazfX/fastqc/K562_R1_2_fastqc.zip
+FastQC (raw)	all_sections	H1_R1_2	/tmp/nxf.ESsqeqazfX/fastqc/H1_R1_2_fastqc.zip
+FastQC (raw)	all_sections	K562_R2_1	/tmp/nxf.ESsqeqazfX/fastqc/K562_R2_1_fastqc.zip
+FastQC (raw)	all_sections	K562_R1_1	/tmp/nxf.ESsqeqazfX/fastqc/K562_R1_1_fastqc.zip
+FastQC (raw)	all_sections	GM12878_R1_1	/tmp/nxf.ESsqeqazfX/fastqc/GM12878_R1_1_fastqc.zip
+FastQC (raw)	all_sections	MCF7_R2_1	/tmp/nxf.ESsqeqazfX/fastqc/MCF7_R2_1_fastqc.zip
+FastQC (raw)	all_sections	H1_R1_1	/tmp/nxf.ESsqeqazfX/fastqc/H1_R1_1_fastqc.zip
+FastQC (raw)	all_sections	K562_R2_2	/tmp/nxf.ESsqeqazfX/fastqc/K562_R2_2_fastqc.zip
+FastQC (raw)	all_sections	MCF7_R1_2	/tmp/nxf.ESsqeqazfX/fastqc/MCF7_R1_2_fastqc.zip
+FastQC (raw)	all_sections	MCF7_R1_1	/tmp/nxf.ESsqeqazfX/fastqc/MCF7_R1_1_fastqc.zip
+FastQC (raw)	all_sections	MCF7_R2_2	/tmp/nxf.ESsqeqazfX/fastqc/MCF7_R2_2_fastqc.zip
+Cutadapt	all_sections	H1_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/H1_R1_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	GM12878_R1_2	/tmp/nxf.ESsqeqazfX/trimgalore/GM12878_R1_2.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	H1_R2_2	/tmp/nxf.ESsqeqazfX/trimgalore/H1_R2_2.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	GM12878_R2_2	/tmp/nxf.ESsqeqazfX/trimgalore/GM12878_R2_2.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	H1_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/H1_R2_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	GM12878_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/GM12878_R2_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	GM12878_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/GM12878_R1_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	K562_R2_2	/tmp/nxf.ESsqeqazfX/trimgalore/K562_R2_2.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	MCF7_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/MCF7_R2_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	MCF7_R2_2	/tmp/nxf.ESsqeqazfX/trimgalore/MCF7_R2_2.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	K562_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/K562_R2_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	MCF7_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/MCF7_R1_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	K562_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/K562_R1_1.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	K562_R1_2	/tmp/nxf.ESsqeqazfX/trimgalore/K562_R1_2.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	MCF7_R1_2	/tmp/nxf.ESsqeqazfX/trimgalore/MCF7_R1_2.fastq.gz_trimming_report.txt
+Cutadapt	all_sections	H1_R1_2	/tmp/nxf.ESsqeqazfX/trimgalore/H1_R1_2.fastq.gz_trimming_report.txt
+FastQC (trimmed)	all_sections	GM12878_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/GM12878_R1_1_val_1_fastqc.zip
+FastQC (trimmed)	all_sections	GM12878_R1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/GM12878_R1_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	H1_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/H1_R2_1_val_1_fastqc.zip
+FastQC (trimmed)	all_sections	MCF7_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/MCF7_R1_1_val_1_fastqc.zip
+FastQC (trimmed)	all_sections	MCF7_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/MCF7_R2_1_val_1_fastqc.zip
+FastQC (trimmed)	all_sections	H1_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/H1_R1_1_val_1_fastqc.zip
+FastQC (trimmed)	all_sections	H1_R1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/H1_R1_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	MCF7_R1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/MCF7_R1_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	H1_R2	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/H1_R2_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	MCF7_R2	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/MCF7_R2_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	K562_R2	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/K562_R2_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	GM12878_R2	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/GM12878_R2_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	K562_R1_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/K562_R1_1_val_1_fastqc.zip
+FastQC (trimmed)	all_sections	K562_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/K562_R2_1_val_1_fastqc.zip
+FastQC (trimmed)	all_sections	K562_R1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/K562_R1_2_val_2_fastqc.zip
+FastQC (trimmed)	all_sections	GM12878_R2_1	/tmp/nxf.ESsqeqazfX/trimgalore/fastqc/GM12878_R2_1_val_1_fastqc.zip

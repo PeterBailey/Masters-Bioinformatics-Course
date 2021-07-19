@@ -1,0 +1,179 @@
+```{r echo = FALSE}
+# This block needs cache=FALSE to set fig.width and fig.height, and have those
+# persist across cached builds.
+source("utils.R", local = TRUE)
+```
+
+# RNAseq Analysis
+
+RNAseq (RNA-sequencing) is a technique that can examine the quantity and sequences of RNA in a sample using next generation sequencing (NGS). It analyzes the transcriptome of gene expression patterns encoded within our RNA.
+
+The following course provides an excellent overview of Next Generation Sequencing (NGS) and Illumina NGS Sample Preparation. Please take the time to watch the videos!
+
+**Next Generation Sequencing 1 - Overview**
+
+<iframe width="750" height="500" src="https://www.youtube.com/embed/mI0Fo9kaWqo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<br>
+
+**Next Generation Sequencing 2 - Sample Preparation**
+
+<iframe width="750" height="500" src="https://www.youtube.com/embed/PFwSe09dJX0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<br>
+
+> _In this talk, Eric Chow explains the chemistry behind next generation sequencing, and describes how the next gen sequencers detect and display results. The most commonly used Illumina sequencers are image based and detect the addition of fluorescently labelled nucleotides. Chow also describes two different next generation sequencing technologies which provide benefits such as much longer reads but with downsides such as higher error rates. Chow finishes the talk with some insights into medical applications of next gen sequencing such as much less invasive prenatal testing or cancer detection._
+>
+> _In his second talk, Chow discusses Illumina NGS Sample Preparation. He goes over DNA and RNA preparation, bead-based (Ampure or SPRI) cleanups, and sample quantification and quality control._
+> 
+> --- https://www.ibiology.org/techniques/next-generation-sequencing/
+>
+
+## RNAseq downstream analysis
+
+### nf-core/rnaseq pipeline - installation
+
+<a href="https://nf-co.re/"><img src="./images/nf-core-logo.svg" width="300"></a>
+
+__nf-core/rnaseq__ is a bioinformatics analysis pipeline used for RNA sequencing data. The pipeline is built using __Nextflow__, a workflow tool to run tasks across multiple compute infrastructures in a portable manner. Detailed documentation on how to install and run nextflow and nf-core bioinformatic pipelines can be found at the following sites:
+
+- [https://nextflow.io/](https://nextflow.io/)
+- [https://nf-co.re/](https://nf-co.re/)
+
+
+For your convenience install instructions are reproduced below.
+
+
+### Nextflow
+
+<a href="https://nextflow.io/"><img src="./images/nextflow2014_no-bg.png" width="300"></a>
+
+
+All nf-core pipelines use Nextflow, so this must be present on the system where you launch your analysis. See [nextflow.io](https://nextflow.io/) for the latest installation instructions.
+
+Nextflow runs on most POSIX systems (Linux, Mac OSX etc) and can typically be installed by running the following commands:
+
+```
+# Make sure that Java v8+ is installed:
+java -version
+
+# Install Nextflow
+curl -fsSL get.nextflow.io | bash
+
+# Add Nextflow binary to your user's PATH:
+mv nextflow ~/bin/
+# OR system-wide installation:
+# sudo mv nextflow /usr/local/bin
+```
+
+You can also install Nextflow using [Bioconda](https://bioconda.github.io/):
+
+```
+conda install -c bioconda nextflow
+```
+
+### Additional pipeline software
+
+nf-core pipelines utilise Docker, Singularity and Conda to seamlessly install and run different software packages. These packages create isolated compute environments on the fly allowing for flexibility in development and delivery.
+
+ - [Docker](https://docs.docker.com/get-docker/) | 
+        Typically used locally / on single-user servers and the cloud.
+        Analysis runs in a container, which behaves like an isolated operating system
+        Previously required system root access, though a "rootless mode" is available since late 2019
+ - [Singularity](https://sylabs.io/docs/) | 
+        Often used as an alternative to Docker on multi-user systems such as HPC systems.
+        Also runs containers and can create these from Docker images
+        Does not need root access or any daemon processes - images built from files
+- [Conda](https://docs.conda.io/en/latest/) | 
+        Packaging system that manages environments instead of running analysis in containers.
+        Poorer reproducibility than Docker / Singularity
+            There can be changes in low-level package dependencies over time
+            The software still runs in your native operating system environment and so core system functions can differ
+
+
+
+### Pipeline code
+
+The nf-core pipeline does not need to be installed. On calling  `nextflow nf-core/rnaseq ...`, pipeline components are automatically downloaded from github.
+
+
+### Reference genomes
+
+Some pipelines come with built-in support for [iGenomes](https://ewels.github.io/AWS-iGenomes) references. It may be preferable for you to download a local copy of these to your system so as to avoid fetching the same reference many times. For more information, see [Reference genomes](https://nf-co.re/usage/reference_genomes.md).
+
+
+
+## Running the nf-core/rnaseq pipeline
+
+Running the nf-core/rnaseq pipeline is incredibly simple and requires only a basic setup.
+
+
+### Setup
+
+
+The nf-core/rnaseq pipeline typically requires a sample sheet as input. The sample sheet should comprise the following columns.
+
+
+|Column| 	Description|
+|:--|:--|
+|group|Group identifier for sample. This will be identical for replicate samples from the same experimental group.|
+|replicate| Integer representing replicate number. Must start from 1..<number of replicates>.|
+|fastq_1| 	Full path to FastQ file for read 1. File has to be zipped and have the extension ".fastq.gz" or ".fq.gz".|
+|fastq_2| 	Full path to FastQ file for read 2. File has to be zipped and have the extension ".fastq.gz" or ".fq.gz".|
+|strandedness| 	Sample strand-specificity. Must be one of unstranded, forward or reverse.|
+
+
+<br>
+
+
+A final design file consisting of paired-end data may look something like the one below - see Table 3.1. This sample sheet represents a full sized RNAseq dataset obtained from the ENCODE project, which is routinely used to test the nf-core/rnaseq pipeline and is described [here](https://github.com/nf-core/test-datasets/tree/rnaseq#full-test-dataset-origin)
+
+
+
+```{r fig.width=10, fig.height=10}
+sampleSheet <- read.delim("RNASeqData/samplesheet.valid.csv", 
+                          stringsAsFactors = FALSE, sep = ",")
+head(sampleSheet)
+```
+
+## Running the nf-core/rnaseq pipeline
+
+Once the setup is complete, running the nf-core/rnaseq pipeline is as simple as typing the following into the command line:
+
+
+
+```
+  nextflow run nf-core/rnaseq \
+      --input samplesheet.csv \
+      --fasta '<PATH TO FASTA FILE>/genome.fa'\
+      --gtf '<PATH TO FASTA FILE>/genome.gtf'
+      --aligner star_rsem
+      -profile conda
+```
+
+
+
+## Quality Control (QC) and Merged count files
+
+
+After run completion, the nf-core pipeline will generate a number of data files that can be used to assess sequence quality and for downstream analysis. A typical run folder will comprise the following folder structure. Please see [Run Folder Example.](https://nf-co.re/rnaseq/results#rnaseq/results-3643a94411b65f42bce5357c5015603099556ad9/star_rsem/)
+
+### QC Metrics
+
+
+The first step after the completion of any analysis run is to check the QC metrics. A summary of all QC metrics for a given run can be found in the file named [multiqc_report.html](RNASeqData/multiqc_report.html), which is located in the MultiQC folder. A detailed overview of the content provided in the MultiQC report can be found at the following location [https://nf-co.re/rnaseq/3.0/output](https://nf-co.re/rnaseq/3.0/output)
+
+<a href="./RNASeqData/multiqc_report.html"><img src="./images/MultiQC.png"></a>
+
+
+### Merged count files
+
+After assessing QC, we are ready to start a primary analysis of the data. To do so we will typically use a merged gene count file. For example, [rsem.merged.gene_counts.tsv](RNASeqData/rsem.merged.gene_counts.tsv). These files typically comprise the Ensembl Gene ID, Ensembl Transcript ID and Sample IDs with each column/row entry representing the read count for a given gene. See example below:
+
+```{r}
+mergedCounts <- read.delim("RNASeqData/rsem.merged.gene_counts.tsv", 
+                          stringsAsFactors = FALSE, sep = "\t")
+colnames(mergedCounts)
+mergedCounts[1:5,c(1,3:7)]
+```
+

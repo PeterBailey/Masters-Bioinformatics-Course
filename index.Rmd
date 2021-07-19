@@ -1,0 +1,127 @@
+--- 
+title: "PGT Bioinformatics Course"
+author: "Peter J. Bailey"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "Basic introduction to RNAseq analysis using R/Bioconductor"
+---
+
+# Prerequisites
+
+
+This book provides an introductory course in R programming. It is primarily designed for wet lab biologists who are interested in developing core skills in the R programming language and who would like to analyze their own RNAseq data!
+
+
+## Installing R and RStudio
+
+To complete this course you will need to install [R](https://cloud.r-project.org/) and [RStudio](https://rstudio.com/) on your local machine. Detailed instructions on how to install R and RStudio are provided in [__"Hands-on programming with R"__](https://rstudio-education.github.io/hopr/starting.html).
+
+```{block2, r_version, type='rmdimportant'}
+**Please make sure that R Version >=3.6.1 is installed on your local machine.**
+```
+
+[__Hands-on programming with R__](https://rstudio-education.github.io/hopr/) is an excellent open source reference for learning the basics of R and can be used as a companion to this course. Please also find additional learning resources [below](#learning_resources) that can be used as companions to this course.
+
+
+We will use RStudio in this course. [__RStudio__](https://rstudio.com/) is an integrated development environment (IDE) for R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, debugging and workspace management.
+
+```{r layout, echo = FALSE, fig.cap = "The RStudio IDE for R."}
+knitr::include_graphics("images/hopr_aa01.png")
+```
+
+
+
+## Installing R and Bioconductor packages
+
+CRAN (the Comprehensive R Archive Network) is a repository of packages for R, and it is mirrored on many servers around the world. It is the default repository system used by R.
+
+You can install a package from CRAN by using `install.packages()`. To install `ggplot2` use:
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+```
+
+If you are prompted to select a download mirror use the first choice, [https://cloud.r-project.org/.](https://cloud.r-project.org/)
+
+You can also install multiple packages at once by passing the function a vector of package names:
+
+```{r eval=FALSE}
+install.packages(c("ggplot2", "tidyverse"))
+```
+
+
+Once you have R/RStudio up and running please also install Bioconductor. Bioconductor is a repository of R packages for analyzing genomic data!
+
+Bioconductor can be installed easily using the following script:
+
+```{r eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.12")
+
+```
+
+Individual packages of interest can then be installed as follows:
+
+```{r eval=FALSE}
+BiocManager::install("DESeq2")
+```
+
+Multiple packages of interest can be installed as follows:
+
+```{r eval=FALSE}
+BiocManager::install(c("DESeq2", "ggpubr", "ComplexHeatmap",
+                       "circlize", "clusterProfiler"))
+```
+
+Each Bioconductor package contains at least one vignette, a document that provides a task-oriented description of package functionality. Vignettes contain executable examples and are intended to be used interactively.
+
+You can access the PDF version of a vignette for any installed package from inside R using the `browseVignettes()` function.
+
+To view documentation about the `DESeq2` package you can use the following R function:
+
+```{r eval=FALSE}
+browseVignettes("DESeq2")
+```
+
+## Loading R and Bioconductor packages
+
+To load an R package that has been installed on your local machine use the `library()` function. For example, to load the `ggplot2` package run:
+
+```{r eval=FALSE}
+library(ggplot2)
+```
+
+
+
+## Learning resources {#learning_resources}
+
+There are a multitude of learning resources for the R programming language. Here are just a few noteworthy examples that are entirely open source!!!
+
+  - [Wim P. Krijnen (2009) Applied Statistics for Bioinformatics using R](https://cran.r-project.org/doc/contrib/Krijnen-IntroBioInfStatistics.pdf)
+
+  - [R & Bioconductor Manual](http://manuals.bioinformatics.ucr.edu/home)
+  
+  - [Hands-on programming with R](https://rstudio-education.github.io/hopr)
+  
+  - [R for Data Science](https://r4ds.had.co.nz/)
+  
+  - [R Graphics Cookbook 2nd Edition](https://r-graphics.org/)
+  
+  <br>
+  
+The book is written in [RMarkdown](https://rmarkdown.rstudio.com) with [bookdown](https://bookdown.org). 
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'DESeq2', "ggpubr", "ComplexHeatmap",
+                       "circlize", "clusterProfiler"
+), 'packages.bib')
+```

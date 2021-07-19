@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 R Programming language primer | PGT Bioinformatics Course</title>
+  <meta name="description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 R Programming language primer | PGT Bioinformatics Course" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 R Programming language primer | PGT Bioinformatics Course" />
+  
+  <meta name="twitter:description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  
+
+<meta name="author" content="Peter J. Bailey" />
+
+
+<meta name="date" content="2021-07-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="intro.html"/>
+<link rel="next" href="descriptive-statistics-and-plotting.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PGT Bioinformatics Course</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#installing-r-and-bioconductor-packages"><i class="fa fa-check"></i><b>1.2</b> Installing R and Bioconductor packages</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#loading-r-and-bioconductor-packages"><i class="fa fa-check"></i><b>1.3</b> Loading R and Bioconductor packages</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#learning_resources"><i class="fa fa-check"></i><b>1.4</b> Learning resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#course-outline"><i class="fa fa-check"></i><b>2.1</b> Course outline</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="intro.html"><a href="intro.html#part1"><i class="fa fa-check"></i><b>2.1.1</b> PART 1</a></li>
+<li class="chapter" data-level="2.1.2" data-path="intro.html"><a href="intro.html#part2"><i class="fa fa-check"></i><b>2.1.2</b> PART 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html"><i class="fa fa-check"></i><b>3</b> R Programming language primer</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#vectors"><i class="fa fa-check"></i><b>3.1</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#vectors-in-action"><i class="fa fa-check"></i><b>3.1.1</b> Vectors in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#matrix"><i class="fa fa-check"></i><b>3.2</b> Matrix</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#matrices-in-action"><i class="fa fa-check"></i><b>3.2.1</b> Matrices in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#data-frame"><i class="fa fa-check"></i><b>3.3</b> Data Frame</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#data-frames-in-action"><i class="fa fa-check"></i><b>3.3.1</b> Data Frames in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#factors"><i class="fa fa-check"></i><b>3.4</b> Factors</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#factors-in-action"><i class="fa fa-check"></i><b>3.4.1</b> Factors in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#list"><i class="fa fa-check"></i><b>3.5</b> List</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#lists-in-action"><i class="fa fa-check"></i><b>3.5.1</b> Lists in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#array"><i class="fa fa-check"></i><b>3.6</b> Array</a></li>
+<li class="chapter" data-level="3.7" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#creating-functions"><i class="fa fa-check"></i><b>3.7</b> Creating functions</a></li>
+<li class="chapter" data-level="3.8" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#loading-data"><i class="fa fa-check"></i><b>3.8</b> Loading Data</a></li>
+<li class="chapter" data-level="3.9" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#saving-data"><i class="fa fa-check"></i><b>3.9</b> Saving Data</a></li>
+<li class="chapter" data-level="3.10" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#saving-plots"><i class="fa fa-check"></i><b>3.10</b> Saving plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html"><i class="fa fa-check"></i><b>4</b> Descriptive statistics and plotting</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#the-cancer-gene-atlas-tcga---pancreatic-ductal-adenocarcinoma-data-set"><i class="fa fa-check"></i><b>4.1</b> The Cancer Gene Atlas (TCGA) - Pancreatic Ductal Adenocarcinoma Data Set</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#gene-expression-data"><i class="fa fa-check"></i><b>4.1.1</b> Gene expression data</a></li>
+<li class="chapter" data-level="4.1.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#clinical-data"><i class="fa fa-check"></i><b>4.1.2</b> Clinical data</a></li>
+<li class="chapter" data-level="4.1.3" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#pdac-subtypes"><i class="fa fa-check"></i><b>4.1.3</b> PDAC Subtypes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#descriptive-plots"><i class="fa fa-check"></i><b>4.2</b> Descriptive plots</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#boxplots"><i class="fa fa-check"></i><b>4.2.1</b> Boxplots</a></li>
+<li class="chapter" data-level="4.2.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#scatter-plots"><i class="fa fa-check"></i><b>4.2.2</b> Scatter plots</a></li>
+<li class="chapter" data-level="4.2.3" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.2.3</b> Hierarchical Clustering</a></li>
+<li class="chapter" data-level="4.2.4" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#hierarchical-clustering-using-the-moffitt-transcriptomic-signature"><i class="fa fa-check"></i><b>4.2.4</b> Hierarchical clustering using the Moffitt transcriptomic signature</a></li>
+<li class="chapter" data-level="4.2.5" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#heatmaps"><i class="fa fa-check"></i><b>4.2.5</b> Heatmaps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html"><i class="fa fa-check"></i><b>5</b> RNAseq Analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#rnaseq-downstream-analysis"><i class="fa fa-check"></i><b>5.1</b> RNAseq downstream analysis</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#nf-corernaseq-pipeline---installation"><i class="fa fa-check"></i><b>5.1.1</b> nf-core/rnaseq pipeline - installation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#nextflow"><i class="fa fa-check"></i><b>5.1.2</b> Nextflow</a></li>
+<li class="chapter" data-level="5.1.3" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#additional-pipeline-software"><i class="fa fa-check"></i><b>5.1.3</b> Additional pipeline software</a></li>
+<li class="chapter" data-level="5.1.4" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#pipeline-code"><i class="fa fa-check"></i><b>5.1.4</b> Pipeline code</a></li>
+<li class="chapter" data-level="5.1.5" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#reference-genomes"><i class="fa fa-check"></i><b>5.1.5</b> Reference genomes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#running-the-nf-corernaseq-pipeline"><i class="fa fa-check"></i><b>5.2</b> Running the nf-core/rnaseq pipeline</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#setup"><i class="fa fa-check"></i><b>5.2.1</b> Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#running-the-nf-corernaseq-pipeline-1"><i class="fa fa-check"></i><b>5.3</b> Running the nf-core/rnaseq pipeline</a></li>
+<li class="chapter" data-level="5.4" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#quality-control-qc-and-merged-count-files"><i class="fa fa-check"></i><b>5.4</b> Quality Control (QC) and Merged count files</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#qc-metrics"><i class="fa fa-check"></i><b>5.4.1</b> QC Metrics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#merged-count-files"><i class="fa fa-check"></i><b>5.4.2</b> Merged count files</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html"><i class="fa fa-check"></i><b>6</b> RNAseq Analysis - DESeq2</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#deseq2-package"><i class="fa fa-check"></i><b>6.1</b> DESEq2 package</a></li>
+<li class="chapter" data-level="6.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#the-deseqdataset"><i class="fa fa-check"></i><b>6.2</b> The DESeqDataSet</a></li>
+<li class="chapter" data-level="6.3" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#count-matrix-input"><i class="fa fa-check"></i><b>6.3</b> Count matrix input</a></li>
+<li class="chapter" data-level="6.4" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#pre-filtering"><i class="fa fa-check"></i><b>6.4</b> Pre-filtering</a></li>
+<li class="chapter" data-level="6.5" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#differential-expression-analysis"><i class="fa fa-check"></i><b>6.5</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="6.6" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#gene-annotation"><i class="fa fa-check"></i><b>6.6</b> Gene Annotation</a></li>
+<li class="chapter" data-level="6.7" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#exploring-the-results"><i class="fa fa-check"></i><b>6.7</b> Exploring the results</a></li>
+<li class="chapter" data-level="6.8" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#exporting-results"><i class="fa fa-check"></i><b>6.8</b> Exporting results</a></li>
+<li class="chapter" data-level="6.9" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#data-transformation-and-visualisation"><i class="fa fa-check"></i><b>6.9</b> Data transformation and visualisation</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#pca-using-transformed-data"><i class="fa fa-check"></i><b>6.9.1</b> PCA using transformed data</a></li>
+<li class="chapter" data-level="6.9.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#heatmaps-using-transformed-data"><i class="fa fa-check"></i><b>6.9.2</b> Heatmaps using transformed data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#gene-set-enrichment-analysis"><i class="fa fa-check"></i><b>6.10</b> Gene Set Enrichment Analysis</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#kegg"><i class="fa fa-check"></i><b>6.10.1</b> KEGG</a></li>
+<li class="chapter" data-level="6.10.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#reactome"><i class="fa fa-check"></i><b>6.10.2</b> REACTOME</a></li>
+<li class="chapter" data-level="6.10.3" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#plotting-functions"><i class="fa fa-check"></i><b>6.10.3</b> Plotting functions</a></li>
+<li class="chapter" data-level="6.10.4" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#extracting-enrichment-results-to-generate-heatmaps"><i class="fa fa-check"></i><b>6.10.4</b> Extracting enrichment results to generate heatmaps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html"><i class="fa fa-check"></i><b>7</b> Cancer Dependency Map - DepMap</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#downloading-depmap-data-using-the-depmap-package"><i class="fa fa-check"></i><b>7.1</b> Downloading DepMap data using the <code>depmap</code> package</a></li>
+<li class="chapter" data-level="7.2" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-transcriptomic-data"><i class="fa fa-check"></i><b>7.2</b> Exploring DepMap transcriptomic data</a></li>
+<li class="chapter" data-level="7.3" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-mutation-calls"><i class="fa fa-check"></i><b>7.3</b> Exploring DepMap mutation calls</a></li>
+<li class="chapter" data-level="7.4" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-crispr-data"><i class="fa fa-check"></i><b>7.4</b> Exploring DepMap CRISPR data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PGT Bioinformatics Course</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="r-programming-language-primer" class="section level1" number="3">
+<h1><span class="header-section-number">Chapter 3</span> R Programming language primer</h1>
+<p>The R programming language comprises 6 major types of <a href="https://rstudio-education.github.io/hopr/r-objects.html">R objects</a></p>
+<ul>
+<li><a href="https://rstudio-education.github.io/hopr/r-objects.html#atomic-vectors">Vectors</a></li>
+<li><a href="https://rstudio-education.github.io/hopr/r-objects.html#matrices">Matrix</a></li>
+<li><a href="https://rstudio-education.github.io/hopr/r-objects.html#data-frames">Data Frame</a></li>
+<li><a href="https://rstudio-education.github.io/hopr/r-objects.html#lists">Lists</a></li>
+<li><a href="https://rstudio-education.github.io/hopr/r-objects.html#arrays">Array</a></li>
+<li><a href="https://rstudio-education.github.io/hopr/r-objects.html#factors">Factors</a></li>
+</ul>
+<div id="vectors" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Vectors</h2>
+<p>The vector type is the fundamental data type in R. The elements of a vector must all have the same mode (data type) of the following type:</p>
+<ul>
+<li><em>Scalars</em> are individual numbers, they actually are one-element vectors e.g. <code>x &lt;- 10</code></li>
+<li><em>Character</em> strings are single-element vectors of mode ”character” e.g. <code>y &lt;- "hello"</code></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="r-programming-language-primer.html#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)</span>
+<span id="cb8-2"><a href="r-programming-language-primer.html#cb8-2" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb8-3"><a href="r-programming-language-primer.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 2 3 4 5 6</span></span>
+<span id="cb8-4"><a href="r-programming-language-primer.html#cb8-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb8-5"><a href="r-programming-language-primer.html#cb8-5" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb8-6"><a href="r-programming-language-primer.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 2 3 4 5 6</span></span>
+<span id="cb8-7"><a href="r-programming-language-primer.html#cb8-7" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>]</span>
+<span id="cb8-8"><a href="r-programming-language-primer.html#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb8-9"><a href="r-programming-language-primer.html#cb8-9" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello&quot;</span>,  <span class="st">&quot;World&quot;</span>)</span>
+<span id="cb8-10"><a href="r-programming-language-primer.html#cb8-10" aria-hidden="true" tabindex="-1"></a>text</span>
+<span id="cb8-11"><a href="r-programming-language-primer.html#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot; &quot;World&quot;</span></span>
+<span id="cb8-12"><a href="r-programming-language-primer.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;name&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb8-13"><a href="r-programming-language-primer.html#cb8-13" aria-hidden="true" tabindex="-1"></a>x</span>
+<span id="cb8-14"><a href="r-programming-language-primer.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; name1 name2 name3 name4 name5 name6 </span></span>
+<span id="cb8-15"><a href="r-programming-language-primer.html#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     1     2     3     4     5     6</span></span></code></pre></div>
+<div id="vectors-in-action" class="section level3" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Vectors in action</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="r-programming-language-primer.html#cb9-1" aria-hidden="true" tabindex="-1"></a>z_scores <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="at">by =</span> .<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="r-programming-language-primer.html#cb9-2" aria-hidden="true" tabindex="-1"></a>z_scores</span>
+<span id="cb9-3"><a href="r-programming-language-primer.html#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] -3.0 -2.9 -2.8 -2.7 -2.6 -2.5 -2.4 -2.3 -2.2 -2.1 -2.0 -1.9 -1.8 -1.7</span></span>
+<span id="cb9-4"><a href="r-programming-language-primer.html#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] -1.6 -1.5 -1.4 -1.3 -1.2 -1.1 -1.0 -0.9 -0.8 -0.7 -0.6 -0.5 -0.4 -0.3</span></span>
+<span id="cb9-5"><a href="r-programming-language-primer.html#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [29] -0.2 -0.1  0.0  0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.0  1.1</span></span>
+<span id="cb9-6"><a href="r-programming-language-primer.html#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [43]  1.2  1.3  1.4  1.5  1.6  1.7  1.8  1.9  2.0  2.1  2.2  2.3  2.4  2.5</span></span>
+<span id="cb9-7"><a href="r-programming-language-primer.html#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [57]  2.6  2.7  2.8  2.9  3.0</span></span>
+<span id="cb9-8"><a href="r-programming-language-primer.html#cb9-8" aria-hidden="true" tabindex="-1"></a>norm.dist <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(z_scores)</span>
+<span id="cb9-9"><a href="r-programming-language-primer.html#cb9-9" aria-hidden="true" tabindex="-1"></a>norm.dist</span>
+<span id="cb9-10"><a href="r-programming-language-primer.html#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.004431848 0.005952532 0.007915452 0.010420935 0.013582969 0.017528300</span></span>
+<span id="cb9-11"><a href="r-programming-language-primer.html#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] 0.022394530 0.028327038 0.035474593 0.043983596 0.053990967 0.065615815</span></span>
+<span id="cb9-12"><a href="r-programming-language-primer.html#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] 0.078950158 0.094049077 0.110920835 0.129517596 0.149727466 0.171368592</span></span>
+<span id="cb9-13"><a href="r-programming-language-primer.html#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 0.194186055 0.217852177 0.241970725 0.266085250 0.289691553 0.312253933</span></span>
+<span id="cb9-14"><a href="r-programming-language-primer.html#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] 0.333224603 0.352065327 0.368270140 0.381387815 0.391042694 0.396952547</span></span>
+<span id="cb9-15"><a href="r-programming-language-primer.html#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [31] 0.398942280 0.396952547 0.391042694 0.381387815 0.368270140 0.352065327</span></span>
+<span id="cb9-16"><a href="r-programming-language-primer.html#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [37] 0.333224603 0.312253933 0.289691553 0.266085250 0.241970725 0.217852177</span></span>
+<span id="cb9-17"><a href="r-programming-language-primer.html#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [43] 0.194186055 0.171368592 0.149727466 0.129517596 0.110920835 0.094049077</span></span>
+<span id="cb9-18"><a href="r-programming-language-primer.html#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [49] 0.078950158 0.065615815 0.053990967 0.043983596 0.035474593 0.028327038</span></span>
+<span id="cb9-19"><a href="r-programming-language-primer.html#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [55] 0.022394530 0.017528300 0.013582969 0.010420935 0.007915452 0.005952532</span></span>
+<span id="cb9-20"><a href="r-programming-language-primer.html#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [61] 0.004431848</span></span>
+<span id="cb9-21"><a href="r-programming-language-primer.html#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(norm.dist)</span>
+<span id="cb9-22"><a href="r-programming-language-primer.html#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1635609</span></span>
+<span id="cb9-23"><a href="r-programming-language-primer.html#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(norm.dist)</span>
+<span id="cb9-24"><a href="r-programming-language-primer.html#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1295176</span></span>
+<span id="cb9-25"><a href="r-programming-language-primer.html#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(norm.dist)</span>
+<span id="cb9-26"><a href="r-programming-language-primer.html#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.140773</span></span></code></pre></div>
+</div>
+</div>
+<div id="matrix" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Matrix</h2>
+<p>A matrix is a rectangular array of numbers (technically a vector with a number of rows and a number of columns)</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="r-programming-language-primer.html#cb10-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(x, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb10-2"><a href="r-programming-language-primer.html#cb10-2" aria-hidden="true" tabindex="-1"></a>m</span>
+<span id="cb10-3"><a href="r-programming-language-primer.html#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb10-4"><a href="r-programming-language-primer.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    3    5</span></span>
+<span id="cb10-5"><a href="r-programming-language-primer.html#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    2    4    6</span></span>
+<span id="cb10-6"><a href="r-programming-language-primer.html#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="r-programming-language-primer.html#cb10-7" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(x, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-8"><a href="r-programming-language-primer.html#cb10-8" aria-hidden="true" tabindex="-1"></a>m</span>
+<span id="cb10-9"><a href="r-programming-language-primer.html#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3]</span></span>
+<span id="cb10-10"><a href="r-programming-language-primer.html#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]    1    2    3</span></span>
+<span id="cb10-11"><a href="r-programming-language-primer.html#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]    4    5    6</span></span></code></pre></div>
+<div id="matrices-in-action" class="section level3" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Matrices in action</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="r-programming-language-primer.html#cb11-1" aria-hidden="true" tabindex="-1"></a>normMat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>),<span class="at">nrow=</span><span class="dv">5</span>,<span class="at">ncol=</span><span class="dv">20</span>)</span>
+<span id="cb11-2"><a href="r-programming-language-primer.html#cb11-2" aria-hidden="true" tabindex="-1"></a>normMat[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb11-3"><a href="r-programming-language-primer.html#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            [,1]       [,2]       [,3]       [,4]       [,5]</span></span>
+<span id="cb11-4"><a href="r-programming-language-primer.html#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]  0.5830124  0.8816304  0.5830124  0.8816304  0.5830124</span></span>
+<span id="cb11-5"><a href="r-programming-language-primer.html#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]  1.3631832 -0.2371296  1.3631832 -0.2371296  1.3631832</span></span>
+<span id="cb11-6"><a href="r-programming-language-primer.html#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]  0.6114917 -0.9639327  0.6114917 -0.9639327  0.6114917</span></span>
+<span id="cb11-7"><a href="r-programming-language-primer.html#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4,]  0.2529515  1.1138404  0.2529515  1.1138404  0.2529515</span></span>
+<span id="cb11-8"><a href="r-programming-language-primer.html#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5,] -0.8771275  0.9611013 -0.8771275  0.9611013 -0.8771275</span></span>
+<span id="cb11-9"><a href="r-programming-language-primer.html#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(normMat) <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Gene&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">sep=</span><span class="st">&quot;_&quot;</span>)</span>
+<span id="cb11-10"><a href="r-programming-language-primer.html#cb11-10" aria-hidden="true" tabindex="-1"></a>normMat[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb11-11"><a href="r-programming-language-primer.html#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              [,1]       [,2]       [,3]       [,4]       [,5]</span></span>
+<span id="cb11-12"><a href="r-programming-language-primer.html#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_1  0.5830124  0.8816304  0.5830124  0.8816304  0.5830124</span></span>
+<span id="cb11-13"><a href="r-programming-language-primer.html#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_2  1.3631832 -0.2371296  1.3631832 -0.2371296  1.3631832</span></span>
+<span id="cb11-14"><a href="r-programming-language-primer.html#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_3  0.6114917 -0.9639327  0.6114917 -0.9639327  0.6114917</span></span>
+<span id="cb11-15"><a href="r-programming-language-primer.html#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_4  0.2529515  1.1138404  0.2529515  1.1138404  0.2529515</span></span>
+<span id="cb11-16"><a href="r-programming-language-primer.html#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_5 -0.8771275  0.9611013 -0.8771275  0.9611013 -0.8771275</span></span>
+<span id="cb11-17"><a href="r-programming-language-primer.html#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate mean for each matrix row</span></span>
+<span id="cb11-18"><a href="r-programming-language-primer.html#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(normMat, <span class="at">MARGIN=</span><span class="dv">1</span>, mean)</span>
+<span id="cb11-19"><a href="r-programming-language-primer.html#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      Gene_1      Gene_2      Gene_3      Gene_4      Gene_5 </span></span>
+<span id="cb11-20"><a href="r-programming-language-primer.html#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  0.73232138  0.56302682 -0.17622047  0.68339593  0.04198691</span></span>
+<span id="cb11-21"><a href="r-programming-language-primer.html#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate mean for each matrix column</span></span>
+<span id="cb11-22"><a href="r-programming-language-primer.html#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(normMat, <span class="at">MARGIN=</span><span class="dv">2</span>, mean)</span>
+<span id="cb11-23"><a href="r-programming-language-primer.html#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 0.3867023 0.3511020 0.3867023 0.3511020 0.3867023 0.3511020 0.3867023</span></span>
+<span id="cb11-24"><a href="r-programming-language-primer.html#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] 0.3511020 0.3867023 0.3511020 0.3867023 0.3511020 0.3867023 0.3511020</span></span>
+<span id="cb11-25"><a href="r-programming-language-primer.html#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] 0.3867023 0.3511020 0.3867023 0.3511020 0.3867023 0.3511020</span></span></code></pre></div>
+</div>
+</div>
+<div id="data-frame" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Data Frame</h2>
+<p>A data frame is a data set that contains data of different modes (i.e. different types). A data frame is a list with each component of a list being a vector corresponding to a column in the data.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="r-programming-language-primer.html#cb12-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">cancerType =</span> <span class="fu">c</span>(<span class="st">&quot;PDAC&quot;</span>, <span class="st">&quot;PDAC&quot;</span>, <span class="st">&quot;PDAC&quot;</span>),  </span>
+<span id="cb12-2"><a href="r-programming-language-primer.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">KRAS_status =</span> <span class="fu">c</span>(<span class="st">&quot;wt&quot;</span>, <span class="st">&quot;mut&quot;</span>, <span class="st">&quot;mut&quot;</span>), <span class="at">Subtype =</span> <span class="fu">c</span>(<span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Subtype&quot;</span>))</span>
+<span id="cb12-3"><a href="r-programming-language-primer.html#cb12-3" aria-hidden="true" tabindex="-1"></a>df</span>
+<span id="cb12-4"><a href="r-programming-language-primer.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cancerType KRAS_status   Subtype</span></span>
+<span id="cb12-5"><a href="r-programming-language-primer.html#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       PDAC          wt Classical</span></span>
+<span id="cb12-6"><a href="r-programming-language-primer.html#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       PDAC         mut Classical</span></span>
+<span id="cb12-7"><a href="r-programming-language-primer.html#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       PDAC         mut   Subtype</span></span></code></pre></div>
+<div id="data-frames-in-action" class="section level3" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Data Frames in action</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="r-programming-language-primer.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Extract cancerType</span></span>
+<span id="cb13-2"><a href="r-programming-language-primer.html#cb13-2" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">1</span>]</span>
+<span id="cb13-3"><a href="r-programming-language-primer.html#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] PDAC PDAC PDAC</span></span>
+<span id="cb13-4"><a href="r-programming-language-primer.html#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Levels: PDAC</span></span>
+<span id="cb13-5"><a href="r-programming-language-primer.html#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Extract cancerType</span></span>
+<span id="cb13-6"><a href="r-programming-language-primer.html#cb13-6" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>cancerType</span>
+<span id="cb13-7"><a href="r-programming-language-primer.html#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] PDAC PDAC PDAC</span></span>
+<span id="cb13-8"><a href="r-programming-language-primer.html#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Levels: PDAC</span></span>
+<span id="cb13-9"><a href="r-programming-language-primer.html#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Assigning new data</span></span>
+<span id="cb13-10"><a href="r-programming-language-primer.html#cb13-10" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Sex  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>)</span>
+<span id="cb13-11"><a href="r-programming-language-primer.html#cb13-11" aria-hidden="true" tabindex="-1"></a>df</span>
+<span id="cb13-12"><a href="r-programming-language-primer.html#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   cancerType KRAS_status   Subtype    Sex</span></span>
+<span id="cb13-13"><a href="r-programming-language-primer.html#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       PDAC          wt Classical   Male</span></span>
+<span id="cb13-14"><a href="r-programming-language-primer.html#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       PDAC         mut Classical Female</span></span>
+<span id="cb13-15"><a href="r-programming-language-primer.html#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       PDAC         mut   Subtype   Male</span></span>
+<span id="cb13-16"><a href="r-programming-language-primer.html#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Excluding factors</span></span>
+<span id="cb13-17"><a href="r-programming-language-primer.html#cb13-17" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">cancerType =</span> <span class="fu">c</span>(<span class="st">&quot;PDAC&quot;</span>, <span class="st">&quot;PDAC&quot;</span>, <span class="st">&quot;PDAC&quot;</span>),  </span>
+<span id="cb13-18"><a href="r-programming-language-primer.html#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">KRAS_status =</span> <span class="fu">c</span>(<span class="st">&quot;wt&quot;</span>, <span class="st">&quot;mut&quot;</span>, <span class="st">&quot;mut&quot;</span>), <span class="at">Subtype =</span> <span class="fu">c</span>(<span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Subtype&quot;</span>), <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-19"><a href="r-programming-language-primer.html#cb13-19" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>cancerType</span>
+<span id="cb13-20"><a href="r-programming-language-primer.html#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;PDAC&quot; &quot;PDAC&quot; &quot;PDAC&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div id="factors" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Factors</h2>
+<p>Factors are used to represent categorical data. Factors can be ordered or unordered and are an important class for statistical analysis and for plotting.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="r-programming-language-primer.html#cb14-1" aria-hidden="true" tabindex="-1"></a>subtype <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Basal&quot;</span>, <span class="st">&quot;Basal&quot;</span>, <span class="st">&quot;Classical&quot;</span>))</span>
+<span id="cb14-2"><a href="r-programming-language-primer.html#cb14-2" aria-hidden="true" tabindex="-1"></a>subtype</span>
+<span id="cb14-3"><a href="r-programming-language-primer.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] Classical Basal     Basal     Classical</span></span>
+<span id="cb14-4"><a href="r-programming-language-primer.html#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Levels: Basal Classical</span></span>
+<span id="cb14-5"><a href="r-programming-language-primer.html#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(subtype)</span>
+<span id="cb14-6"><a href="r-programming-language-primer.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Basal&quot;     &quot;Classical&quot;</span></span>
+<span id="cb14-7"><a href="r-programming-language-primer.html#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(subtype)</span>
+<span id="cb14-8"><a href="r-programming-language-primer.html#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; subtype</span></span>
+<span id="cb14-9"><a href="r-programming-language-primer.html#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Basal Classical </span></span>
+<span id="cb14-10"><a href="r-programming-language-primer.html#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         2         2</span></span></code></pre></div>
+<div id="factors-in-action" class="section level3" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Factors in action</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="r-programming-language-primer.html#cb15-1" aria-hidden="true" tabindex="-1"></a>colours <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>)</span>
+<span id="cb15-2"><a href="r-programming-language-primer.html#cb15-2" aria-hidden="true" tabindex="-1"></a>colours[subtype]</span>
+<span id="cb15-3"><a href="r-programming-language-primer.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;green&quot; &quot;red&quot;   &quot;red&quot;   &quot;green&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div id="list" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> List</h2>
+<p>Lists can contain items comprising different data types and are similar to a C struct in C++.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="r-programming-language-primer.html#cb16-1" aria-hidden="true" tabindex="-1"></a>list1 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="st">&quot;KRAS&quot;</span>, <span class="fu">list</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">7</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb16-2"><a href="r-programming-language-primer.html#cb16-2" aria-hidden="true" tabindex="-1"></a>list1</span>
+<span id="cb16-3"><a href="r-programming-language-primer.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb16-4"><a href="r-programming-language-primer.html#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</span></span>
+<span id="cb16-5"><a href="r-programming-language-primer.html#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-6"><a href="r-programming-language-primer.html#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb16-7"><a href="r-programming-language-primer.html#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;KRAS&quot;</span></span>
+<span id="cb16-8"><a href="r-programming-language-primer.html#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-9"><a href="r-programming-language-primer.html#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb16-10"><a href="r-programming-language-primer.html#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]][[1]]</span></span>
+<span id="cb16-11"><a href="r-programming-language-primer.html#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 2 3 4 5 6</span></span>
+<span id="cb16-12"><a href="r-programming-language-primer.html#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb16-13"><a href="r-programming-language-primer.html#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]][[2]]</span></span>
+<span id="cb16-14"><a href="r-programming-language-primer.html#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  7  8  9 10</span></span></code></pre></div>
+<div id="lists-in-action" class="section level3" number="3.5.1">
+<h3><span class="header-section-number">3.5.1</span> Lists in action</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="r-programming-language-primer.html#cb17-1" aria-hidden="true" tabindex="-1"></a>list2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="fu">rnorm</span>(<span class="dv">10</span>), <span class="fu">rnorm</span>(<span class="dv">10</span>))</span>
+<span id="cb17-2"><a href="r-programming-language-primer.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Access first entry of list2</span></span>
+<span id="cb17-3"><a href="r-programming-language-primer.html#cb17-3" aria-hidden="true" tabindex="-1"></a>list2[<span class="dv">1</span>]</span>
+<span id="cb17-4"><a href="r-programming-language-primer.html#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb17-5"><a href="r-programming-language-primer.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.5271576  1.3340916  0.1459636 -0.4157415 -0.3883971 -0.9461401</span></span>
+<span id="cb17-6"><a href="r-programming-language-primer.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7]  0.7620549 -0.2837477  0.2434877 -0.5203084</span></span>
+<span id="cb17-7"><a href="r-programming-language-primer.html#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Access vector of values in first entry of list2</span></span>
+<span id="cb17-8"><a href="r-programming-language-primer.html#cb17-8" aria-hidden="true" tabindex="-1"></a>list2[[<span class="dv">1</span>]]</span>
+<span id="cb17-9"><a href="r-programming-language-primer.html#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.5271576  1.3340916  0.1459636 -0.4157415 -0.3883971 -0.9461401</span></span>
+<span id="cb17-10"><a href="r-programming-language-primer.html#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7]  0.7620549 -0.2837477  0.2434877 -0.5203084</span></span>
+<span id="cb17-11"><a href="r-programming-language-primer.html#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Finding mean for each vector series in list2 - returns a list of means</span></span>
+<span id="cb17-12"><a href="r-programming-language-primer.html#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(list2, mean)</span>
+<span id="cb17-13"><a href="r-programming-language-primer.html#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb17-14"><a href="r-programming-language-primer.html#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.04584205</span></span>
+<span id="cb17-15"><a href="r-programming-language-primer.html#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-16"><a href="r-programming-language-primer.html#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb17-17"><a href="r-programming-language-primer.html#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2392012</span></span>
+<span id="cb17-18"><a href="r-programming-language-primer.html#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb17-19"><a href="r-programming-language-primer.html#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb17-20"><a href="r-programming-language-primer.html#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.5920434</span></span>
+<span id="cb17-21"><a href="r-programming-language-primer.html#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Finding mean for each vector series in list2 - returns a vector of means</span></span>
+<span id="cb17-22"><a href="r-programming-language-primer.html#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(list2, mean)</span>
+<span id="cb17-23"><a href="r-programming-language-primer.html#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  0.04584205  0.23920117 -0.59204341</span></span></code></pre></div>
+</div>
+</div>
+<div id="array" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Array</h2>
+<p>Arrays are matrices with more than 2 dimensions.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="r-programming-language-primer.html#cb18-1" aria-hidden="true" tabindex="-1"></a>ar <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(<span class="dv">11</span><span class="sc">:</span><span class="dv">14</span>, <span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>, <span class="dv">31</span><span class="sc">:</span><span class="dv">34</span>), <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb18-2"><a href="r-programming-language-primer.html#cb18-2" aria-hidden="true" tabindex="-1"></a>ar</span>
+<span id="cb18-3"><a href="r-programming-language-primer.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 1</span></span>
+<span id="cb18-4"><a href="r-programming-language-primer.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-5"><a href="r-programming-language-primer.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
+<span id="cb18-6"><a href="r-programming-language-primer.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   11   13</span></span>
+<span id="cb18-7"><a href="r-programming-language-primer.html#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   12   14</span></span>
+<span id="cb18-8"><a href="r-programming-language-primer.html#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-9"><a href="r-programming-language-primer.html#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 2</span></span>
+<span id="cb18-10"><a href="r-programming-language-primer.html#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-11"><a href="r-programming-language-primer.html#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
+<span id="cb18-12"><a href="r-programming-language-primer.html#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   21   23</span></span>
+<span id="cb18-13"><a href="r-programming-language-primer.html#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   22   24</span></span>
+<span id="cb18-14"><a href="r-programming-language-primer.html#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-15"><a href="r-programming-language-primer.html#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; , , 3</span></span>
+<span id="cb18-16"><a href="r-programming-language-primer.html#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb18-17"><a href="r-programming-language-primer.html#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2]</span></span>
+<span id="cb18-18"><a href="r-programming-language-primer.html#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]   31   33</span></span>
+<span id="cb18-19"><a href="r-programming-language-primer.html#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]   32   34</span></span></code></pre></div>
+</div>
+<div id="creating-functions" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Creating functions</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="r-programming-language-primer.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to select the top n most variable genes</span></span>
+<span id="cb19-2"><a href="r-programming-language-primer.html#cb19-2" aria-hidden="true" tabindex="-1"></a>rnaSelectTopVarGenes <span class="ot">&lt;-</span> <span class="cf">function</span>(normCounts, <span class="at">n=</span><span class="dv">2000</span>){</span>
+<span id="cb19-3"><a href="r-programming-language-primer.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  mad <span class="ot">&lt;-</span> <span class="fu">apply</span>(normCounts, <span class="dv">1</span>, mad)</span>
+<span id="cb19-4"><a href="r-programming-language-primer.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  ords <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(mad, <span class="at">decreasing=</span><span class="cn">TRUE</span>))</span>
+<span id="cb19-5"><a href="r-programming-language-primer.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  select <span class="ot">&lt;-</span> normCounts[ords[<span class="dv">1</span><span class="sc">:</span>n],]</span>
+<span id="cb19-6"><a href="r-programming-language-primer.html#cb19-6" aria-hidden="true" tabindex="-1"></a>  select</span>
+<span id="cb19-7"><a href="r-programming-language-primer.html#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-8"><a href="r-programming-language-primer.html#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="r-programming-language-primer.html#cb19-9" aria-hidden="true" tabindex="-1"></a>top2varGenes <span class="ot">&lt;-</span> <span class="fu">rnaSelectTopVarGenes</span>(normMat, <span class="at">n=</span><span class="dv">2</span>)</span>
+<span id="cb19-10"><a href="r-programming-language-primer.html#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top2varGenes)</span>
+<span id="cb19-11"><a href="r-programming-language-primer.html#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              [,1]       [,2]       [,3]       [,4]       [,5]       [,6]</span></span>
+<span id="cb19-12"><a href="r-programming-language-primer.html#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_5 -0.8771275  0.9611013 -0.8771275  0.9611013 -0.8771275  0.9611013</span></span>
+<span id="cb19-13"><a href="r-programming-language-primer.html#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_2  1.3631832 -0.2371296  1.3631832 -0.2371296  1.3631832 -0.2371296</span></span>
+<span id="cb19-14"><a href="r-programming-language-primer.html#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              [,7]       [,8]       [,9]      [,10]      [,11]      [,12]</span></span>
+<span id="cb19-15"><a href="r-programming-language-primer.html#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_5 -0.8771275  0.9611013 -0.8771275  0.9611013 -0.8771275  0.9611013</span></span>
+<span id="cb19-16"><a href="r-programming-language-primer.html#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_2  1.3631832 -0.2371296  1.3631832 -0.2371296  1.3631832 -0.2371296</span></span>
+<span id="cb19-17"><a href="r-programming-language-primer.html#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             [,13]      [,14]      [,15]      [,16]      [,17]      [,18]</span></span>
+<span id="cb19-18"><a href="r-programming-language-primer.html#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_5 -0.8771275  0.9611013 -0.8771275  0.9611013 -0.8771275  0.9611013</span></span>
+<span id="cb19-19"><a href="r-programming-language-primer.html#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_2  1.3631832 -0.2371296  1.3631832 -0.2371296  1.3631832 -0.2371296</span></span>
+<span id="cb19-20"><a href="r-programming-language-primer.html#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             [,19]      [,20]</span></span>
+<span id="cb19-21"><a href="r-programming-language-primer.html#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_5 -0.8771275  0.9611013</span></span>
+<span id="cb19-22"><a href="r-programming-language-primer.html#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Gene_2  1.3631832 -0.2371296</span></span></code></pre></div>
+</div>
+<div id="loading-data" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Loading Data</h2>
+<p>Loading data from a comma separated file can be easily achieved using the <code>read.delim</code> or <code>read.csv</code> functions. There are many alternatives!</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="r-programming-language-primer.html#cb20-1" aria-hidden="true" tabindex="-1"></a>moffitt <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;course/Moffitt_gene_signature.csv&quot;</span>, </span>
+<span id="cb20-2"><a href="r-programming-language-primer.html#cb20-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-3"><a href="r-programming-language-primer.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(moffitt)</span>
+<span id="cb20-4"><a href="r-programming-language-primer.html#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     symbol     Group</span></span>
+<span id="cb20-5"><a href="r-programming-language-primer.html#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    MUC13 Classical</span></span>
+<span id="cb20-6"><a href="r-programming-language-primer.html#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    GPR35 Classical</span></span>
+<span id="cb20-7"><a href="r-programming-language-primer.html#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    USH1C Classical</span></span>
+<span id="cb20-8"><a href="r-programming-language-primer.html#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 BAIAP2L2 Classical</span></span>
+<span id="cb20-9"><a href="r-programming-language-primer.html#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  GAL3ST1 Classical</span></span>
+<span id="cb20-10"><a href="r-programming-language-primer.html#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6     VIL1 Classical</span></span>
+<span id="cb20-11"><a href="r-programming-language-primer.html#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(moffitt)</span>
+<span id="cb20-12"><a href="r-programming-language-primer.html#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.frame&quot;</span></span>
+<span id="cb20-13"><a href="r-programming-language-primer.html#cb20-13" aria-hidden="true" tabindex="-1"></a>moffitt<span class="sc">$</span>symbol</span>
+<span id="cb20-14"><a href="r-programming-language-primer.html#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;MUC13&quot;      &quot;GPR35&quot;      &quot;USH1C&quot;      &quot;BAIAP2L2&quot;   &quot;GAL3ST1&quot;   </span></span>
+<span id="cb20-15"><a href="r-programming-language-primer.html#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;VIL1&quot;       &quot;DDC&quot;        &quot;LGALS4&quot;     &quot;TSPAN8&quot;     &quot;SLC5A1&quot;    </span></span>
+<span id="cb20-16"><a href="r-programming-language-primer.html#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;SEMA4G&quot;     &quot;TNFRSF11A&quot;  &quot;HSD17B2&quot;    &quot;CKMT1A&quot;     &quot;DPCR1&quot;     </span></span>
+<span id="cb20-17"><a href="r-programming-language-primer.html#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ...</span></span>
+<span id="cb20-18"><a href="r-programming-language-primer.html#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [76] &quot;REEP3&quot;      &quot;DCBLD2&quot;     &quot;NMB&quot;        &quot;IKZF2&quot;      &quot;GPR87&quot;     </span></span>
+<span id="cb20-19"><a href="r-programming-language-primer.html#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [81] &quot;MUC16&quot;      &quot;IVL&quot;        &quot;SPRR1B&quot;     &quot;BCAR3&quot;      &quot;TTC9&quot;      </span></span>
+<span id="cb20-20"><a href="r-programming-language-primer.html#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [86] &quot;PTGES&quot;      &quot;CST6&quot;       &quot;CATSPER1&quot;</span></span></code></pre></div>
+</div>
+<div id="saving-data" class="section level2" number="3.9">
+<h2><span class="header-section-number">3.9</span> Saving Data</h2>
+<p>Saving data is also simple. You can write data to comma separated (csv) files using the <code>write.table</code> function.</p>
+<p>The best way to store objects from R is within <code>.RData</code> files. <code>.RData</code> files are specific to R and can store as many objects as required.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r-programming-language-primer.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Write data to a tab separate file called Moffitt_gene_signature.tsv</span></span>
+<span id="cb21-2"><a href="r-programming-language-primer.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(moffitt, <span class="st">&quot;course/Moffitt_gene_signature.tsv&quot;</span>, </span>
+<span id="cb21-3"><a href="r-programming-language-primer.html#cb21-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">sep=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb21-4"><a href="r-programming-language-primer.html#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Save moffitt to a RData file called moffittSig.RData</span></span>
+<span id="cb21-5"><a href="r-programming-language-primer.html#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(moffitt,x,y,z,<span class="at">file=</span><span class="st">&quot;course/moffittSig.RData&quot;</span>)</span>
+<span id="cb21-6"><a href="r-programming-language-primer.html#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Load themoffitt data.frame into the current environment</span></span>
+<span id="cb21-7"><a href="r-programming-language-primer.html#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;course/moffittSig.RData&quot;</span>)</span></code></pre></div>
+</div>
+<div id="saving-plots" class="section level2" number="3.10">
+<h2><span class="header-section-number">3.10</span> Saving plots</h2>
+<p>How do we save complex plots like the one below?</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-programming-language-primer.html#cb22-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb22-2"><a href="r-programming-language-primer.html#cb22-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb22-3"><a href="r-programming-language-primer.html#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dt</span>(x, df)</span>
+<span id="cb22-4"><a href="r-programming-language-primer.html#cb22-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-5"><a href="r-programming-language-primer.html#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(f, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">xlab =</span> <span class="st">&quot;x-axis&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;T Density dt(x)&quot;</span>)</span>
+<span id="cb22-6"><a href="r-programming-language-primer.html#cb22-6" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">qt</span>(<span class="fl">0.025</span>, df), <span class="fu">qt</span>(<span class="fl">0.975</span>, df))</span>
+<span id="cb22-7"><a href="r-programming-language-primer.html#cb22-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, ci[<span class="dv">1</span>], <span class="fl">0.01</span>)</span>
+<span id="cb22-8"><a href="r-programming-language-primer.html#cb22-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">seq</span>(ci[<span class="dv">2</span>], <span class="dv">4</span>, <span class="fl">0.01</span>)</span>
+<span id="cb22-9"><a href="r-programming-language-primer.html#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(ci[<span class="dv">1</span>], x, ci[<span class="dv">1</span>]), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fu">f</span>(x)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb22-10"><a href="r-programming-language-primer.html#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(ci[<span class="dv">2</span>], y, ci[<span class="dv">2</span>]), <span class="fu">c</span>(<span class="fu">f</span>(y), <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb22-11"><a href="r-programming-language-primer.html#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="fl">0.25</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="fl">0.05</span>)</span>
+<span id="cb22-12"><a href="r-programming-language-primer.html#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="fl">0.3</span>, <span class="st">&quot;Rejection Region&quot;</span>)</span>
+<span id="cb22-13"><a href="r-programming-language-primer.html#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">3</span>, <span class="fl">0.25</span>, <span class="dv">3</span>, <span class="fl">0.05</span>)</span>
+<span id="cb22-14"><a href="r-programming-language-primer.html#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.3</span>, <span class="st">&quot;Rejection Region&quot;</span>)</span>
+<span id="cb22-15"><a href="r-programming-language-primer.html#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="dv">0</span>, <span class="fl">0.15</span>, <span class="dv">0</span>, <span class="fl">0.05</span>)</span>
+<span id="cb22-16"><a href="r-programming-language-primer.html#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="st">&quot;Acceptance Region&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-25"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-25-1.png" alt="Acceptance and rejection regions in a t-test distribution." width="576" />
+<p class="caption">
+Figure 3.1: Acceptance and rejection regions in a t-test distribution.
+</p>
+</div>
+<p>It is easy to save the above plot using the <code>pdf()</code> and <code>dev.off()</code> functions as follows. All of the plotting commands contained between the <code>pdf() &amp; dev.off()</code> functions will be sent to file. It is also possible to use the <code>png()</code> function if you would like to create png’s instead! Check out the <code>grDevices</code> package for other alternatives.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="r-programming-language-primer.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="st">&quot;course/normalDist.pdf&quot;</span>, <span class="at">height=</span><span class="dv">6</span>, <span class="at">width=</span><span class="dv">4</span>)</span>
+<span id="cb23-2"><a href="r-programming-language-primer.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="dv">6</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb23-3"><a href="r-programming-language-primer.html#cb23-3" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb23-4"><a href="r-programming-language-primer.html#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dt</span>(x, df)</span>
+<span id="cb23-5"><a href="r-programming-language-primer.html#cb23-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-6"><a href="r-programming-language-primer.html#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(f, <span class="sc">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="at">xlab =</span> <span class="st">&quot;x-axis&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;T Density dt(x)&quot;</span>)</span>
+<span id="cb23-7"><a href="r-programming-language-primer.html#cb23-7" aria-hidden="true" tabindex="-1"></a>  ci <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">qt</span>(<span class="fl">0.025</span>, df), <span class="fu">qt</span>(<span class="fl">0.975</span>, df))</span>
+<span id="cb23-8"><a href="r-programming-language-primer.html#cb23-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">4</span>, ci[<span class="dv">1</span>], <span class="fl">0.01</span>)</span>
+<span id="cb23-9"><a href="r-programming-language-primer.html#cb23-9" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">seq</span>(ci[<span class="dv">2</span>], <span class="dv">4</span>, <span class="fl">0.01</span>)</span>
+<span id="cb23-10"><a href="r-programming-language-primer.html#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">polygon</span>(<span class="fu">c</span>(ci[<span class="dv">1</span>], x, ci[<span class="dv">1</span>]), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fu">f</span>(x)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb23-11"><a href="r-programming-language-primer.html#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">polygon</span>(<span class="fu">c</span>(ci[<span class="dv">2</span>], y, ci[<span class="dv">2</span>]), <span class="fu">c</span>(<span class="fu">f</span>(y), <span class="dv">0</span>, <span class="dv">0</span>), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb23-12"><a href="r-programming-language-primer.html#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrows</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="fl">0.25</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="fl">0.05</span>)</span>
+<span id="cb23-13"><a href="r-programming-language-primer.html#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="fl">0.3</span>, <span class="st">&quot;Rejection Region&quot;</span>)</span>
+<span id="cb23-14"><a href="r-programming-language-primer.html#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrows</span>(<span class="dv">3</span>, <span class="fl">0.25</span>, <span class="dv">3</span>, <span class="fl">0.05</span>)</span>
+<span id="cb23-15"><a href="r-programming-language-primer.html#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="dv">3</span>, <span class="fl">0.3</span>, <span class="st">&quot;Rejection Region&quot;</span>)</span>
+<span id="cb23-16"><a href="r-programming-language-primer.html#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qrrows</span>(<span class="dv">0</span>, <span class="fl">0.15</span>, <span class="dv">0</span>, <span class="fl">0.05</span>)</span>
+<span id="cb23-17"><a href="r-programming-language-primer.html#cb23-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="dv">0</span>, <span class="fl">0.2</span>, <span class="st">&quot;Acceptance Region&quot;</span>)</span>
+<span id="cb23-18"><a href="r-programming-language-primer.html#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="descriptive-statistics-and-plotting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["PGT_Bioinformatics_course.pdf", "PGT_Bioinformatics_course.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

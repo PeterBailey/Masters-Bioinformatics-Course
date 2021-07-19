@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 RNAseq Analysis - DESeq2 | PGT Bioinformatics Course</title>
+  <meta name="description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 RNAseq Analysis - DESeq2 | PGT Bioinformatics Course" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 RNAseq Analysis - DESeq2 | PGT Bioinformatics Course" />
+  
+  <meta name="twitter:description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  
+
+<meta name="author" content="Peter J. Bailey" />
+
+
+<meta name="date" content="2021-07-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="rnaseq-analysis.html"/>
+<link rel="next" href="cancer-dependency-map-depmap.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PGT Bioinformatics Course</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#installing-r-and-bioconductor-packages"><i class="fa fa-check"></i><b>1.2</b> Installing R and Bioconductor packages</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#loading-r-and-bioconductor-packages"><i class="fa fa-check"></i><b>1.3</b> Loading R and Bioconductor packages</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#learning_resources"><i class="fa fa-check"></i><b>1.4</b> Learning resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#course-outline"><i class="fa fa-check"></i><b>2.1</b> Course outline</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="intro.html"><a href="intro.html#part1"><i class="fa fa-check"></i><b>2.1.1</b> PART 1</a></li>
+<li class="chapter" data-level="2.1.2" data-path="intro.html"><a href="intro.html#part2"><i class="fa fa-check"></i><b>2.1.2</b> PART 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html"><i class="fa fa-check"></i><b>3</b> R Programming language primer</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#vectors"><i class="fa fa-check"></i><b>3.1</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#vectors-in-action"><i class="fa fa-check"></i><b>3.1.1</b> Vectors in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#matrix"><i class="fa fa-check"></i><b>3.2</b> Matrix</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#matrices-in-action"><i class="fa fa-check"></i><b>3.2.1</b> Matrices in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#data-frame"><i class="fa fa-check"></i><b>3.3</b> Data Frame</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#data-frames-in-action"><i class="fa fa-check"></i><b>3.3.1</b> Data Frames in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#factors"><i class="fa fa-check"></i><b>3.4</b> Factors</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#factors-in-action"><i class="fa fa-check"></i><b>3.4.1</b> Factors in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#list"><i class="fa fa-check"></i><b>3.5</b> List</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#lists-in-action"><i class="fa fa-check"></i><b>3.5.1</b> Lists in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#array"><i class="fa fa-check"></i><b>3.6</b> Array</a></li>
+<li class="chapter" data-level="3.7" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#creating-functions"><i class="fa fa-check"></i><b>3.7</b> Creating functions</a></li>
+<li class="chapter" data-level="3.8" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#loading-data"><i class="fa fa-check"></i><b>3.8</b> Loading Data</a></li>
+<li class="chapter" data-level="3.9" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#saving-data"><i class="fa fa-check"></i><b>3.9</b> Saving Data</a></li>
+<li class="chapter" data-level="3.10" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#saving-plots"><i class="fa fa-check"></i><b>3.10</b> Saving plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html"><i class="fa fa-check"></i><b>4</b> Descriptive statistics and plotting</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#the-cancer-gene-atlas-tcga---pancreatic-ductal-adenocarcinoma-data-set"><i class="fa fa-check"></i><b>4.1</b> The Cancer Gene Atlas (TCGA) - Pancreatic Ductal Adenocarcinoma Data Set</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#gene-expression-data"><i class="fa fa-check"></i><b>4.1.1</b> Gene expression data</a></li>
+<li class="chapter" data-level="4.1.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#clinical-data"><i class="fa fa-check"></i><b>4.1.2</b> Clinical data</a></li>
+<li class="chapter" data-level="4.1.3" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#pdac-subtypes"><i class="fa fa-check"></i><b>4.1.3</b> PDAC Subtypes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#descriptive-plots"><i class="fa fa-check"></i><b>4.2</b> Descriptive plots</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#boxplots"><i class="fa fa-check"></i><b>4.2.1</b> Boxplots</a></li>
+<li class="chapter" data-level="4.2.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#scatter-plots"><i class="fa fa-check"></i><b>4.2.2</b> Scatter plots</a></li>
+<li class="chapter" data-level="4.2.3" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.2.3</b> Hierarchical Clustering</a></li>
+<li class="chapter" data-level="4.2.4" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#hierarchical-clustering-using-the-moffitt-transcriptomic-signature"><i class="fa fa-check"></i><b>4.2.4</b> Hierarchical clustering using the Moffitt transcriptomic signature</a></li>
+<li class="chapter" data-level="4.2.5" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#heatmaps"><i class="fa fa-check"></i><b>4.2.5</b> Heatmaps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html"><i class="fa fa-check"></i><b>5</b> RNAseq Analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#rnaseq-downstream-analysis"><i class="fa fa-check"></i><b>5.1</b> RNAseq downstream analysis</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#nf-corernaseq-pipeline---installation"><i class="fa fa-check"></i><b>5.1.1</b> nf-core/rnaseq pipeline - installation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#nextflow"><i class="fa fa-check"></i><b>5.1.2</b> Nextflow</a></li>
+<li class="chapter" data-level="5.1.3" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#additional-pipeline-software"><i class="fa fa-check"></i><b>5.1.3</b> Additional pipeline software</a></li>
+<li class="chapter" data-level="5.1.4" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#pipeline-code"><i class="fa fa-check"></i><b>5.1.4</b> Pipeline code</a></li>
+<li class="chapter" data-level="5.1.5" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#reference-genomes"><i class="fa fa-check"></i><b>5.1.5</b> Reference genomes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#running-the-nf-corernaseq-pipeline"><i class="fa fa-check"></i><b>5.2</b> Running the nf-core/rnaseq pipeline</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#setup"><i class="fa fa-check"></i><b>5.2.1</b> Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#running-the-nf-corernaseq-pipeline-1"><i class="fa fa-check"></i><b>5.3</b> Running the nf-core/rnaseq pipeline</a></li>
+<li class="chapter" data-level="5.4" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#quality-control-qc-and-merged-count-files"><i class="fa fa-check"></i><b>5.4</b> Quality Control (QC) and Merged count files</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#qc-metrics"><i class="fa fa-check"></i><b>5.4.1</b> QC Metrics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#merged-count-files"><i class="fa fa-check"></i><b>5.4.2</b> Merged count files</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html"><i class="fa fa-check"></i><b>6</b> RNAseq Analysis - DESeq2</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#deseq2-package"><i class="fa fa-check"></i><b>6.1</b> DESEq2 package</a></li>
+<li class="chapter" data-level="6.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#the-deseqdataset"><i class="fa fa-check"></i><b>6.2</b> The DESeqDataSet</a></li>
+<li class="chapter" data-level="6.3" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#count-matrix-input"><i class="fa fa-check"></i><b>6.3</b> Count matrix input</a></li>
+<li class="chapter" data-level="6.4" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#pre-filtering"><i class="fa fa-check"></i><b>6.4</b> Pre-filtering</a></li>
+<li class="chapter" data-level="6.5" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#differential-expression-analysis"><i class="fa fa-check"></i><b>6.5</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="6.6" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#gene-annotation"><i class="fa fa-check"></i><b>6.6</b> Gene Annotation</a></li>
+<li class="chapter" data-level="6.7" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#exploring-the-results"><i class="fa fa-check"></i><b>6.7</b> Exploring the results</a></li>
+<li class="chapter" data-level="6.8" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#exporting-results"><i class="fa fa-check"></i><b>6.8</b> Exporting results</a></li>
+<li class="chapter" data-level="6.9" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#data-transformation-and-visualisation"><i class="fa fa-check"></i><b>6.9</b> Data transformation and visualisation</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#pca-using-transformed-data"><i class="fa fa-check"></i><b>6.9.1</b> PCA using transformed data</a></li>
+<li class="chapter" data-level="6.9.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#heatmaps-using-transformed-data"><i class="fa fa-check"></i><b>6.9.2</b> Heatmaps using transformed data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#gene-set-enrichment-analysis"><i class="fa fa-check"></i><b>6.10</b> Gene Set Enrichment Analysis</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#kegg"><i class="fa fa-check"></i><b>6.10.1</b> KEGG</a></li>
+<li class="chapter" data-level="6.10.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#reactome"><i class="fa fa-check"></i><b>6.10.2</b> REACTOME</a></li>
+<li class="chapter" data-level="6.10.3" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#plotting-functions"><i class="fa fa-check"></i><b>6.10.3</b> Plotting functions</a></li>
+<li class="chapter" data-level="6.10.4" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#extracting-enrichment-results-to-generate-heatmaps"><i class="fa fa-check"></i><b>6.10.4</b> Extracting enrichment results to generate heatmaps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html"><i class="fa fa-check"></i><b>7</b> Cancer Dependency Map - DepMap</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#downloading-depmap-data-using-the-depmap-package"><i class="fa fa-check"></i><b>7.1</b> Downloading DepMap data using the <code>depmap</code> package</a></li>
+<li class="chapter" data-level="7.2" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-transcriptomic-data"><i class="fa fa-check"></i><b>7.2</b> Exploring DepMap transcriptomic data</a></li>
+<li class="chapter" data-level="7.3" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-mutation-calls"><i class="fa fa-check"></i><b>7.3</b> Exploring DepMap mutation calls</a></li>
+<li class="chapter" data-level="7.4" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-crispr-data"><i class="fa fa-check"></i><b>7.4</b> Exploring DepMap CRISPR data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PGT Bioinformatics Course</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="rnaseq-analysis---deseq2" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> RNAseq Analysis - DESeq2</h1>
+<p><a href="./course/BruntonBailey.pdf"><img src="images/BruntonBailey.png" width="300" height="300" align="right" alt="Cover image" /></a></p>
+<p>In this Chapter, we will be analyzing RNAseq data previously published in <a href="https://doi.org/10.1016/j.celrep.2020.107625"><em>Brunton et al. HNF4A and GATA6 Loss Reveals Therapeutically Actionable Subtypes in Pancreatic Cancer. Cell Reports 2020</em></a>. The RNAseq experiment that we will re-analyse involves the Knock-Down (KD) of HNF4A using a specific siRNA in 2 different Patient Derived Cell Lines (PDCLs) Mayo5289 and TKCC22. Both Mayo5289 and TKCC22 are Classical lines which expresses HNF4A. We have 12 samples in total, representing:</p>
+<ul>
+<li>3x Mayo5289 Scrambled Controls (Biological Replicates)</li>
+<li>3x Mayo5289 siHNF4A (Biological Replicates)</li>
+<li>3x TKCC22 Scrambled Controls (Biological Replicates)</li>
+<li>3x TKCC22 siHNF4A (Biological Replicates)</li>
+</ul>
+<p>RNAseq data has been mapped and a merged counts file is available for us to analyse. Let’s take a look at the sample sheet for the experiment.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="rnaseq-analysis-deseq2.html#cb60-1" aria-hidden="true" tabindex="-1"></a>sampleSheet <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;RNASeqData/SampleSheetBrunton.tsv&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, </span>
+<span id="cb60-2"><a href="rnaseq-analysis-deseq2.html#cb60-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb60-3"><a href="rnaseq-analysis-deseq2.html#cb60-3" aria-hidden="true" tabindex="-1"></a>sampleSheet</span>
+<span id="cb60-4"><a href="rnaseq-analysis-deseq2.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       id Treatment_group Batch</span></span>
+<span id="cb60-5"><a href="rnaseq-analysis-deseq2.html#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  HB.A1    TKCC-22_Cont     1</span></span>
+<span id="cb60-6"><a href="rnaseq-analysis-deseq2.html#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  HB.A3   TKCC-22_HNF4A     1</span></span>
+<span id="cb60-7"><a href="rnaseq-analysis-deseq2.html#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  HB.B1    TKCC-22_Cont     2</span></span>
+<span id="cb60-8"><a href="rnaseq-analysis-deseq2.html#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ...&lt;6 more rows&gt;...</span></span>
+<span id="cb60-9"><a href="rnaseq-analysis-deseq2.html#cb60-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 HB.E3 Mayo_5289_HNF4A     2</span></span>
+<span id="cb60-10"><a href="rnaseq-analysis-deseq2.html#cb60-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 HB.F1  Mayo_5289_Cont     3</span></span>
+<span id="cb60-11"><a href="rnaseq-analysis-deseq2.html#cb60-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 HB.F3 Mayo_5289_HNF4A     3</span></span></code></pre></div>
+<p>The merged counts file is in the following format:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="rnaseq-analysis-deseq2.html#cb61-1" aria-hidden="true" tabindex="-1"></a>countsFile <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="st">&quot;RNASeqData/CountsFileBrunton.tsv&quot;</span>, </span>
+<span id="cb61-2"><a href="rnaseq-analysis-deseq2.html#cb61-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>,<span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb61-3"><a href="rnaseq-analysis-deseq2.html#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(countsFile)</span>
+<span id="cb61-4"><a href="rnaseq-analysis-deseq2.html#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 HB.A1 HB.A3 HB.B1 HB.B3 HB.C1 HB.C3 HB.D1 HB.D3 HB.E1 HB.E3</span></span>
+<span id="cb61-5"><a href="rnaseq-analysis-deseq2.html#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000223972     0     0     0     0     0     0     1     0     0     0</span></span>
+<span id="cb61-6"><a href="rnaseq-analysis-deseq2.html#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232   206   147   149   161   160   184   154   200   222   201</span></span>
+<span id="cb61-7"><a href="rnaseq-analysis-deseq2.html#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000243485     0     0     0     0     0     0     0     0     0     0</span></span>
+<span id="cb61-8"><a href="rnaseq-analysis-deseq2.html#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237613     0     0     0     0     0     0     0     0     0     0</span></span>
+<span id="cb61-9"><a href="rnaseq-analysis-deseq2.html#cb61-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000268020     0     0     0     0     0     0     0     0     0     0</span></span>
+<span id="cb61-10"><a href="rnaseq-analysis-deseq2.html#cb61-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000240361     0     0     0     0     0     0     0     0     0     0</span></span>
+<span id="cb61-11"><a href="rnaseq-analysis-deseq2.html#cb61-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 HB.F1 HB.F3</span></span>
+<span id="cb61-12"><a href="rnaseq-analysis-deseq2.html#cb61-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000223972     0     0</span></span>
+<span id="cb61-13"><a href="rnaseq-analysis-deseq2.html#cb61-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232   167   188</span></span>
+<span id="cb61-14"><a href="rnaseq-analysis-deseq2.html#cb61-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000243485     0     0</span></span>
+<span id="cb61-15"><a href="rnaseq-analysis-deseq2.html#cb61-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237613     0     0</span></span>
+<span id="cb61-16"><a href="rnaseq-analysis-deseq2.html#cb61-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000268020     0     0</span></span>
+<span id="cb61-17"><a href="rnaseq-analysis-deseq2.html#cb61-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000240361     0     0</span></span></code></pre></div>
+<div id="deseq2-package" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> DESEq2 package</h2>
+<p>The <code>DESeq2</code> package expects count data in the form of a matrix of integer values as input. The values in the matrix should be non-normalized counts or estimated counts of sequencing reads (for single-end RNA-seq) or fragments (for paired-end RNA-seq). The <code>DESeq2</code> model internally corrects for library size, so transformed or normalized values such as counts scaled by library size should not be used as input.</p>
+<p>The <code>DESeq2</code> package stores the read counts and the results of any analysis in an object of class <code>DESeqDataSet</code>. The <code>DESeqDataSet</code> class extends the <code>RangedSummarizedExperiment</code> class of the <code>SummarizedExperiment</code> package, which we used previously in Section 4.2.</p>
+</div>
+<div id="the-deseqdataset" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> The DESeqDataSet</h2>
+<p>A <code>DESeqDataSet</code> object must have an associated design formula. The design formula expresses the variables which will be used in modeling. The formula should be a tilde (~) followed by the variables with plus signs between them (it will be coerced into an formula if it is not already).</p>
+</div>
+<div id="count-matrix-input" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Count matrix input</h2>
+<p>The function <code>DESeqDataSetFromMatrix</code> can be used to generate a <code>RangedSummarizedExperiment</code> object comprising our data. The <code>Treatment_group</code> sample sheet column is used for our design formula!</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="rnaseq-analysis-deseq2.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DESeq2)</span>
+<span id="cb62-2"><a href="rnaseq-analysis-deseq2.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Produce a DESeq dataset</span></span>
+<span id="cb62-3"><a href="rnaseq-analysis-deseq2.html#cb62-3" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeqDataSetFromMatrix</span>(<span class="at">countData =</span> countsFile, </span>
+<span id="cb62-4"><a href="rnaseq-analysis-deseq2.html#cb62-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">colData =</span> sampleSheet, </span>
+<span id="cb62-5"><a href="rnaseq-analysis-deseq2.html#cb62-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">design =</span> <span class="sc">~</span> Treatment_group)</span>
+<span id="cb62-6"><a href="rnaseq-analysis-deseq2.html#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in DESeqDataSet(se, design = design, ignoreRank): some variables in</span></span>
+<span id="cb62-7"><a href="rnaseq-analysis-deseq2.html#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; design formula are characters, converting to factors</span></span>
+<span id="cb62-8"><a href="rnaseq-analysis-deseq2.html#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Note: levels of factors in the design contain characters other than</span></span>
+<span id="cb62-9"><a href="rnaseq-analysis-deseq2.html#cb62-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   letters, numbers, &#39;_&#39; and &#39;.&#39;. It is recommended (but not required) to use</span></span>
+<span id="cb62-10"><a href="rnaseq-analysis-deseq2.html#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   only letters, numbers, and delimiters &#39;_&#39; or &#39;.&#39;, as these are safe characters</span></span>
+<span id="cb62-11"><a href="rnaseq-analysis-deseq2.html#cb62-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   for column names in R. [This is a message, not an warning or error]</span></span></code></pre></div>
+<p>Let’s take a look at the <code>colData</code> for this object. The <code>colData</code> function will allow us to access the <code>Treatment_group</code> and experiment <code>ids</code> later on!</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="rnaseq-analysis-deseq2.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">colData</span>(dds))</span>
+<span id="cb63-2"><a href="rnaseq-analysis-deseq2.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 6 rows and 3 columns</span></span>
+<span id="cb63-3"><a href="rnaseq-analysis-deseq2.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                id Treatment_group     Batch</span></span>
+<span id="cb63-4"><a href="rnaseq-analysis-deseq2.html#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       &lt;character&gt;        &lt;factor&gt; &lt;integer&gt;</span></span>
+<span id="cb63-5"><a href="rnaseq-analysis-deseq2.html#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HB.A1       HB.A1    TKCC-22_Cont         1</span></span>
+<span id="cb63-6"><a href="rnaseq-analysis-deseq2.html#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HB.A3       HB.A3   TKCC-22_HNF4A         1</span></span>
+<span id="cb63-7"><a href="rnaseq-analysis-deseq2.html#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HB.B1       HB.B1    TKCC-22_Cont         2</span></span>
+<span id="cb63-8"><a href="rnaseq-analysis-deseq2.html#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HB.B3       HB.B3   TKCC-22_HNF4A         2</span></span>
+<span id="cb63-9"><a href="rnaseq-analysis-deseq2.html#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HB.C1       HB.C1    TKCC-22_Cont         3</span></span>
+<span id="cb63-10"><a href="rnaseq-analysis-deseq2.html#cb63-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HB.C3       HB.C3   TKCC-22_HNF4A         3</span></span></code></pre></div>
+</div>
+<div id="pre-filtering" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Pre-filtering</h2>
+<p>While it is not necessary to pre-filter low count genes before running the <code>DESeq2</code> functions, there are two reasons which make pre-filtering useful:
+- by removing rows in which there are very few reads, we reduce the memory size of the dds data object
+- we increase the speed of the transformation and testing functions within <code>DESeq2</code>.</p>
+<p>Here we perform a minimal pre-filtering to keep only rows that have at least 10 reads total. Note that more strict filtering to increase power is automatically applied via independent filtering on the mean of normalized counts within the results function.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="rnaseq-analysis-deseq2.html#cb64-1" aria-hidden="true" tabindex="-1"></a>keep <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">counts</span>(dds)) <span class="sc">&gt;=</span> <span class="dv">10</span></span>
+<span id="cb64-2"><a href="rnaseq-analysis-deseq2.html#cb64-2" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> dds[keep,]</span></code></pre></div>
+</div>
+<div id="differential-expression-analysis" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Differential expression analysis</h2>
+<p>The standard differential expression analysis steps are wrapped into a single function named <code>DESeq</code>.</p>
+<p>Results tables are generated using the function <code>results</code>, which extracts a results table with log2 fold changes, p values and adjusted p values. Here we want to compare differential gene expression in the TKCC22 and Mayo5289 PDCLs, separately. To do this we can provide a <code>contrast</code> argument, where the first vector value is our design name and the other vector values represent the contrast of interest!</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="rnaseq-analysis-deseq2.html#cb65-1" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds)</span>
+<span id="cb65-2"><a href="rnaseq-analysis-deseq2.html#cb65-2" aria-hidden="true" tabindex="-1"></a>resTKCC22 <span class="ot">&lt;-</span> <span class="fu">results</span>(dds, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;Treatment_group&quot;</span>, <span class="st">&quot;TKCC-22_HNF4A&quot;</span>, <span class="st">&quot;TKCC-22_Cont&quot;</span>))</span>
+<span id="cb65-3"><a href="rnaseq-analysis-deseq2.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(resTKCC22)</span>
+<span id="cb65-4"><a href="rnaseq-analysis-deseq2.html#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log2 fold change (MLE): Treatment_group TKCC-22_HNF4A vs TKCC-22_Cont </span></span>
+<span id="cb65-5"><a href="rnaseq-analysis-deseq2.html#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Wald test p-value: Treatment_group TKCC-22_HNF4A vs TKCC-22_Cont </span></span>
+<span id="cb65-6"><a href="rnaseq-analysis-deseq2.html#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 6 rows and 6 columns</span></span>
+<span id="cb65-7"><a href="rnaseq-analysis-deseq2.html#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         baseMean     log2FoldChange             lfcSE</span></span>
+<span id="cb65-8"><a href="rnaseq-analysis-deseq2.html#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        &lt;numeric&gt;          &lt;numeric&gt;         &lt;numeric&gt;</span></span>
+<span id="cb65-9"><a href="rnaseq-analysis-deseq2.html#cb65-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232 176.215965236868 0.0681688692461893 0.155683348871782</span></span>
+<span id="cb65-10"><a href="rnaseq-analysis-deseq2.html#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009 4.95585118508252  -1.27198412595543 0.897892011941174</span></span>
+<span id="cb65-11"><a href="rnaseq-analysis-deseq2.html#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683 23.0539253255181  -0.26031208423795 0.530153592513952</span></span>
+<span id="cb65-12"><a href="rnaseq-analysis-deseq2.html#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000241860 26.5900311689865  0.368471855396428 0.402842462674039</span></span>
+<span id="cb65-13"><a href="rnaseq-analysis-deseq2.html#cb65-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000228463 25.8307510095804 -0.144518497310896 0.356207690630831</span></span>
+<span id="cb65-14"><a href="rnaseq-analysis-deseq2.html#cb65-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237094 1.06267800811557   1.70544281563047  2.03235686968038</span></span>
+<span id="cb65-15"><a href="rnaseq-analysis-deseq2.html#cb65-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               stat            pvalue              padj</span></span>
+<span id="cb65-16"><a href="rnaseq-analysis-deseq2.html#cb65-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          &lt;numeric&gt;         &lt;numeric&gt;         &lt;numeric&gt;</span></span>
+<span id="cb65-17"><a href="rnaseq-analysis-deseq2.html#cb65-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232   0.43786872353531  0.66148144925531 0.862931209585896</span></span>
+<span id="cb65-18"><a href="rnaseq-analysis-deseq2.html#cb65-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009  -1.41663374775492 0.156590036356189                NA</span></span>
+<span id="cb65-19"><a href="rnaseq-analysis-deseq2.html#cb65-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683 -0.491012581851172 0.623417548715701                NA</span></span>
+<span id="cb65-20"><a href="rnaseq-analysis-deseq2.html#cb65-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000241860  0.914679780653059 0.360359762037706                NA</span></span>
+<span id="cb65-21"><a href="rnaseq-analysis-deseq2.html#cb65-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000228463 -0.405714141249896 0.684952650597028                NA</span></span>
+<span id="cb65-22"><a href="rnaseq-analysis-deseq2.html#cb65-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237094  0.839145349457587 0.401387750491202                NA</span></span>
+<span id="cb65-23"><a href="rnaseq-analysis-deseq2.html#cb65-23" aria-hidden="true" tabindex="-1"></a>resMayo5289 <span class="ot">&lt;-</span> <span class="fu">results</span>(dds, <span class="at">contrast=</span><span class="fu">c</span>(<span class="st">&quot;Treatment_group&quot;</span>, <span class="st">&quot;Mayo_5289_HNF4A&quot;</span>, <span class="st">&quot;Mayo_5289_Cont&quot;</span>))</span>
+<span id="cb65-24"><a href="rnaseq-analysis-deseq2.html#cb65-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(resMayo5289)</span>
+<span id="cb65-25"><a href="rnaseq-analysis-deseq2.html#cb65-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log2 fold change (MLE): Treatment_group Mayo_5289_HNF4A vs Mayo_5289_Cont </span></span>
+<span id="cb65-26"><a href="rnaseq-analysis-deseq2.html#cb65-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Wald test p-value: Treatment group Mayo 5289 HNF4A vs Mayo 5289 Cont </span></span>
+<span id="cb65-27"><a href="rnaseq-analysis-deseq2.html#cb65-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 6 rows and 6 columns</span></span>
+<span id="cb65-28"><a href="rnaseq-analysis-deseq2.html#cb65-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         baseMean      log2FoldChange             lfcSE</span></span>
+<span id="cb65-29"><a href="rnaseq-analysis-deseq2.html#cb65-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        &lt;numeric&gt;           &lt;numeric&gt;         &lt;numeric&gt;</span></span>
+<span id="cb65-30"><a href="rnaseq-analysis-deseq2.html#cb65-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232 176.215965236868 -0.0119495009244944  0.15255273154876</span></span>
+<span id="cb65-31"><a href="rnaseq-analysis-deseq2.html#cb65-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009 4.95585118508252  -0.626000432390719 0.809896379944906</span></span>
+<span id="cb65-32"><a href="rnaseq-analysis-deseq2.html#cb65-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683 23.0539253255181  -0.206194554568681 0.419326773029208</span></span>
+<span id="cb65-33"><a href="rnaseq-analysis-deseq2.html#cb65-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000241860 26.5900311689865  0.0661684857011655 0.355511952662026</span></span>
+<span id="cb65-34"><a href="rnaseq-analysis-deseq2.html#cb65-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000228463 25.8307510095804  -0.234755143878033 0.323620257076077</span></span>
+<span id="cb65-35"><a href="rnaseq-analysis-deseq2.html#cb65-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237094 1.06267800811557   -3.15503624670329   2.1465733495444</span></span>
+<span id="cb65-36"><a href="rnaseq-analysis-deseq2.html#cb65-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                stat            pvalue              padj</span></span>
+<span id="cb65-37"><a href="rnaseq-analysis-deseq2.html#cb65-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                           &lt;numeric&gt;         &lt;numeric&gt;         &lt;numeric&gt;</span></span>
+<span id="cb65-38"><a href="rnaseq-analysis-deseq2.html#cb65-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232 -0.0783302980102654 0.937565317169935 0.970065078334923</span></span>
+<span id="cb65-39"><a href="rnaseq-analysis-deseq2.html#cb65-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009  -0.772938918968009 0.439558530357351                NA</span></span>
+<span id="cb65-40"><a href="rnaseq-analysis-deseq2.html#cb65-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683   -0.49172761633877 0.622911912676688 0.794297567450887</span></span>
+<span id="cb65-41"><a href="rnaseq-analysis-deseq2.html#cb65-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000241860   0.186121690721521 0.852349332369706 0.931857984783944</span></span>
+<span id="cb65-42"><a href="rnaseq-analysis-deseq2.html#cb65-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000228463  -0.725403119072509 0.468204760148512 0.679428386866806</span></span>
+<span id="cb65-43"><a href="rnaseq-analysis-deseq2.html#cb65-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237094   -1.46980127530836 0.141615583670199                NA</span></span></code></pre></div>
+<p>The results are not ordered by <em>p value</em> so let’s order the results so that the most significant results are shown at the top of the table.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="rnaseq-analysis-deseq2.html#cb66-1" aria-hidden="true" tabindex="-1"></a>resTKCC22.Ordered <span class="ot">&lt;-</span> resTKCC22[<span class="fu">order</span>(resTKCC22<span class="sc">$</span>pvalue),]</span>
+<span id="cb66-2"><a href="rnaseq-analysis-deseq2.html#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(resTKCC22.Ordered)</span>
+<span id="cb66-3"><a href="rnaseq-analysis-deseq2.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log2 fold change (MLE): Treatment_group TKCC-22_HNF4A vs TKCC-22_Cont </span></span>
+<span id="cb66-4"><a href="rnaseq-analysis-deseq2.html#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Wald test p-value: Treatment_group TKCC-22_HNF4A vs TKCC-22_Cont </span></span>
+<span id="cb66-5"><a href="rnaseq-analysis-deseq2.html#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 6 rows and 6 columns</span></span>
+<span id="cb66-6"><a href="rnaseq-analysis-deseq2.html#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         baseMean     log2FoldChange              lfcSE</span></span>
+<span id="cb66-7"><a href="rnaseq-analysis-deseq2.html#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        &lt;numeric&gt;          &lt;numeric&gt;          &lt;numeric&gt;</span></span>
+<span id="cb66-8"><a href="rnaseq-analysis-deseq2.html#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 47574.3163285699 -0.934451413369446 0.0663560063758533</span></span>
+<span id="cb66-9"><a href="rnaseq-analysis-deseq2.html#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 2441.44886387565   -1.2534535054247 0.0897912061465399</span></span>
+<span id="cb66-10"><a href="rnaseq-analysis-deseq2.html#cb66-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000167460 13340.8304535922  0.848040750049125 0.0654138250456114</span></span>
+<span id="cb66-11"><a href="rnaseq-analysis-deseq2.html#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000197008 692.953231862017   1.15818733365479 0.0893877618088685</span></span>
+<span id="cb66-12"><a href="rnaseq-analysis-deseq2.html#cb66-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000112419 4645.27612423264  0.814829053165872 0.0655868735363201</span></span>
+<span id="cb66-13"><a href="rnaseq-analysis-deseq2.html#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000054983  3591.9079640758 -0.772496907696008 0.0657930175504959</span></span>
+<span id="cb66-14"><a href="rnaseq-analysis-deseq2.html#cb66-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              stat               pvalue                 padj</span></span>
+<span id="cb66-15"><a href="rnaseq-analysis-deseq2.html#cb66-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         &lt;numeric&gt;            &lt;numeric&gt;            &lt;numeric&gt;</span></span>
+<span id="cb66-16"><a href="rnaseq-analysis-deseq2.html#cb66-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 -14.0823938088819 4.87307090466001e-45 6.78623854182953e-41</span></span>
+<span id="cb66-17"><a href="rnaseq-analysis-deseq2.html#cb66-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 -13.9596465981207 2.74793035252734e-44 1.91338390446479e-40</span></span>
+<span id="cb66-18"><a href="rnaseq-analysis-deseq2.html#cb66-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000167460  12.9642434066164 1.95146374859122e-38 7.47764079018454e-35</span></span>
+<span id="cb66-19"><a href="rnaseq-analysis-deseq2.html#cb66-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000197008  12.9568892901834 2.14782156834254e-38 7.47764079018454e-35</span></span>
+<span id="cb66-20"><a href="rnaseq-analysis-deseq2.html#cb66-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000112419  12.4236605471771 1.94456107359187e-35 5.41599150216807e-32</span></span>
+<span id="cb66-21"><a href="rnaseq-analysis-deseq2.html#cb66-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000054983 -11.7413205299957 7.82549268200408e-32 1.81629685149315e-28</span></span>
+<span id="cb66-22"><a href="rnaseq-analysis-deseq2.html#cb66-22" aria-hidden="true" tabindex="-1"></a>resMayo5289.Ordered <span class="ot">&lt;-</span> resMayo5289[<span class="fu">order</span>(resMayo5289<span class="sc">$</span>pvalue),]</span>
+<span id="cb66-23"><a href="rnaseq-analysis-deseq2.html#cb66-23" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(resMayo5289.Ordered)</span>
+<span id="cb66-24"><a href="rnaseq-analysis-deseq2.html#cb66-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log2 fold change (MLE): Treatment_group Mayo_5289_HNF4A vs Mayo_5289_Cont </span></span>
+<span id="cb66-25"><a href="rnaseq-analysis-deseq2.html#cb66-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Wald test p-value: Treatment group Mayo 5289 HNF4A vs Mayo 5289 Cont </span></span>
+<span id="cb66-26"><a href="rnaseq-analysis-deseq2.html#cb66-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 6 rows and 6 columns</span></span>
+<span id="cb66-27"><a href="rnaseq-analysis-deseq2.html#cb66-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         baseMean    log2FoldChange              lfcSE</span></span>
+<span id="cb66-28"><a href="rnaseq-analysis-deseq2.html#cb66-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        &lt;numeric&gt;         &lt;numeric&gt;          &lt;numeric&gt;</span></span>
+<span id="cb66-29"><a href="rnaseq-analysis-deseq2.html#cb66-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 2441.44886387565 -2.78867240452894 0.0928799664884088</span></span>
+<span id="cb66-30"><a href="rnaseq-analysis-deseq2.html#cb66-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 47574.3163285699  -1.5069874076035 0.0661753371004424</span></span>
+<span id="cb66-31"><a href="rnaseq-analysis-deseq2.html#cb66-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831 5402.36212558166 -1.47536222408073 0.0721308861825415</span></span>
+<span id="cb66-32"><a href="rnaseq-analysis-deseq2.html#cb66-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000155465   1117.788063774  -1.6920701897444 0.0850231608539067</span></span>
+<span id="cb66-33"><a href="rnaseq-analysis-deseq2.html#cb66-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101342 496.544981122766 -2.36158629500247  0.123882852836385</span></span>
+<span id="cb66-34"><a href="rnaseq-analysis-deseq2.html#cb66-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101311 12900.2341316972 -1.03950771162206 0.0548227604532701</span></span>
+<span id="cb66-35"><a href="rnaseq-analysis-deseq2.html#cb66-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              stat               pvalue                  padj</span></span>
+<span id="cb66-36"><a href="rnaseq-analysis-deseq2.html#cb66-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         &lt;numeric&gt;            &lt;numeric&gt;             &lt;numeric&gt;</span></span>
+<span id="cb66-37"><a href="rnaseq-analysis-deseq2.html#cb66-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 -30.0244768593554 4.7036205234925e-198 7.69653426259078e-194</span></span>
+<span id="cb66-38"><a href="rnaseq-analysis-deseq2.html#cb66-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 -22.7726442151124 8.5621641757204e-115 7.00513462036565e-111</span></span>
+<span id="cb66-39"><a href="rnaseq-analysis-deseq2.html#cb66-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831  -20.453959491736 5.53914538617638e-93  3.02123453180014e-89</span></span>
+<span id="cb66-40"><a href="rnaseq-analysis-deseq2.html#cb66-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000155465  -19.901285399773 3.96625810089935e-88   1.6224970326254e-84</span></span>
+<span id="cb66-41"><a href="rnaseq-analysis-deseq2.html#cb66-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101342 -19.0630603100614 5.11911428173576e-81  1.67528133984085e-77</span></span>
+<span id="cb66-42"><a href="rnaseq-analysis-deseq2.html#cb66-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101311 -18.9612435241768 3.56612180336771e-80  9.72540851141765e-77</span></span></code></pre></div>
+</div>
+<div id="gene-annotation" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> Gene Annotation</h2>
+<p>To annotate gene names, we will use the <code>AnnotationDbi</code> and <code>org.Hs.eg.db</code> packages which provide functions to map ensembl Ids to HGNC symbol names. Other annotations are also provided which you can explore.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="rnaseq-analysis-deseq2.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;AnnotationDbi&quot;</span>)</span>
+<span id="cb67-2"><a href="rnaseq-analysis-deseq2.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;org.Hs.eg.db&quot;</span>)</span>
+<span id="cb67-3"><a href="rnaseq-analysis-deseq2.html#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="rnaseq-analysis-deseq2.html#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="fu">columns</span>(org.Hs.eg.db)</span>
+<span id="cb67-5"><a href="rnaseq-analysis-deseq2.html#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;ACCNUM&quot;       &quot;ALIAS&quot;        &quot;ENSEMBL&quot;      &quot;ENSEMBLPROT&quot; </span></span>
+<span id="cb67-6"><a href="rnaseq-analysis-deseq2.html#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;ENSEMBLTRANS&quot; &quot;ENTREZID&quot;     &quot;ENZYME&quot;       &quot;EVIDENCE&quot;    </span></span>
+<span id="cb67-7"><a href="rnaseq-analysis-deseq2.html#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;EVIDENCEALL&quot;  &quot;GENENAME&quot;     &quot;GO&quot;           &quot;GOALL&quot;       </span></span>
+<span id="cb67-8"><a href="rnaseq-analysis-deseq2.html#cb67-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;IPI&quot;          &quot;MAP&quot;          &quot;OMIM&quot;         &quot;ONTOLOGY&quot;    </span></span>
+<span id="cb67-9"><a href="rnaseq-analysis-deseq2.html#cb67-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] &quot;ONTOLOGYALL&quot;  &quot;PATH&quot;         &quot;PFAM&quot;         &quot;PMID&quot;        </span></span>
+<span id="cb67-10"><a href="rnaseq-analysis-deseq2.html#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] &quot;PROSITE&quot;      &quot;REFSEQ&quot;       &quot;SYMBOL&quot;       &quot;UCSCKG&quot;      </span></span>
+<span id="cb67-11"><a href="rnaseq-analysis-deseq2.html#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] &quot;UNIGENE&quot;      &quot;UNIPROT&quot;</span></span></code></pre></div>
+<p>The following code maps the EnsemblIDs e.g. <code>ENSG00000223972</code> to gene symbols and EntrezIds. First we obtain the vector of EnsemblIDs found in our <code>resMayo5289.Ordered</code> <code>data.frame</code> - EnsemblIDs represent the row names of the <code>data.frame</code> and can be obtained using the <code>rownames()</code> function. We then use the <code>mapIds</code> function to match each EnsemblID to a corresponding gene symbol and assign the results to a new column named <code>symbol</code>.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="rnaseq-analysis-deseq2.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Extract the EnsemblIds</span></span>
+<span id="cb68-2"><a href="rnaseq-analysis-deseq2.html#cb68-2" aria-hidden="true" tabindex="-1"></a>ensIds <span class="ot">&lt;-</span> <span class="fu">rownames</span>(resMayo5289.Ordered)</span>
+<span id="cb68-3"><a href="rnaseq-analysis-deseq2.html#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Map the ensIds</span></span>
+<span id="cb68-4"><a href="rnaseq-analysis-deseq2.html#cb68-4" aria-hidden="true" tabindex="-1"></a>resMayo5289.Ordered<span class="sc">$</span>symbol <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(org.Hs.eg.db,</span>
+<span id="cb68-5"><a href="rnaseq-analysis-deseq2.html#cb68-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keys=</span>ensIds,</span>
+<span id="cb68-6"><a href="rnaseq-analysis-deseq2.html#cb68-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">column=</span><span class="st">&quot;SYMBOL&quot;</span>,</span>
+<span id="cb68-7"><a href="rnaseq-analysis-deseq2.html#cb68-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keytype=</span><span class="st">&quot;ENSEMBL&quot;</span>,</span>
+<span id="cb68-8"><a href="rnaseq-analysis-deseq2.html#cb68-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">multiVals=</span><span class="st">&quot;first&quot;</span>)</span>
+<span id="cb68-9"><a href="rnaseq-analysis-deseq2.html#cb68-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span>
+<span id="cb68-10"><a href="rnaseq-analysis-deseq2.html#cb68-10" aria-hidden="true" tabindex="-1"></a>resMayo5289.Ordered<span class="sc">$</span>entrez <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(org.Hs.eg.db,</span>
+<span id="cb68-11"><a href="rnaseq-analysis-deseq2.html#cb68-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keys=</span>ensIds,</span>
+<span id="cb68-12"><a href="rnaseq-analysis-deseq2.html#cb68-12" aria-hidden="true" tabindex="-1"></a>                     <span class="at">column=</span><span class="st">&quot;ENTREZID&quot;</span>,</span>
+<span id="cb68-13"><a href="rnaseq-analysis-deseq2.html#cb68-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keytype=</span><span class="st">&quot;ENSEMBL&quot;</span>,</span>
+<span id="cb68-14"><a href="rnaseq-analysis-deseq2.html#cb68-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">multiVals=</span><span class="st">&quot;first&quot;</span>)</span>
+<span id="cb68-15"><a href="rnaseq-analysis-deseq2.html#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span>
+<span id="cb68-16"><a href="rnaseq-analysis-deseq2.html#cb68-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(resMayo5289.Ordered)</span>
+<span id="cb68-17"><a href="rnaseq-analysis-deseq2.html#cb68-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log2 fold change (MLE): Treatment_group Mayo_5289_HNF4A vs Mayo_5289_Cont </span></span>
+<span id="cb68-18"><a href="rnaseq-analysis-deseq2.html#cb68-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Wald test p-value: Treatment group Mayo 5289 HNF4A vs Mayo 5289 Cont </span></span>
+<span id="cb68-19"><a href="rnaseq-analysis-deseq2.html#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 6 rows and 8 columns</span></span>
+<span id="cb68-20"><a href="rnaseq-analysis-deseq2.html#cb68-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         baseMean    log2FoldChange              lfcSE</span></span>
+<span id="cb68-21"><a href="rnaseq-analysis-deseq2.html#cb68-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        &lt;numeric&gt;         &lt;numeric&gt;          &lt;numeric&gt;</span></span>
+<span id="cb68-22"><a href="rnaseq-analysis-deseq2.html#cb68-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 2441.44886387565 -2.78867240452894 0.0928799664884088</span></span>
+<span id="cb68-23"><a href="rnaseq-analysis-deseq2.html#cb68-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 47574.3163285699  -1.5069874076035 0.0661753371004424</span></span>
+<span id="cb68-24"><a href="rnaseq-analysis-deseq2.html#cb68-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831 5402.36212558166 -1.47536222408073 0.0721308861825415</span></span>
+<span id="cb68-25"><a href="rnaseq-analysis-deseq2.html#cb68-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000155465   1117.788063774  -1.6920701897444 0.0850231608539067</span></span>
+<span id="cb68-26"><a href="rnaseq-analysis-deseq2.html#cb68-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101342 496.544981122766 -2.36158629500247  0.123882852836385</span></span>
+<span id="cb68-27"><a href="rnaseq-analysis-deseq2.html#cb68-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101311 12900.2341316972 -1.03950771162206 0.0548227604532701</span></span>
+<span id="cb68-28"><a href="rnaseq-analysis-deseq2.html#cb68-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              stat               pvalue                  padj</span></span>
+<span id="cb68-29"><a href="rnaseq-analysis-deseq2.html#cb68-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         &lt;numeric&gt;            &lt;numeric&gt;             &lt;numeric&gt;</span></span>
+<span id="cb68-30"><a href="rnaseq-analysis-deseq2.html#cb68-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 -30.0244768593554 4.7036205234925e-198 7.69653426259078e-194</span></span>
+<span id="cb68-31"><a href="rnaseq-analysis-deseq2.html#cb68-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 -22.7726442151124 8.5621641757204e-115 7.00513462036565e-111</span></span>
+<span id="cb68-32"><a href="rnaseq-analysis-deseq2.html#cb68-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831  -20.453959491736 5.53914538617638e-93  3.02123453180014e-89</span></span>
+<span id="cb68-33"><a href="rnaseq-analysis-deseq2.html#cb68-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000155465  -19.901285399773 3.96625810089935e-88   1.6224970326254e-84</span></span>
+<span id="cb68-34"><a href="rnaseq-analysis-deseq2.html#cb68-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101342 -19.0630603100614 5.11911428173576e-81  1.67528133984085e-77</span></span>
+<span id="cb68-35"><a href="rnaseq-analysis-deseq2.html#cb68-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101311 -18.9612435241768 3.56612180336771e-80  9.72540851141765e-77</span></span>
+<span id="cb68-36"><a href="rnaseq-analysis-deseq2.html#cb68-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                      symbol      entrez</span></span>
+<span id="cb68-37"><a href="rnaseq-analysis-deseq2.html#cb68-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 &lt;character&gt; &lt;character&gt;</span></span>
+<span id="cb68-38"><a href="rnaseq-analysis-deseq2.html#cb68-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076       HNF4A        3172</span></span>
+<span id="cb68-39"><a href="rnaseq-analysis-deseq2.html#cb68-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092       CCND1         595</span></span>
+<span id="cb68-40"><a href="rnaseq-analysis-deseq2.html#cb68-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831        VIL1        7429</span></span>
+<span id="cb68-41"><a href="rnaseq-analysis-deseq2.html#cb68-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000155465      SLC7A7        9056</span></span>
+<span id="cb68-42"><a href="rnaseq-analysis-deseq2.html#cb68-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101342       TLDC2      140711</span></span>
+<span id="cb68-43"><a href="rnaseq-analysis-deseq2.html#cb68-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101311      FERMT1       55612</span></span>
+<span id="cb68-44"><a href="rnaseq-analysis-deseq2.html#cb68-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-45"><a href="rnaseq-analysis-deseq2.html#cb68-45" aria-hidden="true" tabindex="-1"></a>resTKCC22.Ordered<span class="sc">$</span>symbol <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(org.Hs.eg.db,</span>
+<span id="cb68-46"><a href="rnaseq-analysis-deseq2.html#cb68-46" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keys=</span>ensIds,</span>
+<span id="cb68-47"><a href="rnaseq-analysis-deseq2.html#cb68-47" aria-hidden="true" tabindex="-1"></a>                     <span class="at">column=</span><span class="st">&quot;SYMBOL&quot;</span>,</span>
+<span id="cb68-48"><a href="rnaseq-analysis-deseq2.html#cb68-48" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keytype=</span><span class="st">&quot;ENSEMBL&quot;</span>,</span>
+<span id="cb68-49"><a href="rnaseq-analysis-deseq2.html#cb68-49" aria-hidden="true" tabindex="-1"></a>                     <span class="at">multiVals=</span><span class="st">&quot;first&quot;</span>)</span>
+<span id="cb68-50"><a href="rnaseq-analysis-deseq2.html#cb68-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span>
+<span id="cb68-51"><a href="rnaseq-analysis-deseq2.html#cb68-51" aria-hidden="true" tabindex="-1"></a>resTKCC22.Ordered<span class="sc">$</span>entrez <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(org.Hs.eg.db,</span>
+<span id="cb68-52"><a href="rnaseq-analysis-deseq2.html#cb68-52" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keys=</span>ensIds,</span>
+<span id="cb68-53"><a href="rnaseq-analysis-deseq2.html#cb68-53" aria-hidden="true" tabindex="-1"></a>                     <span class="at">column=</span><span class="st">&quot;ENTREZID&quot;</span>,</span>
+<span id="cb68-54"><a href="rnaseq-analysis-deseq2.html#cb68-54" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keytype=</span><span class="st">&quot;ENSEMBL&quot;</span>,</span>
+<span id="cb68-55"><a href="rnaseq-analysis-deseq2.html#cb68-55" aria-hidden="true" tabindex="-1"></a>                     <span class="at">multiVals=</span><span class="st">&quot;first&quot;</span>)</span>
+<span id="cb68-56"><a href="rnaseq-analysis-deseq2.html#cb68-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span></code></pre></div>
+<blockquote>
+<p><strong><em>Exercise 6.1</em></strong></p>
+<p>What do you think the <code>multiVals</code> argument in the <code>mapIds</code> function is doing? Add additional annotations to the <code>resMayo5289.Ordered</code> data.frame.</p>
+</blockquote>
+</div>
+<div id="exploring-the-results" class="section level2" number="6.7">
+<h2><span class="header-section-number">6.7</span> Exploring the results</h2>
+<p>At this stage we often want to get a first glimpse of the results. Let’s first determine how many genes are differentially expressed in the Mayo5289 cells after KD with HNF4A!</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="rnaseq-analysis-deseq2.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">#How many genes change significantly between conditions?</span></span>
+<span id="cb69-2"><a href="rnaseq-analysis-deseq2.html#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(resMayo5289.Ordered<span class="sc">$</span>pvalue <span class="sc">&lt;=</span> <span class="fl">0.05</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb69-3"><a href="rnaseq-analysis-deseq2.html#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5594</span></span>
+<span id="cb69-4"><a href="rnaseq-analysis-deseq2.html#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(resMayo5289.Ordered<span class="sc">$</span>padj <span class="sc">&lt;=</span> <span class="fl">0.05</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb69-5"><a href="rnaseq-analysis-deseq2.html#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3852</span></span>
+<span id="cb69-6"><a href="rnaseq-analysis-deseq2.html#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="co">#How many are also associated with abs(log2FC) &gt;= 1</span></span>
+<span id="cb69-7"><a href="rnaseq-analysis-deseq2.html#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(resMayo5289.Ordered<span class="sc">$</span>padj <span class="sc">&lt;=</span><span class="fl">0.05</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(resMayo5289.Ordered<span class="sc">$</span>log2FoldChange) <span class="sc">&gt;=</span> <span class="dv">1</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb69-8"><a href="rnaseq-analysis-deseq2.html#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 368</span></span></code></pre></div>
+<p>We might also like to get an idea about the top 10 genes ranked by <code>padj</code> and <code>LogFC</code></p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="rnaseq-analysis-deseq2.html#cb70-1" aria-hidden="true" tabindex="-1"></a>resMayo5289.Ordered <span class="ot">&lt;-</span> resMayo5289.Ordered[<span class="sc">!</span><span class="fu">is.na</span>(resMayo5289.Ordered<span class="sc">$</span>padj), ]</span>
+<span id="cb70-2"><a href="rnaseq-analysis-deseq2.html#cb70-2" aria-hidden="true" tabindex="-1"></a>sigGenesMayo5289 <span class="ot">&lt;-</span> resMayo5289.Ordered[resMayo5289.Ordered<span class="sc">$</span>padj <span class="sc">&lt;=</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(resMayo5289.Ordered<span class="sc">$</span>log2FoldChange) <span class="sc">&gt;=</span> <span class="dv">1</span>, ]</span>
+<span id="cb70-3"><a href="rnaseq-analysis-deseq2.html#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sigGenesMayo5289,<span class="dv">3</span>)</span>
+<span id="cb70-4"><a href="rnaseq-analysis-deseq2.html#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; log2 fold change (MLE): Treatment_group Mayo_5289_HNF4A vs Mayo_5289_Cont </span></span>
+<span id="cb70-5"><a href="rnaseq-analysis-deseq2.html#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Wald test p-value: Treatment group Mayo 5289 HNF4A vs Mayo 5289 Cont </span></span>
+<span id="cb70-6"><a href="rnaseq-analysis-deseq2.html#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 3 rows and 8 columns</span></span>
+<span id="cb70-7"><a href="rnaseq-analysis-deseq2.html#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         baseMean    log2FoldChange              lfcSE</span></span>
+<span id="cb70-8"><a href="rnaseq-analysis-deseq2.html#cb70-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        &lt;numeric&gt;         &lt;numeric&gt;          &lt;numeric&gt;</span></span>
+<span id="cb70-9"><a href="rnaseq-analysis-deseq2.html#cb70-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 2441.44886387565 -2.78867240452894 0.0928799664884088</span></span>
+<span id="cb70-10"><a href="rnaseq-analysis-deseq2.html#cb70-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 47574.3163285699  -1.5069874076035 0.0661753371004424</span></span>
+<span id="cb70-11"><a href="rnaseq-analysis-deseq2.html#cb70-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831 5402.36212558166 -1.47536222408073 0.0721308861825415</span></span>
+<span id="cb70-12"><a href="rnaseq-analysis-deseq2.html#cb70-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              stat               pvalue                  padj</span></span>
+<span id="cb70-13"><a href="rnaseq-analysis-deseq2.html#cb70-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         &lt;numeric&gt;            &lt;numeric&gt;             &lt;numeric&gt;</span></span>
+<span id="cb70-14"><a href="rnaseq-analysis-deseq2.html#cb70-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 -30.0244768593554 4.7036205234925e-198 7.69653426259078e-194</span></span>
+<span id="cb70-15"><a href="rnaseq-analysis-deseq2.html#cb70-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092 -22.7726442151124 8.5621641757204e-115 7.00513462036565e-111</span></span>
+<span id="cb70-16"><a href="rnaseq-analysis-deseq2.html#cb70-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831  -20.453959491736 5.53914538617638e-93  3.02123453180014e-89</span></span>
+<span id="cb70-17"><a href="rnaseq-analysis-deseq2.html#cb70-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                      symbol      entrez</span></span>
+<span id="cb70-18"><a href="rnaseq-analysis-deseq2.html#cb70-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 &lt;character&gt; &lt;character&gt;</span></span>
+<span id="cb70-19"><a href="rnaseq-analysis-deseq2.html#cb70-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076       HNF4A        3172</span></span>
+<span id="cb70-20"><a href="rnaseq-analysis-deseq2.html#cb70-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000110092       CCND1         595</span></span>
+<span id="cb70-21"><a href="rnaseq-analysis-deseq2.html#cb70-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000127831        VIL1        7429</span></span>
+<span id="cb70-22"><a href="rnaseq-analysis-deseq2.html#cb70-22" aria-hidden="true" tabindex="-1"></a>sigGenesMayo5289<span class="sc">$</span>symbol[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb70-23"><a href="rnaseq-analysis-deseq2.html#cb70-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101076 ENSG00000110092 ENSG00000127831 ENSG00000155465 </span></span>
+<span id="cb70-24"><a href="rnaseq-analysis-deseq2.html#cb70-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         &quot;HNF4A&quot;         &quot;CCND1&quot;          &quot;VIL1&quot;        &quot;SLC7A7&quot; </span></span>
+<span id="cb70-25"><a href="rnaseq-analysis-deseq2.html#cb70-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000101342 ENSG00000101311 ENSG00000115641 ENSG00000058085 </span></span>
+<span id="cb70-26"><a href="rnaseq-analysis-deseq2.html#cb70-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         &quot;TLDC2&quot;        &quot;FERMT1&quot;          &quot;FHL2&quot;         &quot;LAMC2&quot; </span></span>
+<span id="cb70-27"><a href="rnaseq-analysis-deseq2.html#cb70-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000186832 ENSG00000180745 </span></span>
+<span id="cb70-28"><a href="rnaseq-analysis-deseq2.html#cb70-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         &quot;KRT16&quot;         &quot;CLRN3&quot;</span></span></code></pre></div>
+<blockquote>
+<p><strong><em>Exercise 6.2</em></strong></p>
+<p>What do you observe? Do the genes at the top of our list make sense?</p>
+</blockquote>
+<p>We also might want to compare our HNF4A KD results in both the TKCC22 and Mayo5289 PDCLs? Upset plots are a nice way of comparing the relationship between data sets. The <code>UpSetR</code> package provides a simple set of functions to define data set overlap.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="rnaseq-analysis-deseq2.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(UpSetR)</span>
+<span id="cb71-2"><a href="rnaseq-analysis-deseq2.html#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb71-3"><a href="rnaseq-analysis-deseq2.html#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Set up the Mayo5289 gene list</span></span>
+<span id="cb71-4"><a href="rnaseq-analysis-deseq2.html#cb71-4" aria-hidden="true" tabindex="-1"></a>sigGenesMayo5289 <span class="ot">&lt;-</span> resMayo5289.Ordered[resMayo5289.Ordered<span class="sc">$</span>padj <span class="sc">&lt;=</span><span class="fl">0.05</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(resMayo5289.Ordered<span class="sc">$</span>log2FoldChange) <span class="sc">&gt;=</span> <span class="dv">1</span>, <span class="st">&quot;symbol&quot;</span>]</span>
+<span id="cb71-5"><a href="rnaseq-analysis-deseq2.html#cb71-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Set up the TKCC22 gene list</span></span>
+<span id="cb71-6"><a href="rnaseq-analysis-deseq2.html#cb71-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Need to remove NAs as above</span></span>
+<span id="cb71-7"><a href="rnaseq-analysis-deseq2.html#cb71-7" aria-hidden="true" tabindex="-1"></a>resTKCC22.Ordered <span class="ot">&lt;-</span> resTKCC22.Ordered[<span class="sc">!</span><span class="fu">is.na</span>(resTKCC22.Ordered<span class="sc">$</span>padj), ]</span>
+<span id="cb71-8"><a href="rnaseq-analysis-deseq2.html#cb71-8" aria-hidden="true" tabindex="-1"></a>sigGenesTKCC22 <span class="ot">&lt;-</span> resTKCC22.Ordered[resTKCC22.Ordered<span class="sc">$</span>padj <span class="sc">&lt;=</span><span class="fl">0.05</span> <span class="sc">&amp;</span> <span class="fu">abs</span>(resTKCC22.Ordered<span class="sc">$</span>log2FoldChange) <span class="sc">&gt;=</span> <span class="dv">1</span>, <span class="st">&quot;symbol&quot;</span>]</span>
+<span id="cb71-9"><a href="rnaseq-analysis-deseq2.html#cb71-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a list of genes </span></span>
+<span id="cb71-10"><a href="rnaseq-analysis-deseq2.html#cb71-10" aria-hidden="true" tabindex="-1"></a>listInput <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">TKCC22 =</span> sigGenesTKCC22 , <span class="at">Mayo5289 =</span> sigGenesMayo5289)</span>
+<span id="cb71-11"><a href="rnaseq-analysis-deseq2.html#cb71-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Create the plot</span></span>
+<span id="cb71-12"><a href="rnaseq-analysis-deseq2.html#cb71-12" aria-hidden="true" tabindex="-1"></a><span class="fu">upset</span>(<span class="fu">fromList</span>(listInput), <span class="at">order.by =</span> <span class="st">&quot;freq&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-75"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-75-1.png" alt="UpSet plot showing the relationship between the TKCC22 and Mayo-5289 experiments" width="480" />
+<p class="caption">
+Figure 6.1: UpSet plot showing the relationship between the TKCC22 and Mayo-5289 experiments
+</p>
+</div>
+<p><br></p>
+<blockquote>
+<p><strong><em>Exercise 6.3</em></strong></p>
+<p>What are the genes in common? Hint: try the <code>interesect</code> function!</p>
+</blockquote>
+</div>
+<div id="exporting-results" class="section level2" number="6.8">
+<h2><span class="header-section-number">6.8</span> Exporting results</h2>
+<p>Exporting results is straight forward! Results can also be stored in an <code>.RData</code> file for later use!</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="rnaseq-analysis-deseq2.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="fu">as.data.frame</span>(resMayo5289.Ordered), <span class="at">file =</span> <span class="st">&quot;resMayo5289.Ordered_results.csv&quot;</span>)</span>
+<span id="cb72-2"><a href="rnaseq-analysis-deseq2.html#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(dds, resMayo5289.Ordered, resTKCC22.Ordered, <span class="at">file =</span> <span class="st">&quot;PDCL_HNF4A_siRNA_Experiment.RData&quot;</span>)</span></code></pre></div>
+</div>
+<div id="data-transformation-and-visualisation" class="section level2" number="6.9">
+<h2><span class="header-section-number">6.9</span> Data transformation and visualisation</h2>
+<p>For downstream analyses – e.g. for visualization or clustering – we need to work with transformed versions of the count data. There are a number of methods to transform count data provided in the <code>DESeq2</code> package and include <em>variance stabilizing transformations (vst)</em> and <em>regularized logarithm (rlog)</em>.</p>
+<p>Both the <code>vst</code> and <code>rlog</code> transformations remove the dependence of the variance on the mean, particularly the high variance of the logarithm of count data when the mean is low. The <code>vst</code> and <code>rlog</code> transformations produce transformed data on the log2 scale which has been normalized with respect to library size and/or other normalization factors. The <code>assay</code> function returns the results of the transformation as a matrix of transformed values.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="rnaseq-analysis-deseq2.html#cb73-1" aria-hidden="true" tabindex="-1"></a>vsd <span class="ot">&lt;-</span> <span class="fu">vst</span>(dds, <span class="at">blind=</span><span class="cn">FALSE</span>)</span>
+<span id="cb73-2"><a href="rnaseq-analysis-deseq2.html#cb73-2" aria-hidden="true" tabindex="-1"></a>rld <span class="ot">&lt;-</span> <span class="fu">rlog</span>(dds, <span class="at">blind=</span><span class="cn">FALSE</span>)</span>
+<span id="cb73-3"><a href="rnaseq-analysis-deseq2.html#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">assay</span>(vsd), <span class="dv">3</span>)</span>
+<span id="cb73-4"><a href="rnaseq-analysis-deseq2.html#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    HB.A1    HB.A3    HB.B1    HB.B3    HB.C1    HB.C3</span></span>
+<span id="cb73-5"><a href="rnaseq-analysis-deseq2.html#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232 8.566844 8.611630 8.585389 8.633558 8.530630 8.541801</span></span>
+<span id="cb73-6"><a href="rnaseq-analysis-deseq2.html#cb73-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009 7.239080 7.321780 7.438567 7.012016 7.263053 7.178992</span></span>
+<span id="cb73-7"><a href="rnaseq-analysis-deseq2.html#cb73-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683 7.239080 7.351215 7.627718 7.414596 7.343795 7.402633</span></span>
+<span id="cb73-8"><a href="rnaseq-analysis-deseq2.html#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    HB.D1    HB.D3    HB.E1    HB.E3    HB.F1    HB.F3</span></span>
+<span id="cb73-9"><a href="rnaseq-analysis-deseq2.html#cb73-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232 8.688812 8.668386 8.761663 8.676995 8.490305 8.584954</span></span>
+<span id="cb73-10"><a href="rnaseq-analysis-deseq2.html#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009 7.330801 7.288113 7.341380 7.289009 7.349144 7.252707</span></span>
+<span id="cb73-11"><a href="rnaseq-analysis-deseq2.html#cb73-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683 7.833839 7.755957 7.742276 7.768123 7.794813 7.687399</span></span></code></pre></div>
+<div id="pca-using-transformed-data" class="section level3" number="6.9.1">
+<h3><span class="header-section-number">6.9.1</span> PCA using transformed data</h3>
+<p>A well-established technique for visualization and extraction of relevant information is the popular Principal Component Analysis (PCA). PCA allows us to determine the relationship between samples and can provide valuable insights into the veracity of the results.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="rnaseq-analysis-deseq2.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb74-2"><a href="rnaseq-analysis-deseq2.html#cb74-2" aria-hidden="true" tabindex="-1"></a>pcaData <span class="ot">&lt;-</span> <span class="fu">plotPCA</span>(vsd, <span class="at">intgroup=</span><span class="fu">c</span>(<span class="st">&quot;Treatment_group&quot;</span>, <span class="st">&quot;Batch&quot;</span>), <span class="at">returnData=</span><span class="cn">TRUE</span>)</span>
+<span id="cb74-3"><a href="rnaseq-analysis-deseq2.html#cb74-3" aria-hidden="true" tabindex="-1"></a>percentVar <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">attr</span>(pcaData, <span class="st">&quot;percentVar&quot;</span>))</span>
+<span id="cb74-4"><a href="rnaseq-analysis-deseq2.html#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pcaData, <span class="fu">aes</span>(PC1, PC2, <span class="at">color=</span>Treatment_group, <span class="at">shape=</span><span class="fu">as.factor</span>(Batch))) <span class="sc">+</span></span>
+<span id="cb74-5"><a href="rnaseq-analysis-deseq2.html#cb74-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb74-6"><a href="rnaseq-analysis-deseq2.html#cb74-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">paste0</span>(<span class="st">&quot;PC1: &quot;</span>,percentVar[<span class="dv">1</span>],<span class="st">&quot;% variance&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb74-7"><a href="rnaseq-analysis-deseq2.html#cb74-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="fu">paste0</span>(<span class="st">&quot;PC2: &quot;</span>,percentVar[<span class="dv">2</span>],<span class="st">&quot;% variance&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-78"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-78-1.png" alt="Principal Component Analysis (PCA) plot showing the relationship between the TKCC22 and Mayo-5289 experiments" width="576" />
+<p class="caption">
+Figure 6.2: Principal Component Analysis (PCA) plot showing the relationship between the TKCC22 and Mayo-5289 experiments
+</p>
+</div>
+</div>
+<div id="heatmaps-using-transformed-data" class="section level3" number="6.9.2">
+<h3><span class="header-section-number">6.9.2</span> Heatmaps using transformed data</h3>
+<p>Using <code>vsd</code> transformed data let’s generate a heatmap showing a selection of genes that are differentially expressed after HNF4A KD in the Mayo5289 cell line.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="rnaseq-analysis-deseq2.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Looking at the vsd matrix it comprises EnsemblIds and not gene symbols as row names!</span></span>
+<span id="cb75-2"><a href="rnaseq-analysis-deseq2.html#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">assay</span>(vsd), <span class="dv">3</span>)</span>
+<span id="cb75-3"><a href="rnaseq-analysis-deseq2.html#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    HB.A1    HB.A3    HB.B1    HB.B3    HB.C1    HB.C3</span></span>
+<span id="cb75-4"><a href="rnaseq-analysis-deseq2.html#cb75-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232 8.566844 8.611630 8.585389 8.633558 8.530630 8.541801</span></span>
+<span id="cb75-5"><a href="rnaseq-analysis-deseq2.html#cb75-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009 7.239080 7.321780 7.438567 7.012016 7.263053 7.178992</span></span>
+<span id="cb75-6"><a href="rnaseq-analysis-deseq2.html#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683 7.239080 7.351215 7.627718 7.414596 7.343795 7.402633</span></span>
+<span id="cb75-7"><a href="rnaseq-analysis-deseq2.html#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    HB.D1    HB.D3    HB.E1    HB.E3    HB.F1    HB.F3</span></span>
+<span id="cb75-8"><a href="rnaseq-analysis-deseq2.html#cb75-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000227232 8.688812 8.668386 8.761663 8.676995 8.490305 8.584954</span></span>
+<span id="cb75-9"><a href="rnaseq-analysis-deseq2.html#cb75-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000238009 7.330801 7.288113 7.341380 7.289009 7.349144 7.252707</span></span>
+<span id="cb75-10"><a href="rnaseq-analysis-deseq2.html#cb75-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000237683 7.833839 7.755957 7.742276 7.768123 7.794813 7.687399</span></span>
+<span id="cb75-11"><a href="rnaseq-analysis-deseq2.html#cb75-11" aria-hidden="true" tabindex="-1"></a>expMatrix <span class="ot">&lt;-</span> <span class="fu">assay</span>(vsd)</span>
+<span id="cb75-12"><a href="rnaseq-analysis-deseq2.html#cb75-12" aria-hidden="true" tabindex="-1"></a><span class="co">#To make the Heatmap we will select genes based on our significant cutoffs</span></span>
+<span id="cb75-13"><a href="rnaseq-analysis-deseq2.html#cb75-13" aria-hidden="true" tabindex="-1"></a>resMayo5289.Ordered <span class="ot">&lt;-</span> resMayo5289.Ordered[<span class="sc">!</span><span class="fu">is.na</span>(resMayo5289.Ordered<span class="sc">$</span>symbol),]</span>
+<span id="cb75-14"><a href="rnaseq-analysis-deseq2.html#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-15"><a href="rnaseq-analysis-deseq2.html#cb75-15" aria-hidden="true" tabindex="-1"></a>resMayo5289.select <span class="ot">&lt;-</span> <span class="fu">subset</span>(resMayo5289.Ordered,</span>
+<span id="cb75-16"><a href="rnaseq-analysis-deseq2.html#cb75-16" aria-hidden="true" tabindex="-1"></a>                             padj <span class="sc">&lt;=</span> <span class="fl">1e-20</span> <span class="sc">&amp;</span></span>
+<span id="cb75-17"><a href="rnaseq-analysis-deseq2.html#cb75-17" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">abs</span>(resMayo5289.Ordered<span class="sc">$</span>log2FoldChange) <span class="sc">&gt;=</span> <span class="dv">1</span>)</span>
+<span id="cb75-18"><a href="rnaseq-analysis-deseq2.html#cb75-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Map the significant results to the transformed expression values</span></span>
+<span id="cb75-19"><a href="rnaseq-analysis-deseq2.html#cb75-19" aria-hidden="true" tabindex="-1"></a>inter <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">rownames</span>(expMatrix), <span class="fu">rownames</span>(resMayo5289.select))</span>
+<span id="cb75-20"><a href="rnaseq-analysis-deseq2.html#cb75-20" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(inter)</span>
+<span id="cb75-21"><a href="rnaseq-analysis-deseq2.html#cb75-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ENSG00000162545&quot; &quot;ENSG00000137959&quot; &quot;ENSG00000198758&quot; &quot;ENSG00000134193&quot;</span></span>
+<span id="cb75-22"><a href="rnaseq-analysis-deseq2.html#cb75-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;ENSG00000198483&quot; &quot;ENSG00000163209&quot;</span></span>
+<span id="cb75-23"><a href="rnaseq-analysis-deseq2.html#cb75-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Subset the matrix to include only the significant genes of interest</span></span>
+<span id="cb75-24"><a href="rnaseq-analysis-deseq2.html#cb75-24" aria-hidden="true" tabindex="-1"></a>expMatrix.select <span class="ot">&lt;-</span> expMatrix[inter, ]</span>
+<span id="cb75-25"><a href="rnaseq-analysis-deseq2.html#cb75-25" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(expMatrix.select)</span>
+<span id="cb75-26"><a href="rnaseq-analysis-deseq2.html#cb75-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 82 12</span></span>
+<span id="cb75-27"><a href="rnaseq-analysis-deseq2.html#cb75-27" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(expMatrix.select)</span>
+<span id="cb75-28"><a href="rnaseq-analysis-deseq2.html#cb75-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     HB.A1     HB.A3     HB.B1     HB.B3     HB.C1     HB.C3</span></span>
+<span id="cb75-29"><a href="rnaseq-analysis-deseq2.html#cb75-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000162545 10.895563 10.600985 10.910440 10.657951 10.842195 10.633991</span></span>
+<span id="cb75-30"><a href="rnaseq-analysis-deseq2.html#cb75-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000137959  7.387884  7.580602  7.246242  7.513228  7.292596  7.467657</span></span>
+<span id="cb75-31"><a href="rnaseq-analysis-deseq2.html#cb75-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000198758 10.109697  9.496844 10.195344  9.511486 10.207478  9.498285</span></span>
+<span id="cb75-32"><a href="rnaseq-analysis-deseq2.html#cb75-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000134193  7.906800  7.876837  7.934171  7.830890  7.870031  7.882784</span></span>
+<span id="cb75-33"><a href="rnaseq-analysis-deseq2.html#cb75-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000198483  7.172658  7.289183  7.203331  7.280885  7.012016  7.216462</span></span>
+<span id="cb75-34"><a href="rnaseq-analysis-deseq2.html#cb75-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000163209  7.332804  7.378253  7.416824  7.280885  7.292596  7.130119</span></span>
+<span id="cb75-35"><a href="rnaseq-analysis-deseq2.html#cb75-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     HB.D1     HB.D3     HB.E1     HB.E3    HB.F1     HB.F3</span></span>
+<span id="cb75-36"><a href="rnaseq-analysis-deseq2.html#cb75-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000162545 11.092906 10.173745 11.041170 10.154572 11.05369 10.048354</span></span>
+<span id="cb75-37"><a href="rnaseq-analysis-deseq2.html#cb75-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000137959 10.489250 11.855465 10.855140 12.085880 10.74541 11.910030</span></span>
+<span id="cb75-38"><a href="rnaseq-analysis-deseq2.html#cb75-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000198758 11.218128 10.317309 11.248313 10.373998 11.20353 10.299625</span></span>
+<span id="cb75-39"><a href="rnaseq-analysis-deseq2.html#cb75-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000134193 11.622704 10.881198 11.747548 10.706791 11.75830 10.660777</span></span>
+<span id="cb75-40"><a href="rnaseq-analysis-deseq2.html#cb75-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000198483  8.229145  9.195484  8.268459  9.225827  8.18042  9.111117</span></span>
+<span id="cb75-41"><a href="rnaseq-analysis-deseq2.html#cb75-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000163209 10.769595  9.569257 10.669877  9.599853 10.55096  9.571898</span></span></code></pre></div>
+<p>Let’s now finish off the matrix by swapping the Ensembl IDs for the gene symbols - this will make our heatmap biologist friendly! We also want to limit the matrix to the Mayo5289 HNF4A KD experiment!</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="rnaseq-analysis-deseq2.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Add human readable gene names</span></span>
+<span id="cb76-2"><a href="rnaseq-analysis-deseq2.html#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(expMatrix.select) <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(org.Hs.eg.db,</span>
+<span id="cb76-3"><a href="rnaseq-analysis-deseq2.html#cb76-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keys=</span><span class="fu">rownames</span>(expMatrix.select),</span>
+<span id="cb76-4"><a href="rnaseq-analysis-deseq2.html#cb76-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">column=</span><span class="st">&quot;SYMBOL&quot;</span>,</span>
+<span id="cb76-5"><a href="rnaseq-analysis-deseq2.html#cb76-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">keytype=</span><span class="st">&quot;ENSEMBL&quot;</span>,</span>
+<span id="cb76-6"><a href="rnaseq-analysis-deseq2.html#cb76-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">multiVals=</span><span class="st">&quot;first&quot;</span>)</span>
+<span id="cb76-7"><a href="rnaseq-analysis-deseq2.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:1 mapping between keys and columns</span></span>
+<span id="cb76-8"><a href="rnaseq-analysis-deseq2.html#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">rownames</span>(expMatrix.select))</span>
+<span id="cb76-9"><a href="rnaseq-analysis-deseq2.html#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000162545 ENSG00000137959 ENSG00000198758 ENSG00000134193 </span></span>
+<span id="cb76-10"><a href="rnaseq-analysis-deseq2.html#cb76-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       &quot;CAMK2N1&quot;        &quot;IFI44L&quot;        &quot;EPS8L3&quot;          &quot;REG4&quot; </span></span>
+<span id="cb76-11"><a href="rnaseq-analysis-deseq2.html#cb76-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ENSG00000198483 ENSG00000163209 </span></span>
+<span id="cb76-12"><a href="rnaseq-analysis-deseq2.html#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       &quot;ANKRD35&quot;         &quot;SPRR3&quot;</span></span>
+<span id="cb76-13"><a href="rnaseq-analysis-deseq2.html#cb76-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Select the Mayo5289 columns</span></span>
+<span id="cb76-14"><a href="rnaseq-analysis-deseq2.html#cb76-14" aria-hidden="true" tabindex="-1"></a>expMatrix.select <span class="ot">&lt;-</span> expMatrix.select[, <span class="fu">grepl</span>(<span class="st">&quot;Mayo_5289_HNF4A|Mayo_5289_Cont&quot;</span>,<span class="fu">colData</span>(dds)<span class="sc">$</span>Treatment_group)]</span>
+<span id="cb76-15"><a href="rnaseq-analysis-deseq2.html#cb76-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Give the matrix some useful column names</span></span>
+<span id="cb76-16"><a href="rnaseq-analysis-deseq2.html#cb76-16" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(expMatrix.select) <span class="ot">&lt;-</span> <span class="fu">colData</span>(dds)[<span class="fu">colnames</span>(expMatrix.select),<span class="st">&quot;Treatment_group&quot;</span>]</span>
+<span id="cb76-17"><a href="rnaseq-analysis-deseq2.html#cb76-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(expMatrix.select)</span>
+<span id="cb76-18"><a href="rnaseq-analysis-deseq2.html#cb76-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Mayo_5289_Cont Mayo_5289_HNF4A Mayo_5289_Cont Mayo_5289_HNF4A</span></span>
+<span id="cb76-19"><a href="rnaseq-analysis-deseq2.html#cb76-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; CAMK2N1      11.092906       10.173745      11.041170       10.154572</span></span>
+<span id="cb76-20"><a href="rnaseq-analysis-deseq2.html#cb76-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IFI44L       10.489250       11.855465      10.855140       12.085880</span></span>
+<span id="cb76-21"><a href="rnaseq-analysis-deseq2.html#cb76-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EPS8L3       11.218128       10.317309      11.248313       10.373998</span></span>
+<span id="cb76-22"><a href="rnaseq-analysis-deseq2.html#cb76-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; REG4         11.622704       10.881198      11.747548       10.706791</span></span>
+<span id="cb76-23"><a href="rnaseq-analysis-deseq2.html#cb76-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ANKRD35       8.229145        9.195484       8.268459        9.225827</span></span>
+<span id="cb76-24"><a href="rnaseq-analysis-deseq2.html#cb76-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; SPRR3        10.769595        9.569257      10.669877        9.599853</span></span>
+<span id="cb76-25"><a href="rnaseq-analysis-deseq2.html#cb76-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Mayo_5289_Cont Mayo_5289_HNF4A</span></span>
+<span id="cb76-26"><a href="rnaseq-analysis-deseq2.html#cb76-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; CAMK2N1       11.05369       10.048354</span></span>
+<span id="cb76-27"><a href="rnaseq-analysis-deseq2.html#cb76-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IFI44L        10.74541       11.910030</span></span>
+<span id="cb76-28"><a href="rnaseq-analysis-deseq2.html#cb76-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EPS8L3        11.20353       10.299625</span></span>
+<span id="cb76-29"><a href="rnaseq-analysis-deseq2.html#cb76-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; REG4          11.75830       10.660777</span></span>
+<span id="cb76-30"><a href="rnaseq-analysis-deseq2.html#cb76-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ANKRD35        8.18042        9.111117</span></span>
+<span id="cb76-31"><a href="rnaseq-analysis-deseq2.html#cb76-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; SPRR3         10.55096        9.571898</span></span></code></pre></div>
+<p>We now make the heatmap using the <code>ComplexHeatmap</code> package.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="rnaseq-analysis-deseq2.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ComplexHeatmap)</span>
+<span id="cb77-2"><a href="rnaseq-analysis-deseq2.html#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(circlize)</span>
+<span id="cb77-3"><a href="rnaseq-analysis-deseq2.html#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Define some colours for the annotation</span></span>
+<span id="cb77-4"><a href="rnaseq-analysis-deseq2.html#cb77-4" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set1&quot;</span>)</span>
+<span id="cb77-5"><a href="rnaseq-analysis-deseq2.html#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Make the sample annotation track</span></span>
+<span id="cb77-6"><a href="rnaseq-analysis-deseq2.html#cb77-6" aria-hidden="true" tabindex="-1"></a>ha <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Treatment =</span> <span class="fu">colnames</span>(expMatrix.select),</span>
+<span id="cb77-7"><a href="rnaseq-analysis-deseq2.html#cb77-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">col =</span> <span class="fu">list</span>(<span class="at">Treatment =</span> <span class="fu">structure</span>(<span class="at">names =</span> <span class="fu">c</span>(</span>
+<span id="cb77-8"><a href="rnaseq-analysis-deseq2.html#cb77-8" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;Mayo_5289_Cont&quot;</span>, <span class="st">&quot;Mayo_5289_HNF4A&quot;</span></span>
+<span id="cb77-9"><a href="rnaseq-analysis-deseq2.html#cb77-9" aria-hidden="true" tabindex="-1"></a>                        ), colors[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>])))</span>
+<span id="cb77-10"><a href="rnaseq-analysis-deseq2.html#cb77-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Scale the matrix to generate z-scores</span></span>
+<span id="cb77-11"><a href="rnaseq-analysis-deseq2.html#cb77-11" aria-hidden="true" tabindex="-1"></a>expMatrix.select.sc <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">scale</span>(<span class="fu">t</span>(expMatrix.select)))</span>
+<span id="cb77-12"><a href="rnaseq-analysis-deseq2.html#cb77-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate the heatmap</span></span>
+<span id="cb77-13"><a href="rnaseq-analysis-deseq2.html#cb77-13" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(</span>
+<span id="cb77-14"><a href="rnaseq-analysis-deseq2.html#cb77-14" aria-hidden="true" tabindex="-1"></a>  expMatrix.select.sc,</span>
+<span id="cb77-15"><a href="rnaseq-analysis-deseq2.html#cb77-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;#377EB8&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#E41A1C&quot;</span>)),</span>
+<span id="cb77-16"><a href="rnaseq-analysis-deseq2.html#cb77-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Z score&quot;</span>,</span>
+<span id="cb77-17"><a href="rnaseq-analysis-deseq2.html#cb77-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_columns =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb77-18"><a href="rnaseq-analysis-deseq2.html#cb77-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb77-19"><a href="rnaseq-analysis-deseq2.html#cb77-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_annotation =</span> ha,</span>
+<span id="cb77-20"><a href="rnaseq-analysis-deseq2.html#cb77-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_row_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb77-21"><a href="rnaseq-analysis-deseq2.html#cb77-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_column_names =</span> <span class="cn">FALSE</span>, <span class="co">#Turned off column names</span></span>
+<span id="cb77-22"><a href="rnaseq-analysis-deseq2.html#cb77-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">5</span>),</span>
+<span id="cb77-23"><a href="rnaseq-analysis-deseq2.html#cb77-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">5</span>)</span>
+<span id="cb77-24"><a href="rnaseq-analysis-deseq2.html#cb77-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-81"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-81-1.png" alt="Heatmap showing differentially expressed genes in Mayo-5289 after HNF4A KD" width="480" />
+<p class="caption">
+Figure 6.3: Heatmap showing differentially expressed genes in Mayo-5289 after HNF4A KD
+</p>
+</div>
+</div>
+</div>
+<div id="gene-set-enrichment-analysis" class="section level2" number="6.10">
+<h2><span class="header-section-number">6.10</span> Gene Set Enrichment Analysis</h2>
+<p>Over-representation and/or Gene Set Enrichment Analysis (GSEA) are essential tasks in any RNAseq study. These analyses help to define biological functions and/or processes that are enriched in different biological samples. In this section we will use the <code>clusterProfiler</code> package to perform over-representation analysis to determine whether known biological functions or processes are over-represented (= enriched) in an experimentally-derived gene list, e.g. a list of differentially expressed genes (DEGs). A comprehensive overview of the theory and methods used in this section is provided at the following location <a href="http://yulab-smu.top/clusterProfiler-book/">clusterProfiler-book</a> or by typing <code>browseVignettes("clusterProfiler")</code> at the R prompt. Please read through the <code>clusterProfiler</code> documentation.</p>
+<p>First load the <code>clusterProfiler</code> library into the current environment.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="rnaseq-analysis-deseq2.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span></code></pre></div>
+<p>For over-representation analysis, we require a vector of gene IDs. These gene IDs can be obtained by differential expression analysis (e.g. with the <code>DESeq2</code> package). The functions that we will be using require Entrez IDs as input. We define a vector of significantly and differentially expressed Entrez IDs (genes) defining our experiment as follows:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="rnaseq-analysis-deseq2.html#cb79-1" aria-hidden="true" tabindex="-1"></a>resMayo5289.enriched <span class="ot">&lt;-</span> <span class="fu">subset</span>(resMayo5289.Ordered,</span>
+<span id="cb79-2"><a href="rnaseq-analysis-deseq2.html#cb79-2" aria-hidden="true" tabindex="-1"></a>                               padj <span class="sc">&lt;=</span> <span class="fl">0.05</span>)</span></code></pre></div>
+<div id="kegg" class="section level3" number="6.10.1">
+<h3><span class="header-section-number">6.10.1</span> KEGG</h3>
+<p>KEGG (Kyoto Encyclopedia of Genes and Genomes) is a collection of databases dealing with genomes, biological pathways, diseases, drugs, and chemical substances. Our analysis will determine whether our experimentally derived gene list is enriched in any one of the curated gene sets defined by KEGG. To do this we will use the <code>enrichKEGG</code> function.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="rnaseq-analysis-deseq2.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Perform the over-representation analysis using keggEnrich</span></span>
+<span id="cb80-2"><a href="rnaseq-analysis-deseq2.html#cb80-2" aria-hidden="true" tabindex="-1"></a>keggEnrich <span class="ot">&lt;-</span> <span class="fu">enrichKEGG</span>(<span class="at">gene =</span> resMayo5289.enriched<span class="sc">$</span>entrez,</span>
+<span id="cb80-3"><a href="rnaseq-analysis-deseq2.html#cb80-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">organism     =</span> <span class="st">&#39;hsa&#39;</span>,</span>
+<span id="cb80-4"><a href="rnaseq-analysis-deseq2.html#cb80-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">pvalueCutoff =</span> <span class="fl">0.05</span>)</span>
+<span id="cb80-5"><a href="rnaseq-analysis-deseq2.html#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(keggEnrich)</span>
+<span id="cb80-6"><a href="rnaseq-analysis-deseq2.html#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                ID                            Description GeneRatio  BgRatio</span></span>
+<span id="cb80-7"><a href="rnaseq-analysis-deseq2.html#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390 hsa04390                Hippo signaling pathway   52/1616 157/8108</span></span>
+<span id="cb80-8"><a href="rnaseq-analysis-deseq2.html#cb80-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418 hsa05418 Fluid shear stress and atherosclerosis   47/1616 139/8108</span></span>
+<span id="cb80-9"><a href="rnaseq-analysis-deseq2.html#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222 hsa05222                 Small cell lung cancer   34/1616  92/8108</span></span>
+<span id="cb80-10"><a href="rnaseq-analysis-deseq2.html#cb80-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04068 hsa04068                 FoxO signaling pathway   44/1616 131/8108</span></span>
+<span id="cb80-11"><a href="rnaseq-analysis-deseq2.html#cb80-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04115 hsa04115                  p53 signaling pathway   28/1616  73/8108</span></span>
+<span id="cb80-12"><a href="rnaseq-analysis-deseq2.html#cb80-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa00600 hsa00600                Sphingolipid metabolism   21/1616  49/8108</span></span>
+<span id="cb80-13"><a href="rnaseq-analysis-deseq2.html#cb80-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                pvalue   p.adjust      qvalue</span></span>
+<span id="cb80-14"><a href="rnaseq-analysis-deseq2.html#cb80-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390 6.014214e-05 0.01138331 0.008777407</span></span>
+<span id="cb80-15"><a href="rnaseq-analysis-deseq2.html#cb80-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418 7.588034e-05 0.01138331 0.008777407</span></span>
+<span id="cb80-16"><a href="rnaseq-analysis-deseq2.html#cb80-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222 1.046469e-04 0.01138331 0.008777407</span></span>
+<span id="cb80-17"><a href="rnaseq-analysis-deseq2.html#cb80-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04068 1.512923e-04 0.01138331 0.008777407</span></span>
+<span id="cb80-18"><a href="rnaseq-analysis-deseq2.html#cb80-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04115 2.017203e-04 0.01138331 0.008777407</span></span>
+<span id="cb80-19"><a href="rnaseq-analysis-deseq2.html#cb80-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa00600 2.075984e-04 0.01138331 0.008777407</span></span>
+<span id="cb80-20"><a href="rnaseq-analysis-deseq2.html#cb80-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                                                                                                                         geneID</span></span>
+<span id="cb80-21"><a href="rnaseq-analysis-deseq2.html#cb80-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390 595/166824/7474/84962/122786/330/652/7042/6657/6591/80326/71/3398/84612/1495/27113/1741/7532/25937/4092/4088/999/1490/5516/10413/1499/7476/7533/332/81029/5522/9231/8312/374/60/7534/23513/7004/329/1856/3996/2736/51176/7046/8324/60485/1454/5520/650/2535/7855/7473</span></span>
+<span id="cb80-22"><a href="rnaseq-analysis-deseq2.html#cb80-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418                                      7850/4259/652/5154/858/71/2948/207/3162/7295/445/91860/801/8878/6300/3685/5747/3320/5879/1499/5599/7157/2938/9446/5602/60/6382/5562/5155/4780/1843/90/5563/10365/6613/1728/3326/2946/8503/6416/1535/9181/7422/805/3725/5600/4217</span></span>
+<span id="cb80-23"><a href="rnaseq-analysis-deseq2.html#cb80-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222                                                                                                  595/3918/3909/1026/3673/3675/330/4616/1647/1284/207/3914/7187/6257/3685/598/1021/51426/3688/5747/54205/3913/836/7185/7157/1869/3655/329/1287/331/5728/8503/6502/1027</span></span>
+<span id="cb80-24"><a href="rnaseq-analysis-deseq2.html#cb80-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04068                                         595/1026/80854/901/7042/4616/9455/5106/1647/207/5565/604/6789/6300/4088/1263/6774/5599/10769/3276/6446/8743/4193/3643/3667/10110/5602/1956/5562/664/7046/5563/10365/6794/92579/1454/5728/8503/85417/51422/2308/6502/1027/5600</span></span>
+<span id="cb80-25"><a href="rnaseq-analysis-deseq2.html#cb80-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04115                                                                                                                        595/1026/901/2810/64065/3732/4616/8795/5268/1647/27113/9540/598/1021/637/54205/64393/836/7157/8797/4193/50484/84883/3486/55240/5728/7249/51246</span></span>
+<span id="cb80-26"><a href="rnaseq-analysis-deseq2.html#cb80-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa00600                                                                                                                                                     2581/29956/8612/123099/57704/8877/9517/64781/81537/55627/2717/410/6609/8611/9514/8879/8560/2629/79603/55331/56848</span></span>
+<span id="cb80-27"><a href="rnaseq-analysis-deseq2.html#cb80-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Count</span></span>
+<span id="cb80-28"><a href="rnaseq-analysis-deseq2.html#cb80-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390    52</span></span>
+<span id="cb80-29"><a href="rnaseq-analysis-deseq2.html#cb80-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418    47</span></span>
+<span id="cb80-30"><a href="rnaseq-analysis-deseq2.html#cb80-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222    34</span></span>
+<span id="cb80-31"><a href="rnaseq-analysis-deseq2.html#cb80-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04068    44</span></span>
+<span id="cb80-32"><a href="rnaseq-analysis-deseq2.html#cb80-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04115    28</span></span>
+<span id="cb80-33"><a href="rnaseq-analysis-deseq2.html#cb80-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa00600    21</span></span>
+<span id="cb80-34"><a href="rnaseq-analysis-deseq2.html#cb80-34" aria-hidden="true" tabindex="-1"></a><span class="co">#Make the output biologist friendly </span></span>
+<span id="cb80-35"><a href="rnaseq-analysis-deseq2.html#cb80-35" aria-hidden="true" tabindex="-1"></a>keggEnrichRead <span class="ot">&lt;-</span></span>
+<span id="cb80-36"><a href="rnaseq-analysis-deseq2.html#cb80-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setReadable</span>(keggEnrich, <span class="at">OrgDb =</span> org.Hs.eg.db, <span class="at">keyType =</span> <span class="st">&quot;ENTREZID&quot;</span>)</span>
+<span id="cb80-37"><a href="rnaseq-analysis-deseq2.html#cb80-37" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(keggEnrichRead, <span class="dv">55</span>)</span>
+<span id="cb80-38"><a href="rnaseq-analysis-deseq2.html#cb80-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                ID                            Description GeneRatio  BgRatio</span></span>
+<span id="cb80-39"><a href="rnaseq-analysis-deseq2.html#cb80-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390 hsa04390                Hippo signaling pathway   52/1616 157/8108</span></span>
+<span id="cb80-40"><a href="rnaseq-analysis-deseq2.html#cb80-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418 hsa05418 Fluid shear stress and atherosclerosis   47/1616 139/8108</span></span>
+<span id="cb80-41"><a href="rnaseq-analysis-deseq2.html#cb80-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222 hsa05222                 Small cell lung cancer   34/1616  92/8108</span></span>
+<span id="cb80-42"><a href="rnaseq-analysis-deseq2.html#cb80-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04710 hsa04710                       Circadian rhythm   13/1616  31/8108</span></span>
+<span id="cb80-43"><a href="rnaseq-analysis-deseq2.html#cb80-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05225 hsa05225               Hepatocellular carcinoma   48/1616 168/8108</span></span>
+<span id="cb80-44"><a href="rnaseq-analysis-deseq2.html#cb80-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa01230 hsa01230            Biosynthesis of amino acids   25/1616  75/8108</span></span>
+<span id="cb80-45"><a href="rnaseq-analysis-deseq2.html#cb80-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                pvalue   p.adjust      qvalue</span></span>
+<span id="cb80-46"><a href="rnaseq-analysis-deseq2.html#cb80-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390 6.014214e-05 0.01138331 0.008777407</span></span>
+<span id="cb80-47"><a href="rnaseq-analysis-deseq2.html#cb80-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418 7.588034e-05 0.01138331 0.008777407</span></span>
+<span id="cb80-48"><a href="rnaseq-analysis-deseq2.html#cb80-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222 1.046469e-04 0.01138331 0.008777407</span></span>
+<span id="cb80-49"><a href="rnaseq-analysis-deseq2.html#cb80-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04710 4.181277e-03 0.04857691 0.037456517</span></span>
+<span id="cb80-50"><a href="rnaseq-analysis-deseq2.html#cb80-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05225 4.206647e-03 0.04857691 0.037456517</span></span>
+<span id="cb80-51"><a href="rnaseq-analysis-deseq2.html#cb80-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa01230 4.281855e-03 0.04857691 0.037456517</span></span>
+<span id="cb80-52"><a href="rnaseq-analysis-deseq2.html#cb80-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                                                                                                                                                                  geneID</span></span>
+<span id="cb80-53"><a href="rnaseq-analysis-deseq2.html#cb80-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390 CCND1/RASSF6/WNT5A/AJUBA/FRMD6/BIRC3/BMP4/TGFB2/SOX2/SNAI2/WNT10A/ACTG1/ID2/PARD6B/CTNNA1/BBC3/DLG3/YWHAG/WWTR1/SMAD7/SMAD3/CDH1/CCN2/PPP2CB/YAP1/CTNNB1/WNT7A/YWHAH/BIRC5/WNT5B/PPP2R2C/DLG5/AXIN1/AREG/ACTB/YWHAZ/SCRIB/TEAD4/BIRC2/DVL2/LLGL1/GLI2/LEF1/TGFBR1/FZD7/SAV1/CSNK1E/PPP2R2A/BMP2/FZD2/FZD5/WNT3</span></span>
+<span id="cb80-54"><a href="rnaseq-analysis-deseq2.html#cb80-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418                  IL1R2/MGST3/BMP4/PDGFA/CAV2/ACTG1/GSTM4/AKT1/HMOX1/TXN/ASS1/CALML4/CALM1/SQSTM1/MAPK12/ITGAV/PTK2/HSP90AA1/RAC1/CTNNB1/MAPK8/TP53/GSTA1/GSTO1/MAPK10/ACTB/SDC1/PRKAA1/PDGFB/NFE2L2/DUSP1/ACVR1/PRKAA2/KLF2/SUMO2/NQO1/HSP90AB1/GSTM2/PIK3R3/MAP2K4/CYBA/ARHGEF2/VEGFA/CALM2/JUN/MAPK11/MAP3K5</span></span>
+<span id="cb80-55"><a href="rnaseq-analysis-deseq2.html#cb80-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222                                                                                                     CCND1/LAMC2/LAMA3/CDKN1A/ITGA2/ITGA3/BIRC3/GADD45B/GADD45A/COL4A2/AKT1/LAMB3/TRAF3/RXRB/ITGAV/BCL2L1/CDK6/POLK/ITGB1/PTK2/CYCS/LAMB2/CASP3/TRAF1/TP53/E2F1/ITGA6/BIRC2/COL4A5/XIAP/PTEN/PIK3R3/SKP2/CDKN1B</span></span>
+<span id="cb80-56"><a href="rnaseq-analysis-deseq2.html#cb80-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04710                                                                                                                                                                                                                                BHLHE41/PRKAB2/PER3/CREB1/PER2/PER1/NR1D1/PRKAA1/CRY1/PRKAA2/RORC/CSNK1E/PRKAG2</span></span>
+<span id="cb80-57"><a href="rnaseq-analysis-deseq2.html#cb80-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05225                CCND1/CDKN1A/MGST3/WNT5A/FRAT2/TGFB2/GADD45B/WNT10A/TGFA/ACTG1/GADD45A/GSTM4/AKT1/HMOX1/MET/TXNRD1/BCL2L1/CDK6/POLK/SMAD3/SMARCE1/CTNNB1/WNT7A/WNT5B/TP53/AXIN1/E2F1/SMARCC1/GSTA1/GSTO1/BRD7/ACTB/EGFR/GAB1/DVL2/NFE2L2/LEF1/TGFBR1/NQO1/FZD7/PTEN/GSTM2/PIK3R3/FZD2/SMARCD2/FZD5/SMARCD3/WNT3</span></span>
+<span id="cb80-58"><a href="rnaseq-analysis-deseq2.html#cb80-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa01230                                                                                                                                                                                  PSAT1/GLUL/PFKL/GPT2/ACO2/ACO1/CBS/ASS1/SHMT1/PHGDH/RPIA/ASNS/ALDOB/TKT/IDH3A/IDH1/IDH2/PSPH/IDH3G/CS/ENO2/ENO1/PFKP/PC/PYCR3</span></span>
+<span id="cb80-59"><a href="rnaseq-analysis-deseq2.html#cb80-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Count</span></span>
+<span id="cb80-60"><a href="rnaseq-analysis-deseq2.html#cb80-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04390    52</span></span>
+<span id="cb80-61"><a href="rnaseq-analysis-deseq2.html#cb80-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05418    47</span></span>
+<span id="cb80-62"><a href="rnaseq-analysis-deseq2.html#cb80-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05222    34</span></span>
+<span id="cb80-63"><a href="rnaseq-analysis-deseq2.html#cb80-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ...&lt;23 more rows&gt;...</span></span>
+<span id="cb80-64"><a href="rnaseq-analysis-deseq2.html#cb80-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa04710    13</span></span>
+<span id="cb80-65"><a href="rnaseq-analysis-deseq2.html#cb80-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa05225    48</span></span>
+<span id="cb80-66"><a href="rnaseq-analysis-deseq2.html#cb80-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hsa01230    25</span></span></code></pre></div>
+</div>
+<div id="reactome" class="section level3" number="6.10.2">
+<h3><span class="header-section-number">6.10.2</span> REACTOME</h3>
+<p>Like KEGG, the REACTOME database contains curated gene set annotations covering diverse molecular and cellular biology pathways. Similarly, our analysis will determine whether our experimentally derived gene list is enriched in any one of the curated gene sets defined by REACTOME. To do this we use the <code>enrichPathway</code> function provided by the <code>ReactomePA</code> package.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="rnaseq-analysis-deseq2.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ReactomePA)</span>
+<span id="cb81-2"><a href="rnaseq-analysis-deseq2.html#cb81-2" aria-hidden="true" tabindex="-1"></a>reactomeEnrich <span class="ot">&lt;-</span> <span class="fu">enrichPathway</span>(</span>
+<span id="cb81-3"><a href="rnaseq-analysis-deseq2.html#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">gene =</span> resMayo5289.enriched<span class="sc">$</span>entrez,</span>
+<span id="cb81-4"><a href="rnaseq-analysis-deseq2.html#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">organism =</span> <span class="st">&quot;human&quot;</span>,</span>
+<span id="cb81-5"><a href="rnaseq-analysis-deseq2.html#cb81-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">pvalueCutoff =</span> <span class="fl">0.05</span>,</span>
+<span id="cb81-6"><a href="rnaseq-analysis-deseq2.html#cb81-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">pAdjustMethod =</span> <span class="st">&quot;BH&quot;</span>,</span>
+<span id="cb81-7"><a href="rnaseq-analysis-deseq2.html#cb81-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">qvalueCutoff =</span> <span class="fl">0.2</span>,</span>
+<span id="cb81-8"><a href="rnaseq-analysis-deseq2.html#cb81-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">minGSSize =</span> <span class="dv">10</span>,</span>
+<span id="cb81-9"><a href="rnaseq-analysis-deseq2.html#cb81-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">maxGSSize =</span> <span class="dv">500</span>,</span>
+<span id="cb81-10"><a href="rnaseq-analysis-deseq2.html#cb81-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">readable =</span> <span class="cn">TRUE</span></span>
+<span id="cb81-11"><a href="rnaseq-analysis-deseq2.html#cb81-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb81-12"><a href="rnaseq-analysis-deseq2.html#cb81-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(reactomeEnrich, <span class="dv">5</span>)</span>
+<span id="cb81-13"><a href="rnaseq-analysis-deseq2.html#cb81-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          ID                                      Description</span></span>
+<span id="cb81-14"><a href="rnaseq-analysis-deseq2.html#cb81-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-1059683 R-HSA-1059683                          Interleukin-6 signaling</span></span>
+<span id="cb81-15"><a href="rnaseq-analysis-deseq2.html#cb81-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-112409   R-HSA-112409               RAF-independent MAPK1/3 activation</span></span>
+<span id="cb81-16"><a href="rnaseq-analysis-deseq2.html#cb81-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5357801 R-HSA-5357801                            Programmed Cell Death</span></span>
+<span id="cb81-17"><a href="rnaseq-analysis-deseq2.html#cb81-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-109581   R-HSA-109581                                        Apoptosis</span></span>
+<span id="cb81-18"><a href="rnaseq-analysis-deseq2.html#cb81-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5633008 R-HSA-5633008 TP53 Regulates Transcription of Cell Death Genes</span></span>
+<span id="cb81-19"><a href="rnaseq-analysis-deseq2.html#cb81-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               GeneRatio   BgRatio       pvalue   p.adjust     qvalue</span></span>
+<span id="cb81-20"><a href="rnaseq-analysis-deseq2.html#cb81-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-1059683    9/2199  11/10619 2.521779e-05 0.01521919 0.01419629</span></span>
+<span id="cb81-21"><a href="rnaseq-analysis-deseq2.html#cb81-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-112409    14/2199  23/10619 3.112841e-05 0.01521919 0.01419629</span></span>
+<span id="cb81-22"><a href="rnaseq-analysis-deseq2.html#cb81-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5357801   60/2199 179/10619 3.891784e-05 0.01521919 0.01419629</span></span>
+<span id="cb81-23"><a href="rnaseq-analysis-deseq2.html#cb81-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-109581    59/2199 176/10619 4.485219e-05 0.01521919 0.01419629</span></span>
+<span id="cb81-24"><a href="rnaseq-analysis-deseq2.html#cb81-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5633008   21/2199  44/10619 5.518197e-05 0.01521919 0.01419629</span></span>
+<span id="cb81-25"><a href="rnaseq-analysis-deseq2.html#cb81-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                         geneID</span></span>
+<span id="cb81-26"><a href="rnaseq-analysis-deseq2.html#cb81-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-1059683                                                                                                                                                                                                                                                                                                               SOCS3/IL6ST/STAT1/TYK2/IL6R/STAT3/JAK2/PTPN11/JAK1</span></span>
+<span id="cb81-27"><a href="rnaseq-analysis-deseq2.html#cb81-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-112409                                                                                                                                                                                                                                                                                 IL6ST/DUSP4/TYK2/IL6R/JAK2/DUSP6/PTPN11/DUSP10/DUSP7/DUSP1/JAK1/PEA15/DUSP2/DUSP5</span></span>
+<span id="cb81-28"><a href="rnaseq-analysis-deseq2.html#cb81-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5357801 CASP7/SFN/DSG3/BIRC3/TJP2/TNFRSF10B/PLEC/PSMB8/UACA/AKT1/MAGED1/NMT1/BBC3/BCL2L1/YWHAG/BID/CDH1/PTK2/TLR4/PSMC3/CTNNB1/RIPK1/CYCS/STAT3/MAPK8/PSME2/YWHAH/GSN/CASP3/DSP/PSMC4/H1F0/TP53/UNC5A/TNFRSF10A/TNFSF10/PSME1/E2F1/APIP/PPP3CC/PSMB9/YWHAZ/BMF/BIRC2/SPTAN1/ARHGAP10/APPL1/XIAP/UBB/HIST1H1C/DBNL/TJP1/FADD/PSMD7/TICAM1/PRKCQ/TP63/HIST1H1E/LMNB1/PSMD1</span></span>
+<span id="cb81-29"><a href="rnaseq-analysis-deseq2.html#cb81-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-109581        CASP7/SFN/DSG3/TJP2/TNFRSF10B/PLEC/PSMB8/UACA/AKT1/MAGED1/NMT1/BBC3/BCL2L1/YWHAG/BID/CDH1/PTK2/TLR4/PSMC3/CTNNB1/RIPK1/CYCS/STAT3/MAPK8/PSME2/YWHAH/GSN/CASP3/DSP/PSMC4/H1F0/TP53/UNC5A/TNFRSF10A/TNFSF10/PSME1/E2F1/APIP/PPP3CC/PSMB9/YWHAZ/BMF/BIRC2/SPTAN1/ARHGAP10/APPL1/XIAP/UBB/HIST1H1C/DBNL/TJP1/FADD/PSMD7/TICAM1/PRKCQ/TP63/HIST1H1E/LMNB1/PSMD1</span></span>
+<span id="cb81-30"><a href="rnaseq-analysis-deseq2.html#cb81-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5633008                                                                                                                                                                                                                   PERP/TNFRSF10B/TP53INP1/BCL6/BBC3/TP53I3/BID/PRELID1/CASP10/CASP1/BIRC5/TP53/BNIP3L/TNFRSF10A/NDRG1/AIFM2/IGFBP3/STEAP3/RABGGTB/TP63/TNFRSF10D</span></span>
+<span id="cb81-31"><a href="rnaseq-analysis-deseq2.html#cb81-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               Count</span></span>
+<span id="cb81-32"><a href="rnaseq-analysis-deseq2.html#cb81-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-1059683     9</span></span>
+<span id="cb81-33"><a href="rnaseq-analysis-deseq2.html#cb81-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-112409     14</span></span>
+<span id="cb81-34"><a href="rnaseq-analysis-deseq2.html#cb81-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5357801    60</span></span>
+<span id="cb81-35"><a href="rnaseq-analysis-deseq2.html#cb81-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-109581     59</span></span>
+<span id="cb81-36"><a href="rnaseq-analysis-deseq2.html#cb81-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R-HSA-5633008    21</span></span></code></pre></div>
+</div>
+<div id="plotting-functions" class="section level3" number="6.10.3">
+<h3><span class="header-section-number">6.10.3</span> Plotting functions</h3>
+<p>Once we have our results, we would like to generate publication quality figures. The <code>clusterProfiler</code> and <code>enrichPlot</code> packages provide a number of plotting functions that make this easy.</p>
+<p><strong>Dotplot</strong></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="rnaseq-analysis-deseq2.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(enrichplot)</span>
+<span id="cb82-2"><a href="rnaseq-analysis-deseq2.html#cb82-2" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">dotplot</span>(keggEnrich, <span class="at">showCategory =</span> <span class="dv">10</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;KEGG&quot;</span>)</span>
+<span id="cb82-3"><a href="rnaseq-analysis-deseq2.html#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wrong orderBy parameter; set to default `orderBy = &quot;x&quot;`</span></span>
+<span id="cb82-4"><a href="rnaseq-analysis-deseq2.html#cb82-4" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span></span>
+<span id="cb82-5"><a href="rnaseq-analysis-deseq2.html#cb82-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dotplot</span>(reactomeEnrich, <span class="at">showCategory =</span> <span class="dv">10</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;REACTOME&quot;</span>)</span>
+<span id="cb82-6"><a href="rnaseq-analysis-deseq2.html#cb82-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wrong orderBy parameter; set to default `orderBy = &quot;x&quot;`</span></span>
+<span id="cb82-7"><a href="rnaseq-analysis-deseq2.html#cb82-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_grid</span>(plot1, plot2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-86"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-86-1.png" alt="Dotplot showing KEGG and REACTOME pathways that are significantly enriched." width="1440" />
+<p class="caption">
+Figure 6.4: Dotplot showing KEGG and REACTOME pathways that are significantly enriched.
+</p>
+</div>
+<p><strong>Upset plot</strong></p>
+<p>An <code>upsetplot</code> shows the overlap of genes comprising different gene sets and provides a complex overview of genes and gene sets significantly enriched in the experiment.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="rnaseq-analysis-deseq2.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">upsetplot</span>(reactomeEnrich) </span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-87"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-87-1.png" alt="UpSet plot showing the overlap of genes comprising significantly enriched processes and pathways." width="960" />
+<p class="caption">
+Figure 6.5: UpSet plot showing the overlap of genes comprising significantly enriched processes and pathways.
+</p>
+</div>
+<p><strong>Enrichment map plot</strong></p>
+<p>An enrichment map plot <code>emapplot</code> generates a network of significantly enriched gene sets with edges connecting overlapping gene sets.</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="rnaseq-analysis-deseq2.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">emapplot</span>(reactomeEnrich)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-88"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-88-1.png" alt="Enrichment map of Reactome pathways significantly enriched." width="960" />
+<p class="caption">
+Figure 6.6: Enrichment map of Reactome pathways significantly enriched.
+</p>
+</div>
+</div>
+<div id="extracting-enrichment-results-to-generate-heatmaps" class="section level3" number="6.10.4">
+<h3><span class="header-section-number">6.10.4</span> Extracting enrichment results to generate heatmaps</h3>
+<p>The above analysis showed that our experimentally derived gene list is significantly enriched in the “Transcriptional Regulation by TP53” REACTOME gene set. Because we have selected genes that are both up and down regulated following HNF4A KD, we would like to understand how specific genes, within this pathway, are modulated by HNF4A. A heatmap is an informative way of determining the relative expression of sets of genes, so let’s generate a heatmap using the set of genes comprising this pathway. First, we need to get the data into the correct shape as follows:</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="rnaseq-analysis-deseq2.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(reactomeEnrich)</span>
+<span id="cb85-2"><a href="rnaseq-analysis-deseq2.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;result&quot;        &quot;pvalueCutoff&quot;  &quot;pAdjustMethod&quot; &quot;qvalueCutoff&quot; </span></span>
+<span id="cb85-3"><a href="rnaseq-analysis-deseq2.html#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;organism&quot;      &quot;ontology&quot;      &quot;gene&quot;          &quot;keytype&quot;      </span></span>
+<span id="cb85-4"><a href="rnaseq-analysis-deseq2.html#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;universe&quot;      &quot;gene2Symbol&quot;   &quot;geneSets&quot;      &quot;readable&quot;</span></span>
+<span id="cb85-5"><a href="rnaseq-analysis-deseq2.html#cb85-5" aria-hidden="true" tabindex="-1"></a>reactResults <span class="ot">&lt;-</span> reactomeEnrich<span class="sc">@</span>result</span>
+<span id="cb85-6"><a href="rnaseq-analysis-deseq2.html#cb85-6" aria-hidden="true" tabindex="-1"></a>tp53genes <span class="ot">&lt;-</span> <span class="fu">subset</span>(reactResults,</span>
+<span id="cb85-7"><a href="rnaseq-analysis-deseq2.html#cb85-7" aria-hidden="true" tabindex="-1"></a>                    Description <span class="sc">==</span> <span class="st">&quot;Transcriptional Regulation by TP53&quot;</span>)<span class="sc">$</span>geneID</span>
+<span id="cb85-8"><a href="rnaseq-analysis-deseq2.html#cb85-8" aria-hidden="true" tabindex="-1"></a>tp53genes.vector <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(tp53genes, <span class="st">&quot;/&quot;</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb85-9"><a href="rnaseq-analysis-deseq2.html#cb85-9" aria-hidden="true" tabindex="-1"></a>expMatrix <span class="ot">&lt;-</span> <span class="fu">assay</span>(vsd)</span>
+<span id="cb85-10"><a href="rnaseq-analysis-deseq2.html#cb85-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(expMatrix) <span class="ot">&lt;-</span> <span class="fu">mapIds</span>(</span>
+<span id="cb85-11"><a href="rnaseq-analysis-deseq2.html#cb85-11" aria-hidden="true" tabindex="-1"></a>  org.Hs.eg.db,</span>
+<span id="cb85-12"><a href="rnaseq-analysis-deseq2.html#cb85-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">keys =</span> <span class="fu">rownames</span>(expMatrix),</span>
+<span id="cb85-13"><a href="rnaseq-analysis-deseq2.html#cb85-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">column =</span> <span class="st">&quot;SYMBOL&quot;</span>,</span>
+<span id="cb85-14"><a href="rnaseq-analysis-deseq2.html#cb85-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">keytype =</span> <span class="st">&quot;ENSEMBL&quot;</span>,</span>
+<span id="cb85-15"><a href="rnaseq-analysis-deseq2.html#cb85-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">multiVals =</span> <span class="st">&quot;first&quot;</span></span>
+<span id="cb85-16"><a href="rnaseq-analysis-deseq2.html#cb85-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb85-17"><a href="rnaseq-analysis-deseq2.html#cb85-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;select()&#39; returned 1:many mapping between keys and columns</span></span>
+<span id="cb85-18"><a href="rnaseq-analysis-deseq2.html#cb85-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Map the significant results to the transformed expression values</span></span>
+<span id="cb85-19"><a href="rnaseq-analysis-deseq2.html#cb85-19" aria-hidden="true" tabindex="-1"></a>inter <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">rownames</span>(expMatrix), tp53genes.vector)</span>
+<span id="cb85-20"><a href="rnaseq-analysis-deseq2.html#cb85-20" aria-hidden="true" tabindex="-1"></a>expMatrix.tp53 <span class="ot">&lt;-</span> expMatrix[inter,]</span>
+<span id="cb85-21"><a href="rnaseq-analysis-deseq2.html#cb85-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Add human readable gene names</span></span>
+<span id="cb85-22"><a href="rnaseq-analysis-deseq2.html#cb85-22" aria-hidden="true" tabindex="-1"></a>expMatrix.tp53 <span class="ot">&lt;-</span> expMatrix.tp53[, <span class="fu">grepl</span>(<span class="st">&quot;Mayo_5289_HNF4A|Mayo_5289_Cont&quot;</span>,</span>
+<span id="cb85-23"><a href="rnaseq-analysis-deseq2.html#cb85-23" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">colData</span>(dds)<span class="sc">$</span>Treatment_group)]</span>
+<span id="cb85-24"><a href="rnaseq-analysis-deseq2.html#cb85-24" aria-hidden="true" tabindex="-1"></a><span class="co">#Give the matrix some useful column names</span></span>
+<span id="cb85-25"><a href="rnaseq-analysis-deseq2.html#cb85-25" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(expMatrix.tp53) <span class="ot">&lt;-</span></span>
+<span id="cb85-26"><a href="rnaseq-analysis-deseq2.html#cb85-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colData</span>(dds)[<span class="fu">colnames</span>(expMatrix.tp53), <span class="st">&quot;Treatment_group&quot;</span>]</span></code></pre></div>
+<blockquote>
+<p>Notice that we have used the <code>strsplit</code> function to split the character string <code>tp53genes</code> into a vector of gene symbols!</p>
+</blockquote>
+<p>Now produce the heatmap using the <code>ComplexHeatmap</code> package:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="rnaseq-analysis-deseq2.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Setup the annotation showing treatment type</span></span>
+<span id="cb86-2"><a href="rnaseq-analysis-deseq2.html#cb86-2" aria-hidden="true" tabindex="-1"></a>ha <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Treatment =</span> <span class="fu">colnames</span>(expMatrix.tp53),</span>
+<span id="cb86-3"><a href="rnaseq-analysis-deseq2.html#cb86-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">col =</span> <span class="fu">list</span>(<span class="at">Treatment =</span> <span class="fu">structure</span>(</span>
+<span id="cb86-4"><a href="rnaseq-analysis-deseq2.html#cb86-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">names =</span> <span class="fu">c</span>(<span class="st">&quot;Mayo_5289_Cont&quot;</span>, <span class="st">&quot;Mayo_5289_HNF4A&quot;</span>), colors[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb86-5"><a href="rnaseq-analysis-deseq2.html#cb86-5" aria-hidden="true" tabindex="-1"></a>                        )))</span>
+<span id="cb86-6"><a href="rnaseq-analysis-deseq2.html#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Scale the matrix to generate z-scores</span></span>
+<span id="cb86-7"><a href="rnaseq-analysis-deseq2.html#cb86-7" aria-hidden="true" tabindex="-1"></a>expMatrix.tp53.sc <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">scale</span>(<span class="fu">t</span>(expMatrix.tp53)))</span>
+<span id="cb86-8"><a href="rnaseq-analysis-deseq2.html#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate the heatmap</span></span>
+<span id="cb86-9"><a href="rnaseq-analysis-deseq2.html#cb86-9" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(</span>
+<span id="cb86-10"><a href="rnaseq-analysis-deseq2.html#cb86-10" aria-hidden="true" tabindex="-1"></a>  expMatrix.tp53.sc,</span>
+<span id="cb86-11"><a href="rnaseq-analysis-deseq2.html#cb86-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;#377EB8&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#E41A1C&quot;</span>)),</span>
+<span id="cb86-12"><a href="rnaseq-analysis-deseq2.html#cb86-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Z score&quot;</span>,</span>
+<span id="cb86-13"><a href="rnaseq-analysis-deseq2.html#cb86-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_columns =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb86-14"><a href="rnaseq-analysis-deseq2.html#cb86-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb86-15"><a href="rnaseq-analysis-deseq2.html#cb86-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_annotation =</span> ha,</span>
+<span id="cb86-16"><a href="rnaseq-analysis-deseq2.html#cb86-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_row_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb86-17"><a href="rnaseq-analysis-deseq2.html#cb86-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_column_names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb86-18"><a href="rnaseq-analysis-deseq2.html#cb86-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Turned off column names</span></span>
+<span id="cb86-19"><a href="rnaseq-analysis-deseq2.html#cb86-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">5</span>),</span>
+<span id="cb86-20"><a href="rnaseq-analysis-deseq2.html#cb86-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">5</span>)</span>
+<span id="cb86-21"><a href="rnaseq-analysis-deseq2.html#cb86-21" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-90"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-90-1.png" alt="Heatmap showing differentially expressed genes in the `Transcriptional Regulation by TP53` Reactome pathway" width="480" />
+<p class="caption">
+Figure 6.7: Heatmap showing differentially expressed genes in the <code>Transcriptional Regulation by TP53</code> Reactome pathway
+</p>
+</div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="rnaseq-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cancer-dependency-map-depmap.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["PGT_Bioinformatics_course.pdf", "PGT_Bioinformatics_course.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

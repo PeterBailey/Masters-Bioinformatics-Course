@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Descriptive statistics and plotting | PGT Bioinformatics Course</title>
+  <meta name="description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Descriptive statistics and plotting | PGT Bioinformatics Course" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Descriptive statistics and plotting | PGT Bioinformatics Course" />
+  
+  <meta name="twitter:description" content="Basic introduction to RNAseq analysis using R/Bioconductor" />
+  
+
+<meta name="author" content="Peter J. Bailey" />
+
+
+<meta name="date" content="2021-07-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="r-programming-language-primer.html"/>
+<link rel="next" href="rnaseq-analysis.html"/>
+<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PGT Bioinformatics Course</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installing-r-and-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installing R and RStudio</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#installing-r-and-bioconductor-packages"><i class="fa fa-check"></i><b>1.2</b> Installing R and Bioconductor packages</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#loading-r-and-bioconductor-packages"><i class="fa fa-check"></i><b>1.3</b> Loading R and Bioconductor packages</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#learning_resources"><i class="fa fa-check"></i><b>1.4</b> Learning resources</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#course-outline"><i class="fa fa-check"></i><b>2.1</b> Course outline</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="intro.html"><a href="intro.html#part1"><i class="fa fa-check"></i><b>2.1.1</b> PART 1</a></li>
+<li class="chapter" data-level="2.1.2" data-path="intro.html"><a href="intro.html#part2"><i class="fa fa-check"></i><b>2.1.2</b> PART 2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html"><i class="fa fa-check"></i><b>3</b> R Programming language primer</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#vectors"><i class="fa fa-check"></i><b>3.1</b> Vectors</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#vectors-in-action"><i class="fa fa-check"></i><b>3.1.1</b> Vectors in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#matrix"><i class="fa fa-check"></i><b>3.2</b> Matrix</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#matrices-in-action"><i class="fa fa-check"></i><b>3.2.1</b> Matrices in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#data-frame"><i class="fa fa-check"></i><b>3.3</b> Data Frame</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#data-frames-in-action"><i class="fa fa-check"></i><b>3.3.1</b> Data Frames in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#factors"><i class="fa fa-check"></i><b>3.4</b> Factors</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#factors-in-action"><i class="fa fa-check"></i><b>3.4.1</b> Factors in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#list"><i class="fa fa-check"></i><b>3.5</b> List</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#lists-in-action"><i class="fa fa-check"></i><b>3.5.1</b> Lists in action</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#array"><i class="fa fa-check"></i><b>3.6</b> Array</a></li>
+<li class="chapter" data-level="3.7" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#creating-functions"><i class="fa fa-check"></i><b>3.7</b> Creating functions</a></li>
+<li class="chapter" data-level="3.8" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#loading-data"><i class="fa fa-check"></i><b>3.8</b> Loading Data</a></li>
+<li class="chapter" data-level="3.9" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#saving-data"><i class="fa fa-check"></i><b>3.9</b> Saving Data</a></li>
+<li class="chapter" data-level="3.10" data-path="r-programming-language-primer.html"><a href="r-programming-language-primer.html#saving-plots"><i class="fa fa-check"></i><b>3.10</b> Saving plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html"><i class="fa fa-check"></i><b>4</b> Descriptive statistics and plotting</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#the-cancer-gene-atlas-tcga---pancreatic-ductal-adenocarcinoma-data-set"><i class="fa fa-check"></i><b>4.1</b> The Cancer Gene Atlas (TCGA) - Pancreatic Ductal Adenocarcinoma Data Set</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#gene-expression-data"><i class="fa fa-check"></i><b>4.1.1</b> Gene expression data</a></li>
+<li class="chapter" data-level="4.1.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#clinical-data"><i class="fa fa-check"></i><b>4.1.2</b> Clinical data</a></li>
+<li class="chapter" data-level="4.1.3" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#pdac-subtypes"><i class="fa fa-check"></i><b>4.1.3</b> PDAC Subtypes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#descriptive-plots"><i class="fa fa-check"></i><b>4.2</b> Descriptive plots</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#boxplots"><i class="fa fa-check"></i><b>4.2.1</b> Boxplots</a></li>
+<li class="chapter" data-level="4.2.2" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#scatter-plots"><i class="fa fa-check"></i><b>4.2.2</b> Scatter plots</a></li>
+<li class="chapter" data-level="4.2.3" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#hierarchical-clustering"><i class="fa fa-check"></i><b>4.2.3</b> Hierarchical Clustering</a></li>
+<li class="chapter" data-level="4.2.4" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#hierarchical-clustering-using-the-moffitt-transcriptomic-signature"><i class="fa fa-check"></i><b>4.2.4</b> Hierarchical clustering using the Moffitt transcriptomic signature</a></li>
+<li class="chapter" data-level="4.2.5" data-path="descriptive-statistics-and-plotting.html"><a href="descriptive-statistics-and-plotting.html#heatmaps"><i class="fa fa-check"></i><b>4.2.5</b> Heatmaps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html"><i class="fa fa-check"></i><b>5</b> RNAseq Analysis</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#rnaseq-downstream-analysis"><i class="fa fa-check"></i><b>5.1</b> RNAseq downstream analysis</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#nf-corernaseq-pipeline---installation"><i class="fa fa-check"></i><b>5.1.1</b> nf-core/rnaseq pipeline - installation</a></li>
+<li class="chapter" data-level="5.1.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#nextflow"><i class="fa fa-check"></i><b>5.1.2</b> Nextflow</a></li>
+<li class="chapter" data-level="5.1.3" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#additional-pipeline-software"><i class="fa fa-check"></i><b>5.1.3</b> Additional pipeline software</a></li>
+<li class="chapter" data-level="5.1.4" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#pipeline-code"><i class="fa fa-check"></i><b>5.1.4</b> Pipeline code</a></li>
+<li class="chapter" data-level="5.1.5" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#reference-genomes"><i class="fa fa-check"></i><b>5.1.5</b> Reference genomes</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#running-the-nf-corernaseq-pipeline"><i class="fa fa-check"></i><b>5.2</b> Running the nf-core/rnaseq pipeline</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#setup"><i class="fa fa-check"></i><b>5.2.1</b> Setup</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#running-the-nf-corernaseq-pipeline-1"><i class="fa fa-check"></i><b>5.3</b> Running the nf-core/rnaseq pipeline</a></li>
+<li class="chapter" data-level="5.4" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#quality-control-qc-and-merged-count-files"><i class="fa fa-check"></i><b>5.4</b> Quality Control (QC) and Merged count files</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#qc-metrics"><i class="fa fa-check"></i><b>5.4.1</b> QC Metrics</a></li>
+<li class="chapter" data-level="5.4.2" data-path="rnaseq-analysis.html"><a href="rnaseq-analysis.html#merged-count-files"><i class="fa fa-check"></i><b>5.4.2</b> Merged count files</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html"><i class="fa fa-check"></i><b>6</b> RNAseq Analysis - DESeq2</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#deseq2-package"><i class="fa fa-check"></i><b>6.1</b> DESEq2 package</a></li>
+<li class="chapter" data-level="6.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#the-deseqdataset"><i class="fa fa-check"></i><b>6.2</b> The DESeqDataSet</a></li>
+<li class="chapter" data-level="6.3" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#count-matrix-input"><i class="fa fa-check"></i><b>6.3</b> Count matrix input</a></li>
+<li class="chapter" data-level="6.4" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#pre-filtering"><i class="fa fa-check"></i><b>6.4</b> Pre-filtering</a></li>
+<li class="chapter" data-level="6.5" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#differential-expression-analysis"><i class="fa fa-check"></i><b>6.5</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="6.6" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#gene-annotation"><i class="fa fa-check"></i><b>6.6</b> Gene Annotation</a></li>
+<li class="chapter" data-level="6.7" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#exploring-the-results"><i class="fa fa-check"></i><b>6.7</b> Exploring the results</a></li>
+<li class="chapter" data-level="6.8" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#exporting-results"><i class="fa fa-check"></i><b>6.8</b> Exporting results</a></li>
+<li class="chapter" data-level="6.9" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#data-transformation-and-visualisation"><i class="fa fa-check"></i><b>6.9</b> Data transformation and visualisation</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#pca-using-transformed-data"><i class="fa fa-check"></i><b>6.9.1</b> PCA using transformed data</a></li>
+<li class="chapter" data-level="6.9.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#heatmaps-using-transformed-data"><i class="fa fa-check"></i><b>6.9.2</b> Heatmaps using transformed data</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#gene-set-enrichment-analysis"><i class="fa fa-check"></i><b>6.10</b> Gene Set Enrichment Analysis</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#kegg"><i class="fa fa-check"></i><b>6.10.1</b> KEGG</a></li>
+<li class="chapter" data-level="6.10.2" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#reactome"><i class="fa fa-check"></i><b>6.10.2</b> REACTOME</a></li>
+<li class="chapter" data-level="6.10.3" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#plotting-functions"><i class="fa fa-check"></i><b>6.10.3</b> Plotting functions</a></li>
+<li class="chapter" data-level="6.10.4" data-path="rnaseq-analysis-deseq2.html"><a href="rnaseq-analysis-deseq2.html#extracting-enrichment-results-to-generate-heatmaps"><i class="fa fa-check"></i><b>6.10.4</b> Extracting enrichment results to generate heatmaps</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html"><i class="fa fa-check"></i><b>7</b> Cancer Dependency Map - DepMap</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#downloading-depmap-data-using-the-depmap-package"><i class="fa fa-check"></i><b>7.1</b> Downloading DepMap data using the <code>depmap</code> package</a></li>
+<li class="chapter" data-level="7.2" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-transcriptomic-data"><i class="fa fa-check"></i><b>7.2</b> Exploring DepMap transcriptomic data</a></li>
+<li class="chapter" data-level="7.3" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-mutation-calls"><i class="fa fa-check"></i><b>7.3</b> Exploring DepMap mutation calls</a></li>
+<li class="chapter" data-level="7.4" data-path="cancer-dependency-map-depmap.html"><a href="cancer-dependency-map-depmap.html#exploring-depmap-crispr-data"><i class="fa fa-check"></i><b>7.4</b> Exploring DepMap CRISPR data</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">PGT Bioinformatics Course</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="descriptive-statistics-and-plotting" class="section level1" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Descriptive statistics and plotting</h1>
+<div id="the-cancer-gene-atlas-tcga---pancreatic-ductal-adenocarcinoma-data-set" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> The Cancer Gene Atlas (TCGA) - Pancreatic Ductal Adenocarcinoma Data Set</h2>
+<p>To develop a basic understanding of descriptive statistics and plotting we will use data described in <a href="https://www.cell.com/cancer-cell/fulltext/S1535-6108(17)30299-4">Integrated Genomic Characterization of Pancreatic Ductal Adenocarcinoma. Cancer Cell. 2017;32(2):185-203.e13. doi:10.1016/j.ccell.2017.07.007</a>.</p>
+<p>The first step is to obtain the relevant data. We are primarily interested in:</p>
+<ul>
+<li>Gene expression data</li>
+<li>Clinical data and Transcriptomic subtype annotations</li>
+</ul>
+<p>The Bioconductor package <a href="https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html">TCGAbiolinks</a> provides easy to use functions for downloading and analysing data published by The Cancer Genome Atlas (TCGA). A list of TCGA publications can be found here <a href="https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga/publications">https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga/publications</a>.</p>
+<p>Vignettes describing the <code>TCGAbiolinks</code> package can be found using <code>browseVignettes("TCGAbiolinks")</code></p>
+<p>The first step of any analysis is to define the libraries that we want to use:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="descriptive-statistics-and-plotting.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(TCGAbiolinks)</span>
+<span id="cb24-2"><a href="descriptive-statistics-and-plotting.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SummarizedExperiment)</span></code></pre></div>
+<p>The following code segment downloads normalized expression data generated by the TCGA-PAAD project and returns a <code>RangedSummarizedExperiment</code> object which we have assigned the name <code>paad</code>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="descriptive-statistics-and-plotting.html#cb25-1" aria-hidden="true" tabindex="-1"></a>query.exp.hg19 <span class="ot">&lt;-</span> <span class="fu">GDCquery</span>(<span class="at">project =</span> <span class="st">&quot;TCGA-PAAD&quot;</span>,</span>
+<span id="cb25-2"><a href="descriptive-statistics-and-plotting.html#cb25-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data.category =</span> <span class="st">&quot;Gene expression&quot;</span>,</span>
+<span id="cb25-3"><a href="descriptive-statistics-and-plotting.html#cb25-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data.type =</span> <span class="st">&quot;Gene expression quantification&quot;</span>,</span>
+<span id="cb25-4"><a href="descriptive-statistics-and-plotting.html#cb25-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">platform =</span> <span class="st">&quot;Illumina HiSeq&quot;</span>, </span>
+<span id="cb25-5"><a href="descriptive-statistics-and-plotting.html#cb25-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">file.type  =</span> <span class="st">&quot;normalized_results&quot;</span>,</span>
+<span id="cb25-6"><a href="descriptive-statistics-and-plotting.html#cb25-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">experimental.strategy =</span> <span class="st">&quot;RNA-Seq&quot;</span>,</span>
+<span id="cb25-7"><a href="descriptive-statistics-and-plotting.html#cb25-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">legacy =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-8"><a href="descriptive-statistics-and-plotting.html#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">GDCdownload</span>(query.exp.hg19)</span>
+<span id="cb25-9"><a href="descriptive-statistics-and-plotting.html#cb25-9" aria-hidden="true" tabindex="-1"></a>paad <span class="ot">&lt;-</span> <span class="fu">GDCprepare</span>(query.exp.hg19)</span></code></pre></div>
+<p>The <code>paad</code> object is of class <code>RangedSummarizedExperiment</code> which comprises expression data, clinical data and information about the study in which the data was generated.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="descriptive-statistics-and-plotting.html#cb26-1" aria-hidden="true" tabindex="-1"></a>paad</span>
+<span id="cb26-2"><a href="descriptive-statistics-and-plotting.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span id="cb26-3"><a href="descriptive-statistics-and-plotting.html#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dim: 19947 183 </span></span>
+<span id="cb26-4"><a href="descriptive-statistics-and-plotting.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; metadata(1): data_release</span></span>
+<span id="cb26-5"><a href="descriptive-statistics-and-plotting.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; assays(1): normalized_count</span></span>
+<span id="cb26-6"><a href="descriptive-statistics-and-plotting.html#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; rownames(19947): A1BG A2M ... TICAM2 SLC25A5-AS1</span></span>
+<span id="cb26-7"><a href="descriptive-statistics-and-plotting.html#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; rowData names(3): gene_id entrezgene ensembl_gene_id</span></span>
+<span id="cb26-8"><a href="descriptive-statistics-and-plotting.html#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; colnames(183): TCGA-3A-A9I7-01A-21R-A38C-07</span></span>
+<span id="cb26-9"><a href="descriptive-statistics-and-plotting.html#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   TCGA-IB-7885-01A-11R-2156-07 ... TCGA-IB-7888-01A-11R-2156-07</span></span>
+<span id="cb26-10"><a href="descriptive-statistics-and-plotting.html#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   TCGA-F2-A44H-01A-11R-A26U-07</span></span>
+<span id="cb26-11"><a href="descriptive-statistics-and-plotting.html#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; colData names(122): sample patient ...</span></span>
+<span id="cb26-12"><a href="descriptive-statistics-and-plotting.html#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   subtype_Year.of.tobacco.smoking.onset subtype_patient</span></span></code></pre></div>
+<p>Data within the <code>RangedSummarizedExperiment</code> object can be obtained using a number of built-in helper functions which we can identify using the <code>slotNames</code> function.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="descriptive-statistics-and-plotting.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slotNames</span>(paad)</span>
+<span id="cb27-2"><a href="descriptive-statistics-and-plotting.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;rowRanges&quot;       &quot;colData&quot;         &quot;assays&quot;          &quot;NAMES&quot;          </span></span>
+<span id="cb27-3"><a href="descriptive-statistics-and-plotting.html#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;elementMetadata&quot; &quot;metadata&quot;</span></span></code></pre></div>
+<p><br></p>
+<div id="gene-expression-data" class="section level3" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Gene expression data</h3>
+<p>To access the expression data we use the <code>assay()$normalized_count</code> function:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="descriptive-statistics-and-plotting.html#cb28-1" aria-hidden="true" tabindex="-1"></a>normalisedCounts <span class="ot">&lt;-</span> <span class="fu">assays</span>(paad)<span class="sc">$</span>normalized_count</span>
+<span id="cb28-2"><a href="descriptive-statistics-and-plotting.html#cb28-2" aria-hidden="true" tabindex="-1"></a>normalisedCounts[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb28-3"><a href="descriptive-statistics-and-plotting.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              TCGA-3A-A9I7-01A-21R-A38C-07 TCGA-IB-7885-01A-11R-2156-07</span></span>
+<span id="cb28-4"><a href="descriptive-statistics-and-plotting.html#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A1BG                              67.4598                      46.5184</span></span>
+<span id="cb28-5"><a href="descriptive-statistics-and-plotting.html#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A2M                            14601.7751                   20869.5846</span></span>
+<span id="cb28-6"><a href="descriptive-statistics-and-plotting.html#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NAT1                             222.3161                     155.7439</span></span>
+<span id="cb28-7"><a href="descriptive-statistics-and-plotting.html#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NAT2                             208.3686                      11.7479</span></span>
+<span id="cb28-8"><a href="descriptive-statistics-and-plotting.html#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; RP11-986E7.7                    8514.7929                   24899.2196</span></span>
+<span id="cb28-9"><a href="descriptive-statistics-and-plotting.html#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              TCGA-2J-AAB1-01A-11R-A41B-07 TCGA-2L-AAQJ-01A-12R-A39D-07</span></span>
+<span id="cb28-10"><a href="descriptive-statistics-and-plotting.html#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A1BG                              81.9122                      91.5297</span></span>
+<span id="cb28-11"><a href="descriptive-statistics-and-plotting.html#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A2M                            19703.8049                   15670.2079</span></span>
+<span id="cb28-12"><a href="descriptive-statistics-and-plotting.html#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NAT1                             119.5122                     148.5149</span></span>
+<span id="cb28-13"><a href="descriptive-statistics-and-plotting.html#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NAT2                              71.2195                      23.7624</span></span>
+<span id="cb28-14"><a href="descriptive-statistics-and-plotting.html#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; RP11-986E7.7                    9787.8049                   15188.1188</span></span>
+<span id="cb28-15"><a href="descriptive-statistics-and-plotting.html#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              TCGA-2J-AABV-01A-12R-A41B-07</span></span>
+<span id="cb28-16"><a href="descriptive-statistics-and-plotting.html#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A1BG                             105.5118</span></span>
+<span id="cb28-17"><a href="descriptive-statistics-and-plotting.html#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A2M                            11981.9528</span></span>
+<span id="cb28-18"><a href="descriptive-statistics-and-plotting.html#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NAT1                              67.7165</span></span>
+<span id="cb28-19"><a href="descriptive-statistics-and-plotting.html#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; NAT2                               0.0000</span></span>
+<span id="cb28-20"><a href="descriptive-statistics-and-plotting.html#cb28-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; RP11-986E7.7                  158891.3543</span></span></code></pre></div>
+<p><br></p>
+<p>Let’s explore <code>normalisedCounts</code></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="descriptive-statistics-and-plotting.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(normalisedCounts)</span>
+<span id="cb29-2"><a href="descriptive-statistics-and-plotting.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;matrix&quot;</span></span>
+<span id="cb29-3"><a href="descriptive-statistics-and-plotting.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(normalisedCounts)</span>
+<span id="cb29-4"><a href="descriptive-statistics-and-plotting.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 19947   183</span></span></code></pre></div>
+<p>We can see that <code>normalisedCounts</code> is of class <code>matrix</code> and has 19947 rows (representing genes) and 183 columns (representing the patient samples).</p>
+<p>We can extract the expression levels of GATA6 from <code>normaliseCounts</code> using the following notation [<rows>, <columns>]:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="descriptive-statistics-and-plotting.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(normalisedCounts[<span class="st">&quot;GATA6&quot;</span>, ])</span>
+<span id="cb30-2"><a href="descriptive-statistics-and-plotting.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-3A-A9I7-01A-21R-A38C-07 TCGA-IB-7885-01A-11R-2156-07 </span></span>
+<span id="cb30-3"><a href="descriptive-statistics-and-plotting.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     628.0642                     742.8044 </span></span>
+<span id="cb30-4"><a href="descriptive-statistics-and-plotting.html#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AAB1-01A-11R-A41B-07 TCGA-2L-AAQJ-01A-12R-A39D-07 </span></span>
+<span id="cb30-5"><a href="descriptive-statistics-and-plotting.html#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    1664.3902                    1288.6139 </span></span>
+<span id="cb30-6"><a href="descriptive-statistics-and-plotting.html#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABV-01A-12R-A41B-07 TCGA-2J-AABE-01A-12R-A41B-07 </span></span>
+<span id="cb30-7"><a href="descriptive-statistics-and-plotting.html#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     826.7717                    1336.8275</span></span></code></pre></div>
+</div>
+<div id="clinical-data" class="section level3" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Clinical data</h3>
+<p>To access the clinical data we can use the <code>colData()</code> function:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="descriptive-statistics-and-plotting.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(paad)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb31-2"><a href="descriptive-statistics-and-plotting.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DataFrame with 5 rows and 5 columns</span></span>
+<span id="cb31-3"><a href="descriptive-statistics-and-plotting.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                        sample      patient</span></span>
+<span id="cb31-4"><a href="descriptive-statistics-and-plotting.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                   &lt;character&gt;  &lt;character&gt;</span></span>
+<span id="cb31-5"><a href="descriptive-statistics-and-plotting.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-3A-A9I7-01A-21R-A38C-07 TCGA-3A-A9I7-01A TCGA-3A-A9I7</span></span>
+<span id="cb31-6"><a href="descriptive-statistics-and-plotting.html#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-IB-7885-01A-11R-2156-07 TCGA-IB-7885-01A TCGA-IB-7885</span></span>
+<span id="cb31-7"><a href="descriptive-statistics-and-plotting.html#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AAB1-01A-11R-A41B-07 TCGA-2J-AAB1-01A TCGA-2J-AAB1</span></span>
+<span id="cb31-8"><a href="descriptive-statistics-and-plotting.html#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2L-AAQJ-01A-12R-A39D-07 TCGA-2L-AAQJ-01A TCGA-2L-AAQJ</span></span>
+<span id="cb31-9"><a href="descriptive-statistics-and-plotting.html#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABV-01A-12R-A41B-07 TCGA-2J-AABV-01A TCGA-2J-AABV</span></span>
+<span id="cb31-10"><a href="descriptive-statistics-and-plotting.html#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                   barcode shortLetterCode</span></span>
+<span id="cb31-11"><a href="descriptive-statistics-and-plotting.html#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                               &lt;character&gt;     &lt;character&gt;</span></span>
+<span id="cb31-12"><a href="descriptive-statistics-and-plotting.html#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-3A-A9I7-01A-21R-A38C-07 TCGA-3A-A9I7-01A-21R-A38C-07              TP</span></span>
+<span id="cb31-13"><a href="descriptive-statistics-and-plotting.html#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-IB-7885-01A-11R-2156-07 TCGA-IB-7885-01A-11R-2156-07              TP</span></span>
+<span id="cb31-14"><a href="descriptive-statistics-and-plotting.html#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AAB1-01A-11R-A41B-07 TCGA-2J-AAB1-01A-11R-A41B-07              TP</span></span>
+<span id="cb31-15"><a href="descriptive-statistics-and-plotting.html#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2L-AAQJ-01A-12R-A39D-07 TCGA-2L-AAQJ-01A-12R-A39D-07              TP</span></span>
+<span id="cb31-16"><a href="descriptive-statistics-and-plotting.html#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABV-01A-12R-A41B-07 TCGA-2J-AABV-01A-12R-A41B-07              TP</span></span>
+<span id="cb31-17"><a href="descriptive-statistics-and-plotting.html#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                       definition</span></span>
+<span id="cb31-18"><a href="descriptive-statistics-and-plotting.html#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                      &lt;character&gt;</span></span>
+<span id="cb31-19"><a href="descriptive-statistics-and-plotting.html#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-3A-A9I7-01A-21R-A38C-07 Primary solid Tumor</span></span>
+<span id="cb31-20"><a href="descriptive-statistics-and-plotting.html#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-IB-7885-01A-11R-2156-07 Primary solid Tumor</span></span>
+<span id="cb31-21"><a href="descriptive-statistics-and-plotting.html#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AAB1-01A-11R-A41B-07 Primary solid Tumor</span></span>
+<span id="cb31-22"><a href="descriptive-statistics-and-plotting.html#cb31-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2L-AAQJ-01A-12R-A39D-07 Primary solid Tumor</span></span>
+<span id="cb31-23"><a href="descriptive-statistics-and-plotting.html#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABV-01A-12R-A41B-07 Primary solid Tumor</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="descriptive-statistics-and-plotting.html#cb32-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">colnames</span>(<span class="fu">colData</span>(paad))[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span>
+<span id="cb32-2"><a href="descriptive-statistics-and-plotting.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;sample&quot;                    &quot;patient&quot;                  </span></span>
+<span id="cb32-3"><a href="descriptive-statistics-and-plotting.html#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;barcode&quot;                   &quot;shortLetterCode&quot;          </span></span>
+<span id="cb32-4"><a href="descriptive-statistics-and-plotting.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;definition&quot;                &quot;synchronous_malignancy&quot;   </span></span>
+<span id="cb32-5"><a href="descriptive-statistics-and-plotting.html#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ...</span></span>
+<span id="cb32-6"><a href="descriptive-statistics-and-plotting.html#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] &quot;primary_diagnosis&quot;         &quot;age_at_diagnosis&quot;         </span></span>
+<span id="cb32-7"><a href="descriptive-statistics-and-plotting.html#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] &quot;updated_datetime.x&quot;        &quot;prior_malignancy&quot;         </span></span>
+<span id="cb32-8"><a href="descriptive-statistics-and-plotting.html#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;year_of_diagnosis&quot;         &quot;prior_treatment&quot;</span></span></code></pre></div>
+</div>
+<div id="pdac-subtypes" class="section level3" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> PDAC Subtypes</h3>
+<p>We are interested in obtaining Subtype specific information. The <code>paad</code> object comprises Subtype information for the Collisson, Moffitt and Bailey Classification schemes under the following columns:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="descriptive-statistics-and-plotting.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(<span class="fu">colData</span>(paad))[<span class="fu">grep</span>(<span class="st">&quot;subtype_mRNA&quot;</span>, <span class="fu">colnames</span>(<span class="fu">colData</span>(paad)))]</span>
+<span id="cb33-2"><a href="descriptive-statistics-and-plotting.html#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;subtype_mRNA.Moffitt.clusters..76.High.Purity.Samples.Only...1basal..2classical&quot;        </span></span>
+<span id="cb33-3"><a href="descriptive-statistics-and-plotting.html#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;subtype_mRNA.Moffitt.clusters..All.150.Samples..1basal..2classical&quot;                     </span></span>
+<span id="cb33-4"><a href="descriptive-statistics-and-plotting.html#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;subtype_mRNA.Collisson.clusters..All.150.Samples..1classical.2exocrine.3QM&quot;             </span></span>
+<span id="cb33-5"><a href="descriptive-statistics-and-plotting.html#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;subtype_mRNA.Bailey.Clusters..All.150.Samples..1squamous.2immunogenic.3progenitor.4ADEX&quot;</span></span></code></pre></div>
+<p>Let’s extract the subtype information for the Moffitt classification scheme:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="descriptive-statistics-and-plotting.html#cb34-1" aria-hidden="true" tabindex="-1"></a>subtype <span class="ot">&lt;-</span> <span class="fu">colData</span>(paad)[,<span class="st">&quot;subtype_mRNA.Moffitt.clusters..All.150.Samples..1basal..2classical&quot;</span>]</span>
+<span id="cb34-2"><a href="descriptive-statistics-and-plotting.html#cb34-2" aria-hidden="true" tabindex="-1"></a>subtype</span>
+<span id="cb34-3"><a href="descriptive-statistics-and-plotting.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1]  2  1  2  2  2  1  2  2  2  1  1  2  2  2  1  1  1  1  1  2 NA NA  2  2</span></span>
+<span id="cb34-4"><a href="descriptive-statistics-and-plotting.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [25]  2 NA  2  1  2  1  1  2  2  1 NA  1  1  2  1  1 NA  1  2  2  1  1  2  2</span></span>
+<span id="cb34-5"><a href="descriptive-statistics-and-plotting.html#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [49] NA  1  1  1  2 NA  2  2  2 NA  2 NA  2  1  1 NA  1  2  2  1  2  2  1  1</span></span>
+<span id="cb34-6"><a href="descriptive-statistics-and-plotting.html#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [73]  1  2  2  2  2 NA  1  2  2  1  2  2 NA  1  2  2  2 NA  2  2  1  2 NA  2</span></span>
+<span id="cb34-7"><a href="descriptive-statistics-and-plotting.html#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [97]  1  2  1  2  1  1  2 NA NA  2  1  1  2  1  2  1 NA  1  2 NA  2  1  2 NA</span></span>
+<span id="cb34-8"><a href="descriptive-statistics-and-plotting.html#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [121]  1  2  2  1  2  2  1  2  2 NA  2  1  1  2 NA  2  2 NA NA  1 NA  1  2  2</span></span>
+<span id="cb34-9"><a href="descriptive-statistics-and-plotting.html#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [145]  1 NA  2 NA  2  1  2  2  1  1  2  2 NA  1  2 NA  1  2  1 NA  2 NA  2 NA</span></span>
+<span id="cb34-10"><a href="descriptive-statistics-and-plotting.html#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [169]  1  2  2 NA  1  2  1  2 NA  1  1  1  1  2  2</span></span></code></pre></div>
+<p>We want to compare the expression of a specific gene between the Classical and Basal samples. Looking at the <code>subtype</code> vector that we have just created there are multiple samples that do not have a Moffitt subtype - designated by <code>NA</code>. We need to remove these!</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="descriptive-statistics-and-plotting.html#cb35-1" aria-hidden="true" tabindex="-1"></a>expFinal <span class="ot">&lt;-</span> normalisedCounts[,<span class="sc">!</span><span class="fu">is.na</span>(subtype)]</span>
+<span id="cb35-2"><a href="descriptive-statistics-and-plotting.html#cb35-2" aria-hidden="true" tabindex="-1"></a>subtypeFinal <span class="ot">&lt;-</span> subtype[<span class="sc">!</span><span class="fu">is.na</span>(subtype)]</span>
+<span id="cb35-3"><a href="descriptive-statistics-and-plotting.html#cb35-3" aria-hidden="true" tabindex="-1"></a>subtypeFinal[subtypeFinal <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Basal&quot;</span></span>
+<span id="cb35-4"><a href="descriptive-statistics-and-plotting.html#cb35-4" aria-hidden="true" tabindex="-1"></a>subtypeFinal[subtypeFinal <span class="sc">==</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Classical&quot;</span></span>
+<span id="cb35-5"><a href="descriptive-statistics-and-plotting.html#cb35-5" aria-hidden="true" tabindex="-1"></a>subtypeFinal</span>
+<span id="cb35-6"><a href="descriptive-statistics-and-plotting.html#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] &quot;Classical&quot; &quot;Basal&quot;     &quot;Classical&quot; &quot;Classical&quot; &quot;Classical&quot; &quot;Basal&quot;    </span></span>
+<span id="cb35-7"><a href="descriptive-statistics-and-plotting.html#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [7] &quot;Classical&quot; &quot;Classical&quot; &quot;Classical&quot; &quot;Basal&quot;     &quot;Basal&quot;     &quot;Classical&quot;</span></span>
+<span id="cb35-8"><a href="descriptive-statistics-and-plotting.html#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [13] &quot;Classical&quot; &quot;Classical&quot; &quot;Basal&quot;     &quot;Basal&quot;     &quot;Basal&quot;     &quot;Basal&quot;    </span></span>
+<span id="cb35-9"><a href="descriptive-statistics-and-plotting.html#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ...</span></span>
+<span id="cb35-10"><a href="descriptive-statistics-and-plotting.html#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [133] &quot;Basal&quot;     &quot;Classical&quot; &quot;Basal&quot;     &quot;Classical&quot; &quot;Classical&quot; &quot;Basal&quot;    </span></span>
+<span id="cb35-11"><a href="descriptive-statistics-and-plotting.html#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [139] &quot;Classical&quot; &quot;Classical&quot; &quot;Basal&quot;     &quot;Classical&quot; &quot;Basal&quot;     &quot;Classical&quot;</span></span>
+<span id="cb35-12"><a href="descriptive-statistics-and-plotting.html#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [145] &quot;Basal&quot;     &quot;Basal&quot;     &quot;Basal&quot;     &quot;Basal&quot;     &quot;Classical&quot; &quot;Classical&quot;</span></span></code></pre></div>
+</div>
+</div>
+<div id="descriptive-plots" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Descriptive plots</h2>
+<div id="boxplots" class="section level3" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Boxplots</h3>
+<p>A common task that we are asked to perform is: Determine whether a given gene is enriched in a specific PDAC subtype.</p>
+<p>How do we go about performing such a task and what sort of plots are useful in describing differences between groups?</p>
+<p>A popular method to display data involves drawing a box around the first and the third quartile (a bold line segment for the median), and the smaller line segments (whiskers) for the smallest and the largest data values. Such a data display is known as a box-and-whisker plot.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="descriptive-statistics-and-plotting.html#cb36-1" aria-hidden="true" tabindex="-1"></a>expData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">samplename=</span><span class="fu">colnames</span>(expFinal), <span class="at">GATA6=</span>expFinal[<span class="st">&quot;GATA6&quot;</span>,], </span>
+<span id="cb36-2"><a href="descriptive-statistics-and-plotting.html#cb36-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">HNF4A=</span>expFinal[<span class="st">&quot;HNF4A&quot;</span>,], <span class="at">EGFR=</span>expFinal[<span class="st">&quot;EGFR&quot;</span>,], </span>
+<span id="cb36-3"><a href="descriptive-statistics-and-plotting.html#cb36-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">S100A2=</span>expFinal[<span class="st">&quot;S100A2&quot;</span>,], <span class="at">Subtype=</span>subtypeFinal)</span>
+<span id="cb36-4"><a href="descriptive-statistics-and-plotting.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(expData)</span>
+<span id="cb36-5"><a href="descriptive-statistics-and-plotting.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                samplename     GATA6</span></span>
+<span id="cb36-6"><a href="descriptive-statistics-and-plotting.html#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-3A-A9I7-01A-21R-A38C-07 TCGA-3A-A9I7-01A-21R-A38C-07  628.0642</span></span>
+<span id="cb36-7"><a href="descriptive-statistics-and-plotting.html#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-IB-7885-01A-11R-2156-07 TCGA-IB-7885-01A-11R-2156-07  742.8044</span></span>
+<span id="cb36-8"><a href="descriptive-statistics-and-plotting.html#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AAB1-01A-11R-A41B-07 TCGA-2J-AAB1-01A-11R-A41B-07 1664.3902</span></span>
+<span id="cb36-9"><a href="descriptive-statistics-and-plotting.html#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2L-AAQJ-01A-12R-A39D-07 TCGA-2L-AAQJ-01A-12R-A39D-07 1288.6139</span></span>
+<span id="cb36-10"><a href="descriptive-statistics-and-plotting.html#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABV-01A-12R-A41B-07 TCGA-2J-AABV-01A-12R-A41B-07  826.7717</span></span>
+<span id="cb36-11"><a href="descriptive-statistics-and-plotting.html#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABE-01A-12R-A41B-07 TCGA-2J-AABE-01A-12R-A41B-07 1336.8275</span></span>
+<span id="cb36-12"><a href="descriptive-statistics-and-plotting.html#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                  HNF4A      EGFR    S100A2   Subtype</span></span>
+<span id="cb36-13"><a href="descriptive-statistics-and-plotting.html#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-3A-A9I7-01A-21R-A38C-07 2199.9155  515.8199 2453.9307 Classical</span></span>
+<span id="cb36-14"><a href="descriptive-statistics-and-plotting.html#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-IB-7885-01A-11R-2156-07  631.3670 1057.2997 1694.7218     Basal</span></span>
+<span id="cb36-15"><a href="descriptive-statistics-and-plotting.html#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AAB1-01A-11R-A41B-07 1254.1463  845.2976  136.0976 Classical</span></span>
+<span id="cb36-16"><a href="descriptive-statistics-and-plotting.html#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2L-AAQJ-01A-12R-A39D-07 1263.8614  590.4901  209.4059 Classical</span></span>
+<span id="cb36-17"><a href="descriptive-statistics-and-plotting.html#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABV-01A-12R-A41B-07  322.8346  157.4803  311.8110 Classical</span></span>
+<span id="cb36-18"><a href="descriptive-statistics-and-plotting.html#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TCGA-2J-AABE-01A-12R-A41B-07  581.4706  483.4161  125.7900     Basal</span></span></code></pre></div>
+<p>To generate boxplots we will use the <code>ggpubr</code> package of plotting functions, which make generating publication quality plots simple. To generate a boxplot demonstrating the difference in GATA6 gene expression between the Basal and Classical subtypes run the following code snippet:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="descriptive-statistics-and-plotting.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb37-2"><a href="descriptive-statistics-and-plotting.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;ggpubr&#39; was built under R version 3.6.2</span></span>
+<span id="cb37-3"><a href="descriptive-statistics-and-plotting.html#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;ggplot2&#39; was built under R version 3.6.2</span></span>
+<span id="cb37-4"><a href="descriptive-statistics-and-plotting.html#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(expData, <span class="at">x =</span> <span class="st">&quot;Subtype&quot;</span>, <span class="at">y =</span> <span class="st">&quot;GATA6&quot;</span>,</span>
+<span id="cb37-5"><a href="descriptive-statistics-and-plotting.html#cb37-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">&quot;GATA6 Expression by Subtype&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Expression&quot;</span>,</span>
+<span id="cb37-6"><a href="descriptive-statistics-and-plotting.html#cb37-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;Subtype&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;jco&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-42"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-42-1.png" alt="GATA6 Boxplot generated using `ggboxplot` coloured by Subtype" width="336" />
+<p class="caption">
+Figure 4.1: GATA6 Boxplot generated using <code>ggboxplot</code> coloured by Subtype
+</p>
+</div>
+<p>We can also generate plots showing the relative expression of multiple genes. Here we combine boxplots for both the GATA6 and HNF4A genes.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="descriptive-statistics-and-plotting.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(expData, <span class="at">x =</span> <span class="st">&quot;Subtype&quot;</span>, <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;GATA6&quot;</span>,<span class="st">&quot;HNF4A&quot;</span>),</span>
+<span id="cb38-2"><a href="descriptive-statistics-and-plotting.html#cb38-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">&quot;Expression by Subtype&quot;</span>, </span>
+<span id="cb38-3"><a href="descriptive-statistics-and-plotting.html#cb38-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">combine =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb38-4"><a href="descriptive-statistics-and-plotting.html#cb38-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">&quot;Expression&quot;</span>,</span>
+<span id="cb38-5"><a href="descriptive-statistics-and-plotting.html#cb38-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;Subtype&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;jco&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-43"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-43-1.png" alt="Combined Boxplot generated using `ggboxplot` coloured by Subtype" width="576" />
+<p class="caption">
+Figure 4.2: Combined Boxplot generated using <code>ggboxplot</code> coloured by Subtype
+</p>
+</div>
+<p>The plotting function <code>gghistogram</code> can be used to generate a density histogram of the gene expression values for GATA6 and HNF4A.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="descriptive-statistics-and-plotting.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gghistogram</span>(expData,</span>
+<span id="cb39-2"><a href="descriptive-statistics-and-plotting.html#cb39-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="fu">c</span>(<span class="st">&quot;GATA6&quot;</span>,<span class="st">&quot;HNF4A&quot;</span>),</span>
+<span id="cb39-3"><a href="descriptive-statistics-and-plotting.html#cb39-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">&quot;..density..&quot;</span>,</span>
+<span id="cb39-4"><a href="descriptive-statistics-and-plotting.html#cb39-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">combine =</span> <span class="cn">TRUE</span>,                  <span class="co"># Combine the 3 plots</span></span>
+<span id="cb39-5"><a href="descriptive-statistics-and-plotting.html#cb39-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">&quot;Expression&quot;</span>, </span>
+<span id="cb39-6"><a href="descriptive-statistics-and-plotting.html#cb39-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">add =</span> <span class="st">&quot;median&quot;</span>,                  <span class="co"># Add median line. </span></span>
+<span id="cb39-7"><a href="descriptive-statistics-and-plotting.html#cb39-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">rug =</span> <span class="cn">TRUE</span>,                      <span class="co"># Add marginal rug</span></span>
+<span id="cb39-8"><a href="descriptive-statistics-and-plotting.html#cb39-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;Subtype&quot;</span>, </span>
+<span id="cb39-9"><a href="descriptive-statistics-and-plotting.html#cb39-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Subtype&quot;</span>,</span>
+<span id="cb39-10"><a href="descriptive-statistics-and-plotting.html#cb39-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">palette =</span> <span class="st">&quot;jco&quot;</span></span>
+<span id="cb39-11"><a href="descriptive-statistics-and-plotting.html#cb39-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-12"><a href="descriptive-statistics-and-plotting.html#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Using `bins = 30` by default. Pick better value with the argument</span></span>
+<span id="cb39-13"><a href="descriptive-statistics-and-plotting.html#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; `bins`.</span></span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-44"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-44-1.png" alt="Combined density histogram generated using `gghistogram` coloured by Subtype" width="576" />
+<p class="caption">
+Figure 4.3: Combined density histogram generated using <code>gghistogram</code> coloured by Subtype
+</p>
+</div>
+<p>To determine the statistical significance of the equality of the distributions we can take advantage of the <code>stat_compare_means</code> function. First we provide a vector of subtype names that we wish to compare - see <code>my_comparisons</code> variable.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="descriptive-statistics-and-plotting.html#cb40-1" aria-hidden="true" tabindex="-1"></a>my_comparisons <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;Basal&quot;</span>, <span class="st">&quot;Classical&quot;</span>))</span>
+<span id="cb40-2"><a href="descriptive-statistics-and-plotting.html#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="descriptive-statistics-and-plotting.html#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(expData, <span class="at">x =</span> <span class="st">&quot;Subtype&quot;</span>, <span class="at">y =</span> <span class="fu">c</span>(<span class="st">&quot;GATA6&quot;</span>,<span class="st">&quot;HNF4A&quot;</span>),</span>
+<span id="cb40-4"><a href="descriptive-statistics-and-plotting.html#cb40-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">title =</span> <span class="st">&quot;Expression by Subtype&quot;</span>, </span>
+<span id="cb40-5"><a href="descriptive-statistics-and-plotting.html#cb40-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">combine =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb40-6"><a href="descriptive-statistics-and-plotting.html#cb40-6" aria-hidden="true" tabindex="-1"></a>          <span class="at">ylab =</span> <span class="st">&quot;Expression&quot;</span>,</span>
+<span id="cb40-7"><a href="descriptive-statistics-and-plotting.html#cb40-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;Subtype&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;jco&quot;</span>) <span class="sc">+</span></span>
+<span id="cb40-8"><a href="descriptive-statistics-and-plotting.html#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> my_comparisons,)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-45"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-45-1.png" alt="Combined Boxplot showing significance generated using `ggboxplot` and `stat_compare_means` coloured by Subtype " width="576" />
+<p class="caption">
+Figure 4.4: Combined Boxplot showing significance generated using <code>ggboxplot</code> and <code>stat_compare_means</code> coloured by Subtype
+</p>
+</div>
+<p>What statistical test is being performed? To find a detailed summary of the statistical tests performed, we can use the <code>compare_means</code> function.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="descriptive-statistics-and-plotting.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_means</span>(GATA6 <span class="sc">~</span> Subtype, <span class="at">data=</span>expData)</span>
+<span id="cb41-2"><a href="descriptive-statistics-and-plotting.html#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 x 8</span></span>
+<span id="cb41-3"><a href="descriptive-statistics-and-plotting.html#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .y.   group1 group2                p        p.adj p.format p.signif method </span></span>
+<span id="cb41-4"><a href="descriptive-statistics-and-plotting.html#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;             &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  </span></span>
+<span id="cb41-5"><a href="descriptive-statistics-and-plotting.html#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 GATA6 Basal  Classical 0.00000000424 0.0000000042 4.2e-09  ****     Wilcox…</span></span></code></pre></div>
+<blockquote>
+<p><strong><em>Exercise 4.1</em></strong></p>
+<p>Repeat the above analysis using the Bailey classification scheme. How do the classification schemes differ?</p>
+</blockquote>
+</div>
+<div id="scatter-plots" class="section level3" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Scatter plots</h3>
+<p>Another common task is to determine the relationship or correlation between the expression of 2 genes. A scatter plot, where expression values for individual genes are positioned along the x and y axes, can be an effective means of describing the correlation between genes. In the following example we will look at genes having positive and negative correlation with GATA6 using the <code>ggscatter</code> function. We will also add the statistical significance of the correlation using the <code>stat_cor</code> function and include the regression line and confidence interval.</p>
+<p>First let’s identify genes that are positively and negatively correlated with GATA6.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="descriptive-statistics-and-plotting.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the spearman correlation </span></span>
+<span id="cb42-2"><a href="descriptive-statistics-and-plotting.html#cb42-2" aria-hidden="true" tabindex="-1"></a>corGenes <span class="ot">&lt;-</span> <span class="fu">apply</span>(expFinal, <span class="dv">1</span>, <span class="cf">function</span>(i){</span>
+<span id="cb42-3"><a href="descriptive-statistics-and-plotting.html#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(expFinal[<span class="st">&quot;GATA6&quot;</span>,],i, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb42-4"><a href="descriptive-statistics-and-plotting.html#cb42-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb42-5"><a href="descriptive-statistics-and-plotting.html#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Identify top negatively correlated genes</span></span>
+<span id="cb42-6"><a href="descriptive-statistics-and-plotting.html#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(corGenes[<span class="fu">order</span>(corGenes)])</span>
+<span id="cb42-7"><a href="descriptive-statistics-and-plotting.html#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ADAM19      BICD2       ARSI     CHST11      PTPN1       PYGL </span></span>
+<span id="cb42-8"><a href="descriptive-statistics-and-plotting.html#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -0.5897631 -0.5516601 -0.5438659 -0.5425646 -0.5338886 -0.5319081</span></span>
+<span id="cb42-9"><a href="descriptive-statistics-and-plotting.html#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Identify top positively correlated genes</span></span>
+<span id="cb42-10"><a href="descriptive-statistics-and-plotting.html#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(corGenes[<span class="fu">order</span>(corGenes, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)])</span>
+<span id="cb42-11"><a href="descriptive-statistics-and-plotting.html#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     GATA6  C9orf152    COLCA2      FMO5    COLCA1   HSD17B2 </span></span>
+<span id="cb42-12"><a href="descriptive-statistics-and-plotting.html#cb42-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1.0000000 0.6421103 0.6379999 0.6319445 0.6310378 0.6218854</span></span>
+<span id="cb42-13"><a href="descriptive-statistics-and-plotting.html#cb42-13" aria-hidden="true" tabindex="-1"></a>corData <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">samplename=</span><span class="fu">colnames</span>(expFinal), <span class="at">GATA6=</span>expFinal[<span class="st">&quot;GATA6&quot;</span>,], </span>
+<span id="cb42-14"><a href="descriptive-statistics-and-plotting.html#cb42-14" aria-hidden="true" tabindex="-1"></a>                       <span class="at">ADAM19=</span>expFinal[<span class="st">&quot;ADAM19&quot;</span>,], <span class="at">C9orf152=</span>expFinal[<span class="st">&quot;C9orf152&quot;</span>,], <span class="at">Subtype=</span>subtypeFinal)</span></code></pre></div>
+<p>Now produce a scatter plot showing the correlation for a negatively correlated gene.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="descriptive-statistics-and-plotting.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggscatter</span>(corData, <span class="at">x =</span> <span class="st">&quot;GATA6&quot;</span>, <span class="at">y =</span> <span class="st">&quot;ADAM19&quot;</span>, <span class="at">size =</span> <span class="fl">0.6</span>, </span>
+<span id="cb43-2"><a href="descriptive-statistics-and-plotting.html#cb43-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">rug =</span> <span class="cn">TRUE</span>, <span class="co"># Add marginal rug</span></span>
+<span id="cb43-3"><a href="descriptive-statistics-and-plotting.html#cb43-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="descriptive-statistics-and-plotting.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_cor</span>(<span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb43-5"><a href="descriptive-statistics-and-plotting.html#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;</span></span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-48"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-48-1.png" alt="Correlation bewteen the expression of GATA6 and ADAM19 using `ggscatter` and `stat_cor` coloured by Subtype " width="384" />
+<p class="caption">
+Figure 4.5: Correlation bewteen the expression of GATA6 and ADAM19 using <code>ggscatter</code> and <code>stat_cor</code> coloured by Subtype
+</p>
+</div>
+<p>Now produce a scatter plot showing the correlation for a positively correlated gene.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="descriptive-statistics-and-plotting.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggscatter</span>(corData, <span class="at">x =</span> <span class="st">&quot;GATA6&quot;</span>, <span class="at">y =</span> <span class="st">&quot;C9orf152&quot;</span>, <span class="at">size =</span> <span class="fl">0.6</span>, </span>
+<span id="cb44-2"><a href="descriptive-statistics-and-plotting.html#cb44-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">rug =</span> <span class="cn">TRUE</span>, <span class="co"># Add marginal rug</span></span>
+<span id="cb44-3"><a href="descriptive-statistics-and-plotting.html#cb44-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb44-4"><a href="descriptive-statistics-and-plotting.html#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_cor</span>(<span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span>
+<span id="cb44-5"><a href="descriptive-statistics-and-plotting.html#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;</span></span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-49"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-49-1.png" alt="Correlation bewteen the expression of GATA6 and C9orf152 using `ggscatter` and `stat_cor` coloured by Subtype " width="384" />
+<p class="caption">
+Figure 4.6: Correlation bewteen the expression of GATA6 and C9orf152 using <code>ggscatter</code> and <code>stat_cor</code> coloured by Subtype
+</p>
+</div>
+<blockquote>
+<p><strong><em>Exercise 4.2</em></strong></p>
+<p>Are these genes significantly associated with the Classical or Basal subtype?
+Refering to Figure 4.7, select genes that either cluster together or separately and generate a correlation plot as above.</p>
+</blockquote>
+</div>
+<div id="hierarchical-clustering" class="section level3" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Hierarchical Clustering</h3>
+<p>Clustering is a common analysis performed for gene expression data. The most often performed clustering method is hierarchical clustering, which typically takes the form of a heatmap.</p>
+<p>We will first compute the Pearson correlation between the genes. Note that we must operate on the transpose of the matrix because the R function <code>cor()</code> operates on the columns.</p>
+<p>Before computing the Pearson correlation let’s reduce the size of our gene expression matrix to the 100 most variable genes.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="descriptive-statistics-and-plotting.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First create a helper function</span></span>
+<span id="cb45-2"><a href="descriptive-statistics-and-plotting.html#cb45-2" aria-hidden="true" tabindex="-1"></a>rnaSelectTopVarGenes <span class="ot">&lt;-</span> <span class="cf">function</span>(normCounts, <span class="at">n=</span><span class="dv">2000</span>){</span>
+<span id="cb45-3"><a href="descriptive-statistics-and-plotting.html#cb45-3" aria-hidden="true" tabindex="-1"></a>  mad <span class="ot">&lt;-</span> <span class="fu">apply</span>(normCounts, <span class="dv">1</span>, mad)</span>
+<span id="cb45-4"><a href="descriptive-statistics-and-plotting.html#cb45-4" aria-hidden="true" tabindex="-1"></a>  ords <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(mad, <span class="at">decreasing=</span><span class="cn">TRUE</span>))</span>
+<span id="cb45-5"><a href="descriptive-statistics-and-plotting.html#cb45-5" aria-hidden="true" tabindex="-1"></a>  select <span class="ot">&lt;-</span> normCounts[ords[<span class="dv">1</span><span class="sc">:</span>n],]</span>
+<span id="cb45-6"><a href="descriptive-statistics-and-plotting.html#cb45-6" aria-hidden="true" tabindex="-1"></a>  select</span>
+<span id="cb45-7"><a href="descriptive-statistics-and-plotting.html#cb45-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-8"><a href="descriptive-statistics-and-plotting.html#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="descriptive-statistics-and-plotting.html#cb45-9" aria-hidden="true" tabindex="-1"></a>top100 <span class="ot">&lt;-</span> <span class="fu">rnaSelectTopVarGenes</span>(expFinal, <span class="at">n=</span><span class="dv">100</span>)</span>
+<span id="cb45-10"><a href="descriptive-statistics-and-plotting.html#cb45-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-11"><a href="descriptive-statistics-and-plotting.html#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(top100)[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span>
+<span id="cb45-12"><a href="descriptive-statistics-and-plotting.html#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;COL1A1&quot;  &quot;COL3A1&quot;  &quot;COL1A2&quot;  &quot;FN1&quot;     &quot;S100A6&quot;  &quot;SPARC&quot;   &quot;ACTG1&quot;  </span></span>
+<span id="cb45-13"><a href="descriptive-statistics-and-plotting.html#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] &quot;ADAM6&quot;   &quot;OLFM4&quot;   &quot;KRT19&quot;   &quot;FTL&quot;     &quot;CEACAM6&quot; &quot;EEF1A1&quot;  &quot;KRT8&quot;   </span></span>
+<span id="cb45-14"><a href="descriptive-statistics-and-plotting.html#cb45-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] &quot;LYZ&quot;     &quot;CD74&quot;    &quot;C3&quot;      &quot;ACTG1&quot;   &quot;INS&quot;     &quot;GAPDH&quot;</span></span></code></pre></div>
+<p>Now we can compute the Pearson correlation between these genes.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="descriptive-statistics-and-plotting.html#cb46-1" aria-hidden="true" tabindex="-1"></a>genes.cor <span class="ot">&lt;-</span> <span class="fu">cor</span>(<span class="fu">t</span>(top100), <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>, <span class="at">method=</span><span class="st">&quot;pearson&quot;</span>)</span>
+<span id="cb46-2"><a href="descriptive-statistics-and-plotting.html#cb46-2" aria-hidden="true" tabindex="-1"></a>genes.cor[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb46-3"><a href="descriptive-statistics-and-plotting.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             COL1A1      COL3A1      COL1A2          FN1      S100A6</span></span>
+<span id="cb46-4"><a href="descriptive-statistics-and-plotting.html#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; COL1A1  1.00000000  0.90111805  0.95213503  0.704581917 -0.03986419</span></span>
+<span id="cb46-5"><a href="descriptive-statistics-and-plotting.html#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; COL3A1  0.90111805  1.00000000  0.97895658  0.810404331 -0.17087257</span></span>
+<span id="cb46-6"><a href="descriptive-statistics-and-plotting.html#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; COL1A2  0.95213503  0.97895658  1.00000000  0.810587796 -0.09929872</span></span>
+<span id="cb46-7"><a href="descriptive-statistics-and-plotting.html#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ADAM6   0.06159559  0.09015272  0.07347763 -0.006385034 -0.26308892</span></span>
+<span id="cb46-8"><a href="descriptive-statistics-and-plotting.html#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; OLFM4  -0.11225845 -0.15559795 -0.14019860 -0.157354325  0.11383937</span></span>
+<span id="cb46-9"><a href="descriptive-statistics-and-plotting.html#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; KRT19  -0.08529548 -0.20568537 -0.13710624 -0.057904466  0.59689349</span></span>
+<span id="cb46-10"><a href="descriptive-statistics-and-plotting.html#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             SPARC       ACTG1       ADAM6       OLFM4       KRT19</span></span>
+<span id="cb46-11"><a href="descriptive-statistics-and-plotting.html#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; COL1A1  0.8537446  0.38503182  0.06159559 -0.11225845 -0.08529548</span></span>
+<span id="cb46-12"><a href="descriptive-statistics-and-plotting.html#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; COL3A1  0.9310155  0.25595807  0.09015272 -0.15559795 -0.20568537</span></span>
+<span id="cb46-13"><a href="descriptive-statistics-and-plotting.html#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; COL1A2  0.9331879  0.32340518  0.07347763 -0.14019860 -0.13710624</span></span>
+<span id="cb46-14"><a href="descriptive-statistics-and-plotting.html#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ...&lt;4 more rows&gt;...</span></span>
+<span id="cb46-15"><a href="descriptive-statistics-and-plotting.html#cb46-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ADAM6   0.1679487 -0.04011457  1.00000000 -0.08934060 -0.26114447</span></span>
+<span id="cb46-16"><a href="descriptive-statistics-and-plotting.html#cb46-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; OLFM4  -0.1692385  0.01464192 -0.08934060  1.00000000  0.00350131</span></span>
+<span id="cb46-17"><a href="descriptive-statistics-and-plotting.html#cb46-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; KRT19  -0.2371568  0.41379145 -0.26114447  0.00350131  1.00000000</span></span></code></pre></div>
+<p>The Pearson correlation coefficient is a similarity metric, values of which vary from -1 (perfect anti-correlation) to +1 (perfect correlation), see Lectures Chap.1. Pearson’s correlation can be transformed into a distance metric by subtracting from 1. The Pearson distance would then vary from 0 (perfect correlation) to 2 (perfect anti-correlation). Hierarchical clustering of the Pearson distance metric can be achieved by the <code>hclust()</code> function. We will use the <code>average</code> linkage as an agglomeration rule.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="descriptive-statistics-and-plotting.html#cb47-1" aria-hidden="true" tabindex="-1"></a>genes.cor.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span>genes.cor)</span>
+<span id="cb47-2"><a href="descriptive-statistics-and-plotting.html#cb47-2" aria-hidden="true" tabindex="-1"></a>genes.tree <span class="ot">&lt;-</span> <span class="fu">hclust</span>(genes.cor.dist, <span class="at">method=</span><span class="st">&#39;average&#39;</span>)</span>
+<span id="cb47-3"><a href="descriptive-statistics-and-plotting.html#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(genes.tree, <span class="at">xlab=</span><span class="cn">NULL</span>, <span class="at">cex=</span><span class="fl">0.5</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-52"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-52-1.png" alt="Gene clustering by Pearson distance and average linkage" width="864" />
+<p class="caption">
+Figure 4.7: Gene clustering by Pearson distance and average linkage
+</p>
+</div>
+<blockquote>
+<p><strong><em>Exercise 4.3</em></strong></p>
+<p>What do you observe? Does the clustering make any sense?</p>
+</blockquote>
+<p>A question that we might ask is whether the top 100 variable genes can discriminate Classical and Basal subtypes? We can answer this question by performing hierarchical clustering. To make our results a little easier to interpret let’s modify our <code>top100</code> matrix by switching the column names to the PDAC subtype designations.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="descriptive-statistics-and-plotting.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(top100) <span class="ot">&lt;-</span> subtypeFinal</span>
+<span id="cb48-2"><a href="descriptive-statistics-and-plotting.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(top100)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb48-3"><a href="descriptive-statistics-and-plotting.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Classical&quot; &quot;Basal&quot;     &quot;Classical&quot; &quot;Classical&quot; &quot;Classical&quot; &quot;Basal&quot;    </span></span>
+<span id="cb48-4"><a href="descriptive-statistics-and-plotting.html#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;Classical&quot; &quot;Classical&quot; &quot;Classical&quot; &quot;Basal&quot;</span></span></code></pre></div>
+<p>Next let’s compute correlations between samples by using the Spearman rank as the metric.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="descriptive-statistics-and-plotting.html#cb49-1" aria-hidden="true" tabindex="-1"></a>samples.cor.spearman <span class="ot">&lt;-</span> <span class="fu">cor</span>(top100,<span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>, <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>) </span>
+<span id="cb49-2"><a href="descriptive-statistics-and-plotting.html#cb49-2" aria-hidden="true" tabindex="-1"></a>samples.cor.spearman.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span>samples.cor.spearman)</span>
+<span id="cb49-3"><a href="descriptive-statistics-and-plotting.html#cb49-3" aria-hidden="true" tabindex="-1"></a>samples.tree <span class="ot">&lt;-</span> <span class="fu">hclust</span>(samples.cor.spearman.dist, <span class="at">method=</span><span class="st">&#39;average&#39;</span>)</span>
+<span id="cb49-4"><a href="descriptive-statistics-and-plotting.html#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samples.tree, <span class="at">cex=</span><span class="fl">0.5</span>, <span class="at">xlab=</span><span class="cn">NULL</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-54"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-54-1.png" alt="Sample clustering by Spearman distance and average linkage" width="960" />
+<p class="caption">
+Figure 4.8: Sample clustering by Spearman distance and average linkage
+</p>
+</div>
+<blockquote>
+<p><strong><em>Exercise 4.4</em></strong></p>
+<p>What do you observe?
+Are the top 100 variables good at descriminating Classical from Basal samples?
+Would increasing the number of variable genes to 1000 help?
+What other agglomeration methods may be used with the hclust method?</p>
+</blockquote>
+</div>
+<div id="hierarchical-clustering-using-the-moffitt-transcriptomic-signature" class="section level3" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Hierarchical clustering using the Moffitt transcriptomic signature</h3>
+<p>Based on our previous clustering analysis, the top 100 most variable genes were not very good at discriminating the Classical and Basal samples. Let’s now use the genes that make up the Moffitt signature - this should allow us to classify the samples correctly!</p>
+<p>First we subset the <code>expFinal</code> matrix using the Moffitt classifier genes.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="descriptive-statistics-and-plotting.html#cb50-1" aria-hidden="true" tabindex="-1"></a>mSig <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;course/Moffitt_gene_signature.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb50-2"><a href="descriptive-statistics-and-plotting.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mSig)</span>
+<span id="cb50-3"><a href="descriptive-statistics-and-plotting.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     symbol     Group</span></span>
+<span id="cb50-4"><a href="descriptive-statistics-and-plotting.html#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    MUC13 Classical</span></span>
+<span id="cb50-5"><a href="descriptive-statistics-and-plotting.html#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    GPR35 Classical</span></span>
+<span id="cb50-6"><a href="descriptive-statistics-and-plotting.html#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    USH1C Classical</span></span>
+<span id="cb50-7"><a href="descriptive-statistics-and-plotting.html#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 BAIAP2L2 Classical</span></span>
+<span id="cb50-8"><a href="descriptive-statistics-and-plotting.html#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  GAL3ST1 Classical</span></span>
+<span id="cb50-9"><a href="descriptive-statistics-and-plotting.html#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6     VIL1 Classical</span></span>
+<span id="cb50-10"><a href="descriptive-statistics-and-plotting.html#cb50-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(mSig)</span>
+<span id="cb50-11"><a href="descriptive-statistics-and-plotting.html#cb50-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 88  2</span></span>
+<span id="cb50-12"><a href="descriptive-statistics-and-plotting.html#cb50-12" aria-hidden="true" tabindex="-1"></a>expFinalSig <span class="ot">&lt;-</span> expFinal[<span class="fu">rownames</span>(expFinal) <span class="sc">%in%</span> mSig<span class="sc">$</span>symbol,]</span>
+<span id="cb50-13"><a href="descriptive-statistics-and-plotting.html#cb50-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(expFinal)</span>
+<span id="cb50-14"><a href="descriptive-statistics-and-plotting.html#cb50-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 19947   150</span></span>
+<span id="cb50-15"><a href="descriptive-statistics-and-plotting.html#cb50-15" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(expFinalSig)</span>
+<span id="cb50-16"><a href="descriptive-statistics-and-plotting.html#cb50-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  86 150</span></span></code></pre></div>
+<p>Let’s now compute correlations between samples by using the Spearman rank as the metric, as before!</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="descriptive-statistics-and-plotting.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set column names to Subtypes</span></span>
+<span id="cb51-2"><a href="descriptive-statistics-and-plotting.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(expFinalSig) <span class="ot">&lt;-</span> subtypeFinal</span>
+<span id="cb51-3"><a href="descriptive-statistics-and-plotting.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Perform clustering</span></span>
+<span id="cb51-4"><a href="descriptive-statistics-and-plotting.html#cb51-4" aria-hidden="true" tabindex="-1"></a>samples.cor.spearman <span class="ot">&lt;-</span> <span class="fu">cor</span>(expFinalSig,<span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>, <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>) </span>
+<span id="cb51-5"><a href="descriptive-statistics-and-plotting.html#cb51-5" aria-hidden="true" tabindex="-1"></a>samples.cor.spearman.dist <span class="ot">&lt;-</span> <span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span>samples.cor.spearman)</span>
+<span id="cb51-6"><a href="descriptive-statistics-and-plotting.html#cb51-6" aria-hidden="true" tabindex="-1"></a>samples.tree <span class="ot">&lt;-</span> <span class="fu">hclust</span>(samples.cor.spearman.dist, <span class="at">method=</span><span class="st">&#39;average&#39;</span>)</span>
+<span id="cb51-7"><a href="descriptive-statistics-and-plotting.html#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(samples.tree, <span class="at">cex=</span><span class="fl">0.5</span>, <span class="at">xlab=</span><span class="cn">NULL</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-56"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-56-1.png" alt="Sample clustering by Spearman distance and average linkage using Moffitt gene signature" width="960" />
+<p class="caption">
+Figure 4.9: Sample clustering by Spearman distance and average linkage using Moffitt gene signature
+</p>
+</div>
+<blockquote>
+<p><strong><em>Exercise 4.5</em></strong></p>
+<p>What do you observe? Can we now descriminate Classical from Basal patient samples?</p>
+</blockquote>
+</div>
+<div id="heatmaps" class="section level3" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Heatmaps</h3>
+<p>Hierarchical clustering methods enable hierarchical representations of a measure of dissimilarity between groups of observations (i.e. groups of genes and groups of patients in our PAAD example). The measure of dissimilarity is based on pairwise dissimilarities among the observations in the two groups.</p>
+<p>In the context of microarray or RNAseq data, a heatmap arranges both the rows and the columns of the expression matrix in orderings derived from hierarchical clustering. By cutting the dendrograms at various heights, different number of clusters emerge and the set of clusters are nested within one another.</p>
+<p>For our first example we will use the <code>expFinalSig</code> matrix representing genes defining the Moffitt classification scheme. The <code>ComplexHeatmap</code> and <code>circlize</code> packages will do the majority of the work! In this example we will generate an annotation track above the heatmap to show which samples are Classical and which are Basal.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="descriptive-statistics-and-plotting.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ComplexHeatmap)</span>
+<span id="cb52-2"><a href="descriptive-statistics-and-plotting.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(circlize)</span>
+<span id="cb52-3"><a href="descriptive-statistics-and-plotting.html#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;circlize&#39; was built under R version 3.6.2</span></span>
+<span id="cb52-4"><a href="descriptive-statistics-and-plotting.html#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co">#First we scale the matrix</span></span>
+<span id="cb52-5"><a href="descriptive-statistics-and-plotting.html#cb52-5" aria-hidden="true" tabindex="-1"></a>expFinalSig <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">scale</span>(<span class="fu">t</span>(expFinalSig)))</span>
+<span id="cb52-6"><a href="descriptive-statistics-and-plotting.html#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate a list of colours to map to the Subtypes</span></span>
+<span id="cb52-7"><a href="descriptive-statistics-and-plotting.html#cb52-7" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">&quot;Set1&quot;</span>)</span>
+<span id="cb52-8"><a href="descriptive-statistics-and-plotting.html#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate the annotation</span></span>
+<span id="cb52-9"><a href="descriptive-statistics-and-plotting.html#cb52-9" aria-hidden="true" tabindex="-1"></a>ha <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Moffitt =</span> subtypeFinal,</span>
+<span id="cb52-10"><a href="descriptive-statistics-and-plotting.html#cb52-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">col =</span> <span class="fu">list</span>(<span class="at">Moffitt =</span> <span class="fu">structure</span>(<span class="at">names =</span> <span class="fu">c</span>(</span>
+<span id="cb52-11"><a href="descriptive-statistics-and-plotting.html#cb52-11" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Basal&quot;</span></span>
+<span id="cb52-12"><a href="descriptive-statistics-and-plotting.html#cb52-12" aria-hidden="true" tabindex="-1"></a>                        ), colors[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])))</span>
+<span id="cb52-13"><a href="descriptive-statistics-and-plotting.html#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate the heatmap</span></span>
+<span id="cb52-14"><a href="descriptive-statistics-and-plotting.html#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(</span>
+<span id="cb52-15"><a href="descriptive-statistics-and-plotting.html#cb52-15" aria-hidden="true" tabindex="-1"></a>  expFinalSig,</span>
+<span id="cb52-16"><a href="descriptive-statistics-and-plotting.html#cb52-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;#377EB8&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#E41A1C&quot;</span>)),</span>
+<span id="cb52-17"><a href="descriptive-statistics-and-plotting.html#cb52-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Z score&quot;</span>,</span>
+<span id="cb52-18"><a href="descriptive-statistics-and-plotting.html#cb52-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_columns =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb52-19"><a href="descriptive-statistics-and-plotting.html#cb52-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb52-20"><a href="descriptive-statistics-and-plotting.html#cb52-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_annotation =</span> ha,</span>
+<span id="cb52-21"><a href="descriptive-statistics-and-plotting.html#cb52-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_row_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb52-22"><a href="descriptive-statistics-and-plotting.html#cb52-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_column_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb52-23"><a href="descriptive-statistics-and-plotting.html#cb52-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>),</span>
+<span id="cb52-24"><a href="descriptive-statistics-and-plotting.html#cb52-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">5</span>)</span>
+<span id="cb52-25"><a href="descriptive-statistics-and-plotting.html#cb52-25" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-57"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-57-1.png" alt="Heatmap using Moffitt gene signature" width="768" />
+<p class="caption">
+Figure 4.10: Heatmap using Moffitt gene signature
+</p>
+</div>
+<p>We seem to be getting a good separation of the samples but it would be nice to have all of the Classical and Basal samples grouped together. Let’s first sort the <code>subtypeFinal</code> vector and columns of the <code>expFinalSig</code> matrix into their respective subtypes and regenerate the heatmap.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="descriptive-statistics-and-plotting.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">order</span>(subtypeFinal, <span class="at">decreasing =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb53-2"><a href="descriptive-statistics-and-plotting.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 3 4 5 7 8</span></span>
+<span id="cb53-3"><a href="descriptive-statistics-and-plotting.html#cb53-3" aria-hidden="true" tabindex="-1"></a>subOrdered <span class="ot">&lt;-</span> subtypeFinal[<span class="fu">order</span>(subtypeFinal, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)]</span>
+<span id="cb53-4"><a href="descriptive-statistics-and-plotting.html#cb53-4" aria-hidden="true" tabindex="-1"></a>expFinalSigOrd <span class="ot">&lt;-</span> expFinalSig[, <span class="fu">order</span>(subtypeFinal, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)]</span>
+<span id="cb53-5"><a href="descriptive-statistics-and-plotting.html#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Make the sample annotation track</span></span>
+<span id="cb53-6"><a href="descriptive-statistics-and-plotting.html#cb53-6" aria-hidden="true" tabindex="-1"></a>ha <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Moffitt =</span> subOrdered,</span>
+<span id="cb53-7"><a href="descriptive-statistics-and-plotting.html#cb53-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">col =</span> <span class="fu">list</span>(<span class="at">Moffitt =</span> <span class="fu">structure</span>(<span class="at">names =</span> <span class="fu">c</span>(</span>
+<span id="cb53-8"><a href="descriptive-statistics-and-plotting.html#cb53-8" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Basal&quot;</span></span>
+<span id="cb53-9"><a href="descriptive-statistics-and-plotting.html#cb53-9" aria-hidden="true" tabindex="-1"></a>                        ), colors[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])))</span>
+<span id="cb53-10"><a href="descriptive-statistics-and-plotting.html#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate the heatmap</span></span>
+<span id="cb53-11"><a href="descriptive-statistics-and-plotting.html#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(</span>
+<span id="cb53-12"><a href="descriptive-statistics-and-plotting.html#cb53-12" aria-hidden="true" tabindex="-1"></a>  expFinalSigOrd ,</span>
+<span id="cb53-13"><a href="descriptive-statistics-and-plotting.html#cb53-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;#377EB8&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#E41A1C&quot;</span>)),</span>
+<span id="cb53-14"><a href="descriptive-statistics-and-plotting.html#cb53-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Z score&quot;</span>,</span>
+<span id="cb53-15"><a href="descriptive-statistics-and-plotting.html#cb53-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>, <span class="co">#Turned clustering of columns off!!!</span></span>
+<span id="cb53-16"><a href="descriptive-statistics-and-plotting.html#cb53-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb53-17"><a href="descriptive-statistics-and-plotting.html#cb53-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_annotation =</span> ha,</span>
+<span id="cb53-18"><a href="descriptive-statistics-and-plotting.html#cb53-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_row_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb53-19"><a href="descriptive-statistics-and-plotting.html#cb53-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_column_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb53-20"><a href="descriptive-statistics-and-plotting.html#cb53-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>),</span>
+<span id="cb53-21"><a href="descriptive-statistics-and-plotting.html#cb53-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">5</span>)</span>
+<span id="cb53-22"><a href="descriptive-statistics-and-plotting.html#cb53-22" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-58"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-58-1.png" alt="Heatmap using Moffitt gene signature ordered by subtype" width="768" />
+<p class="caption">
+Figure 4.11: Heatmap using Moffitt gene signature ordered by subtype
+</p>
+</div>
+<p>Let’s also annotate genes that discriminate the subtypes. To do this we will use the <code>Heatmap</code> <em>split</em> argument.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="descriptive-statistics-and-plotting.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Map matrix gene names to subtype</span></span>
+<span id="cb54-2"><a href="descriptive-statistics-and-plotting.html#cb54-2" aria-hidden="true" tabindex="-1"></a>partition <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">nrow</span>(expFinalSig))</span>
+<span id="cb54-3"><a href="descriptive-statistics-and-plotting.html#cb54-3" aria-hidden="true" tabindex="-1"></a>partition[<span class="fu">rownames</span>(expFinalSig) <span class="sc">%in%</span> mSig<span class="sc">$</span>symbol[mSig<span class="sc">$</span>Group <span class="sc">==</span> <span class="st">&quot;Basal-like&quot;</span>]] <span class="ot">&lt;-</span> <span class="st">&quot;Basal&quot;</span></span>
+<span id="cb54-4"><a href="descriptive-statistics-and-plotting.html#cb54-4" aria-hidden="true" tabindex="-1"></a>partition[<span class="fu">rownames</span>(expFinalSig) <span class="sc">%in%</span> mSig<span class="sc">$</span>symbol[mSig<span class="sc">$</span>Group <span class="sc">==</span> <span class="st">&quot;Classical&quot;</span>]] <span class="ot">&lt;-</span> <span class="st">&quot;Classical&quot;</span></span>
+<span id="cb54-5"><a href="descriptive-statistics-and-plotting.html#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(partition)</span>
+<span id="cb54-6"><a href="descriptive-statistics-and-plotting.html#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Basal&quot;     &quot;Basal&quot;     &quot;Classical&quot; &quot;Classical&quot; &quot;Classical&quot; &quot;Classical&quot;</span></span>
+<span id="cb54-7"><a href="descriptive-statistics-and-plotting.html#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Make the sample annotation track</span></span>
+<span id="cb54-8"><a href="descriptive-statistics-and-plotting.html#cb54-8" aria-hidden="true" tabindex="-1"></a>ha <span class="ot">&lt;-</span> <span class="fu">HeatmapAnnotation</span>(<span class="at">Moffitt =</span> subOrdered,</span>
+<span id="cb54-9"><a href="descriptive-statistics-and-plotting.html#cb54-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">col =</span> <span class="fu">list</span>(<span class="at">Moffitt =</span> <span class="fu">structure</span>(<span class="at">names =</span> <span class="fu">c</span>(</span>
+<span id="cb54-10"><a href="descriptive-statistics-and-plotting.html#cb54-10" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;Classical&quot;</span>, <span class="st">&quot;Basal&quot;</span></span>
+<span id="cb54-11"><a href="descriptive-statistics-and-plotting.html#cb54-11" aria-hidden="true" tabindex="-1"></a>                        ), colors[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])))</span>
+<span id="cb54-12"><a href="descriptive-statistics-and-plotting.html#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Generate the heatmap</span></span>
+<span id="cb54-13"><a href="descriptive-statistics-and-plotting.html#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="fu">Heatmap</span>(</span>
+<span id="cb54-14"><a href="descriptive-statistics-and-plotting.html#cb54-14" aria-hidden="true" tabindex="-1"></a>  expFinalSigOrd ,</span>
+<span id="cb54-15"><a href="descriptive-statistics-and-plotting.html#cb54-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRamp2</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;#377EB8&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;#E41A1C&quot;</span>)),</span>
+<span id="cb54-16"><a href="descriptive-statistics-and-plotting.html#cb54-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;Z score&quot;</span>,</span>
+<span id="cb54-17"><a href="descriptive-statistics-and-plotting.html#cb54-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_columns =</span> <span class="cn">FALSE</span>, <span class="co">#Turned clustering of columns off!!!</span></span>
+<span id="cb54-18"><a href="descriptive-statistics-and-plotting.html#cb54-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb54-19"><a href="descriptive-statistics-and-plotting.html#cb54-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">top_annotation =</span> ha,</span>
+<span id="cb54-20"><a href="descriptive-statistics-and-plotting.html#cb54-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">split=</span>partition, <span class="co">#added a partition argument</span></span>
+<span id="cb54-21"><a href="descriptive-statistics-and-plotting.html#cb54-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_row_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb54-22"><a href="descriptive-statistics-and-plotting.html#cb54-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_column_names =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb54-23"><a href="descriptive-statistics-and-plotting.html#cb54-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">row_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">8</span>),</span>
+<span id="cb54-24"><a href="descriptive-statistics-and-plotting.html#cb54-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names_gp =</span> <span class="fu">gpar</span>(<span class="at">fontsize =</span> <span class="dv">5</span>)</span>
+<span id="cb54-25"><a href="descriptive-statistics-and-plotting.html#cb54-25" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-59"></span>
+<img src="PGT_Bioinformatics_course_files/figure-html/unnamed-chunk-59-1.png" alt="Heatmap using Moffitt gene signature ordered by subtype and with gene annotations" width="768" />
+<p class="caption">
+Figure 4.12: Heatmap using Moffitt gene signature ordered by subtype and with gene annotations
+</p>
+</div>
+<blockquote>
+<p><strong><em>Exercise 4.6</em></strong></p>
+<p>Add the Collisson and Bailey subtype designations to the Heatmap annotation track! How do they compare?</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="r-programming-language-primer.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="rnaseq-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["PGT_Bioinformatics_course.pdf", "PGT_Bioinformatics_course.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

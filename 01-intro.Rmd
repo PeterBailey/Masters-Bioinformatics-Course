@@ -1,0 +1,155 @@
+```{r echo = FALSE}
+# This block needs cache=FALSE to set fig.width and fig.height, and have those
+# persist across cached builds.
+source("utils.R", local = TRUE)
+```
+
+# Introduction {#intro}
+
+
+## Course outline
+
+The course is divided into 2 parts. [PART 1](#part1) will teach you the basics of R programming, computational statistics and its application in solving real world biological problems. [PART 2](#part2) will teach you how to analyse RNAseq data and will provide informatic workflows that you can use in your current research.
+
+```{block2, course_panic, type='rmdnote'}
+**This course is extremely condensed and you are not expected to complete all tasks before or during the 3 day meeting. We will work through coded examples together. Additional tutorials may be scheduled after meeting close, if ESRs feel that this is necessary!**
+  
+**Please also note that this course material comprises embeded video content which is best viewed using a CHROME web browser**
+```
+
+### PART 1 {#part1}
+
+PART 1 is provided in a separate workbook [__Applications of Computational Statistics__](course/PRECODE Descriptive Stats Course.pdf).
+
+
+```{block2, course_reminder, type='rmdimportant'}
+**Students are encouraged to at least go through PART 1 before the commencement of the course.**
+```
+
+
+By the end of PART 1, you should be able to:
+
+  - Understand basic statistical concepts
+  - Perform statistical tests to answer simple to more complex biological questions
+  - Mine and explore biological data sets
+  - Process microarray data and perform statistical analysis
+  - Be able to use the R statistical programming language 
+  
+  
+The following topics are covered in PART 1:
+
+1. Data description
+    - Visualizing distributions
+    - Measures of central tendency and variability
+    - Q-Q plot
+    - Boxplots
+    - Correlation measures
+
+2. Probability distribution
+    - Probability distribution on discrete random variables (binomial, Poisson)
+    - Probability distribution on continuous random variables (normal, z, t-, chi-squared, F)
+
+3. Statistical tests
+    - Hypothesis testing
+    - Statistical tests with continuous variables
+        - one sample, two samples, equal and unequal variances
+        - F-test and ANOVA
+    - Statistical tests with categorical variables
+    - Multiple testing
+
+4. Clustering
+    - distance definition
+    - hierarchical clustering
+    - k-means
+    - SOM
+
+5. Principal component analysis
+
+6. Analysis of microarray data
+    - normalization
+    - transformation
+    - statistical tests
+
+
+#### Practicals
+
+Practical workbooks are also provided:
+
+  * [__Programming with Applications in R: an introduction__](course/PRECODE R PRAC.pdf)
+  * [__Programming with Applications in Bioconductor: an introduction__](course/PRECODE BIOCONDUCTOR PRAC.pdf)
+  
+Data resources used for the Practicals are provided below:
+
+  * [__Comprehensive molecular portraits of human breast tumours__](course/nature11412.pdf)
+  * [__Breast Cancer dataset (eSet.RData)__](course/eSet.RData) 
+  * [__AML dataset (Golub.RData)__](course/Golub.RData) 
+
+
+Practicals P0.1 and P0.2 test R programming basics. Practicals P1 to P7 provide details on how one can apply descriptive statistics to the analysis of transcriptomic data. P1 to P5.3 include exercises as part of assignments A1 and A3
+
+The following topics are covered in the practical component of PART 1:
+
+  * P0.1. Introduction to R
+        + Getting started
+        + Vectors
+        + Matrices
+
+  * P0.2. Intro to R continued
+        + Lists
+        + Data frames
+        + Factors and tables
+
+  * P1. Graphical outputs
+
+  * P2. Statistical tests
+
+  * P3. Clustering
+
+  * P4. PCA
+
+  * P5. Analysis of microarray data 1/3
+  * P6. Analysis of microarray data 2/3
+  * P7. Analysis of microarray data 3/3
+
+
+#### Assessment
+
+```{block2, assignment_reminder, type='rmdimportant'}
+**Students are encouraged to have at least gone through the assignments before the commencement of the course. Assignments A1 and A3 are provided below. We will work through the assignment corrections on Day 3.**
+```
+
+
+__Assignments__
+
+1.	[__Assignment 1__](course/Assignment1-R.pdf)  Assessing R skills & interpretation of statistical tests - Starts in P1 (covers up to P3) 
+
+2.	__Assignment 2 (Optional)__: Review and explanation of statistical analysis from a scientific article of the student’s choice . The student should choose a recently published scientific article and explain the aim of the study and how the statistical analyses were performed.
+
+
+3.	[__Assignment 3__](course/assignment3-students.pdf) Assessing statistical analyses using data described in [__Comprehensive molecular portraits of human breast tumours__](course/nature11412.pdf). This assignment will be broken into different exercises covering the content of the pracs P4 to P8 and will be handed at each prac. Starts in P4 (covers up to P8) 
+
+
+### PART 2 {#part2}
+
+This part of the course will provide steps for the analysis of RNASeq data. To bring this part of the course into real world focus we will re-analyse RNAseq data published in [__Brunton et al. HNF4A and GATA6 Loss Reveals Therapeutically Actionable Subtypes in Pancreatic Cancer. Cell Reports 2020__](https://doi.org/10.1016/j.celrep.2020.107625)
+
+```{block2, read_reminder, type='rmdimportant'}
+**Students should have read Brunton et al and be familiar with the analyses performed therein before the start of the course.**
+```
+
+```{block2, course_live, type='rmdnote'}
+**PART 2 of this course will be delivered _live_. We will work through the coded examples together!**
+```
+
+
+By the end of PART 2, you should be able to:
+
+  - Use the [nf-core/rnaseq](https://nf-co.re/rnaseq) bioinformatic workflow to map raw RNAseq reads, assess RNAseq QC and generate count files for downstream analysis
+  - Perform PCA/Hierarchical clustering of normalized RNAseq data
+  - Perform Differential Gene Expression analysis
+  - Generate publication quality heatmaps and statistical plots
+  - Perform Gene Set Enrichment analysis to identify significantly enriched biological pathways
+  - Subtype PDAC using pre-defined transcriptional signatures
+
+
+

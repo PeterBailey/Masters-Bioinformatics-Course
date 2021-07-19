@@ -1,0 +1,251 @@
+```{r echo = FALSE}
+# This block needs cache=FALSE to set fig.width and fig.height, and have those
+# persist across cached builds.
+source("utils.R", local = TRUE)
+```
+
+# R Programming language primer
+
+The R programming language comprises 6 major types of [R objects](https://rstudio-education.github.io/hopr/r-objects.html)
+
+  - [Vectors](https://rstudio-education.github.io/hopr/r-objects.html#atomic-vectors)
+  - [Matrix](https://rstudio-education.github.io/hopr/r-objects.html#matrices)
+  - [Data Frame](https://rstudio-education.github.io/hopr/r-objects.html#data-frames)
+  - [Lists](https://rstudio-education.github.io/hopr/r-objects.html#lists)
+  - [Array](https://rstudio-education.github.io/hopr/r-objects.html#arrays)
+  - [Factors](https://rstudio-education.github.io/hopr/r-objects.html#factors)
+
+
+## Vectors
+
+The vector type is the fundamental data type in R. The elements of a vector must all have the same mode (data type) of the following type:
+
+  - _Scalars_ are individual numbers, they actually are one-element vectors e.g. `x <- 10`
+  - _Character_ strings are single-element vectors of mode ”character” e.g. `y <- "hello"`
+
+
+```{r}
+x <- c(1, 2, 3, 4, 5, 6)
+x
+x <- 1:6
+x
+x[1]
+text <- c("Hello",  "World")
+text
+names(x) <- paste("name", 1:6, sep="")
+x
+```
+
+### Vectors in action
+
+```{r}
+z_scores <- seq(-3, 3, by = .1)
+z_scores
+norm.dist <- dnorm(z_scores)
+norm.dist
+mean(norm.dist)
+median(norm.dist)
+sd(norm.dist)
+```
+
+
+## Matrix
+
+A matrix is a rectangular array of numbers (technically a vector with a number of rows and a number of columns)
+
+```{r}
+m <- matrix(x, nrow = 2)
+m
+
+m <- matrix(x, nrow = 2, byrow = TRUE)
+m
+```
+
+### Matrices in action
+
+```{r}
+normMat <- matrix(rnorm(10),nrow=5,ncol=20)
+normMat[1:5,1:5]
+rownames(normMat) <- paste("Gene", 1:5, sep="_")
+normMat[1:5,1:5]
+#Calculate mean for each matrix row
+apply(normMat, MARGIN=1, mean)
+#Calculate mean for each matrix column
+apply(normMat, MARGIN=2, mean)
+```
+
+
+## Data Frame
+
+A data frame is a data set that contains data of different modes (i.e. different types). A data frame is a list with each component of a list being a vector corresponding to a column in the data.
+
+```{r}
+df <- data.frame(cancerType = c("PDAC", "PDAC", "PDAC"),  
+  KRAS_status = c("wt", "mut", "mut"), Subtype = c("Classical", "Classical", "Subtype"))
+df
+```
+
+
+### Data Frames in action
+
+```{r}
+#Extract cancerType
+df[,1]
+#Extract cancerType
+df$cancerType
+#Assigning new data
+df$Sex  <- c("Male", "Female", "Male")
+df
+#Excluding factors
+df <- data.frame(cancerType = c("PDAC", "PDAC", "PDAC"),  
+  KRAS_status = c("wt", "mut", "mut"), Subtype = c("Classical", "Classical", "Subtype"), stringsAsFactors = FALSE)
+df$cancerType
+```
+
+
+## Factors
+
+Factors are used to represent categorical data. Factors can be ordered or unordered and are an important class for statistical analysis and for plotting.
+```{r}
+subtype <- factor(c("Classical", "Basal", "Basal", "Classical"))
+subtype
+levels(subtype)
+table(subtype)
+```
+
+
+### Factors in action
+
+```{r}
+colours <- c("red", "green")
+colours[subtype]
+```
+
+
+## List
+
+Lists can contain items comprising different data types and are similar to a C struct in C++.
+```{r}
+list1 <- list(1:20, "KRAS", list(1:6, 7:10))
+list1
+```
+
+
+### Lists in action
+
+```{r}
+list2 <- list(rnorm(10), rnorm(10), rnorm(10))
+#Access first entry of list2
+list2[1]
+#Access vector of values in first entry of list2
+list2[[1]]
+#Finding mean for each vector series in list2 - returns a list of means
+lapply(list2, mean)
+#Finding mean for each vector series in list2 - returns a vector of means
+sapply(list2, mean)
+```
+
+
+## Array
+
+Arrays are matrices with more than 2 dimensions.
+
+```{r}
+ar <- array(c(11:14, 21:24, 31:34), dim = c(2, 2, 3))
+ar
+```
+
+
+## Creating functions
+
+
+```{r}
+#Function to select the top n most variable genes
+rnaSelectTopVarGenes <- function(normCounts, n=2000){
+  mad <- apply(normCounts, 1, mad)
+  ords <- names(sort(mad, decreasing=TRUE))
+  select <- normCounts[ords[1:n],]
+  select
+}
+
+top2varGenes <- rnaSelectTopVarGenes(normMat, n=2)
+head(top2varGenes)
+```
+
+
+
+## Loading Data
+
+Loading data from a comma separated file can be easily achieved using the `read.delim` or  `read.csv` functions. There are many alternatives!
+
+```{r}
+moffitt <- read.delim("course/Moffitt_gene_signature.csv", 
+                      sep=",", stringsAsFactors = FALSE)
+head(moffitt)
+class(moffitt)
+moffitt$symbol
+```
+
+## Saving Data
+
+Saving data is also simple. You can write data to comma separated (csv) files using the `write.table` function.
+
+The best way to store objects from R is within `.RData` files. `.RData` files are specific to R and can store as many objects as required.
+
+```{r eval=FALSE}
+#Write data to a tab separate file called Moffitt_gene_signature.tsv
+write.table(moffitt, "course/Moffitt_gene_signature.tsv", 
+            sep="\t", quote = FALSE, row.names = FALSE)
+#Save moffitt to a RData file called moffittSig.RData
+save(moffitt,x,y,z,file="course/moffittSig.RData")
+#Load themoffitt data.frame into the current environment
+load("course/moffittSig.RData")
+```
+
+## Saving plots
+
+How do we save complex plots like the one below?
+
+```{r, fig.cap="Acceptance and rejection regions in a t-test distribution.", fig.width=6, fig.height=4}
+df <- 6 - 1
+f <- function(x) {
+  dt(x, df)
+}
+plot(f, -4, 4, xlab = "x-axis", ylab = "T Density dt(x)")
+ci <- c(qt(0.025, df), qt(0.975, df))
+x <- seq(-4, ci[1], 0.01)
+y <- seq(ci[2], 4, 0.01)
+polygon(c(ci[1], x, ci[1]), c(0, 0, f(x)), col = "red")
+polygon(c(ci[2], y, ci[2]), c(f(y), 0, 0), col = "red")
+arrows(-3, 0.25, -3, 0.05)
+text(-3, 0.3, "Rejection Region")
+arrows(3, 0.25, 3, 0.05)
+text(3, 0.3, "Rejection Region")
+arrows(0, 0.15, 0, 0.05)
+text(0, 0.2, "Acceptance Region")
+```
+
+
+It is easy to save the above plot using the `pdf()` and `dev.off()` functions as follows. All of the plotting commands contained between the `pdf() & dev.off()` functions will be sent to file. It is also possible to use the `png()` function if you would like to create png's instead! Check out the `grDevices` package for other alternatives.
+
+```{r eval=FALSE}
+pdf("course/normalDist.pdf", height=6, width=4)
+  df <- 6 - 1
+  f <- function(x) {
+    dt(x, df)
+  }
+  plot(f, -4, 4, xlab = "x-axis", ylab = "T Density dt(x)")
+  ci <- c(qt(0.025, df), qt(0.975, df))
+  x <- seq(-4, ci[1], 0.01)
+  y <- seq(ci[2], 4, 0.01)
+  polygon(c(ci[1], x, ci[1]), c(0, 0, f(x)), col = "red")
+  polygon(c(ci[2], y, ci[2]), c(f(y), 0, 0), col = "red")
+  arrows(-3, 0.25, -3, 0.05)
+  text(-3, 0.3, "Rejection Region")
+  arrows(3, 0.25, 3, 0.05)
+  text(3, 0.3, "Rejection Region")
+  qrrows(0, 0.15, 0, 0.05)
+  text(0, 0.2, "Acceptance Region")
+dev.off()
+```
+
